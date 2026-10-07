@@ -13,6 +13,10 @@ Breed Files (`#breed-files`, text only) → footer.
 
 ## Newsletter signup (Kit)
 
+Copy: badge "FREE WEEKLY NEWSLETTER" → heading "Join The Sniff Test" → "The Dog Unpacked newsletter, in your
+inbox every Sunday. One behavior. One job. One study. 90 seconds to read." → button "Get the newsletter" →
+"Free. No spam. Unsubscribe anytime."
+
 Plain newsletter signup. Email is required. Breed is optional: it's saved to the subscriber's Kit custom field
 `breed` and does **not** change the signup. Everyone gets the same Sunday issue of The Sniff Test.
 
