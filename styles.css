@@ -735,7 +735,7 @@ main {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  padding: 0.5rem 0.6rem 0.6rem;
+  margin: 0.5rem 0.6rem 0.6rem; /* margin, not padding, so the 3-line clamp cuts cleanly */
   font-size: 0.82rem;
   font-weight: 700;
   line-height: 1.3;

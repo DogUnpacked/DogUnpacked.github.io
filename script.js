@@ -123,7 +123,8 @@
     if (breedInput && !breedInput.value) breedInput.value = name;
 
     var edition = document.getElementById("breed-edition");
-    if (edition) edition.textContent = " — " + name + " edition";
+    // Non-breaking spaces keep "— Pit Bull edition" together so it wraps as one unit.
+    if (edition) edition.textContent = "\u00a0— " + name.replace(/ /g, "\u00a0") + "\u00a0edition";
   })();
 
   /* ------------------------------------------------------------------
@@ -190,6 +191,8 @@
           var json = r.json || {};
           if (r.ok && (json.status === "success" || r.json === null)) {
             form.hidden = true;
+            var privacy = document.querySelector(".form-privacy");
+            if (privacy) privacy.hidden = true;
             setStatus(SUCCESS_MESSAGE, "success");
             return;
           }
