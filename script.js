@@ -3,10 +3,11 @@
  *
  *  1. Cookie-free analytics (GoatCounter): page view, platform clicks, The Sniff Test signup
  *  2. Breed-aware page via ?breed=<slug>
- *  3. Newsletter (The Sniff Test): Title-Case the optional breed before posting to Kit
+ *  3. Newsletter (The Sniff Test): Title-Case the optional breed, submit to Kit in the background
+ *     and show an inline success message (falls back to a normal form POST)
  *  4. Latest video: shown only when #latest has a data-video-id; click-to-load embed
  *
- * The page works without this file: the Kit form still posts and all links work.
+ * The page works without this file: the Kit form still posts (Kit's hosted page confirms) and links work.
  */
 (function () {
   "use strict";
@@ -55,6 +56,9 @@
   function slugify(name) {
     return String(name).toLowerCase().trim().replace(/[^a-z]+/g, "-").replace(/^-+|-+$/g, "");
   }
+
+  var SUCCESS_MESSAGE = "Check your inbox — one click to confirm and you're in.";
+  var ERROR_MESSAGE = "That didn't go through. Check your email address and try again.";
 
   // Analytics event. Safe no-op if GoatCounter is blocked or not loaded yet.
   function track(path, title) {
@@ -123,39 +127,94 @@
   })();
 
   /* ------------------------------------------------------------------
-   * 3. The Sniff Test signup form: normalize the optional breed, count the event, post to Kit.
+   * 3. The Sniff Test signup form.
+   *    Submits like Kit's own embed script (ck.5.js): POST FormData to the form action with
+   *    Accept: application/json -> {"status":"success"} JSON (Kit allows CORS from any origin).
+   *    Success -> inline message. Kit validation error -> inline error. Network/unknown failure ->
+   *    normal form POST, which lands on Kit's hosted confirmation page.
    * ------------------------------------------------------------------ */
   var form = document.getElementById("newsletter-form");
   var statusEl = document.getElementById("form-status");
+
+  function setStatus(text, kind) {
+    if (!statusEl) return;
+    statusEl.textContent = text;
+    statusEl.className = "form-note" + (kind ? " is-" + kind : "");
+  }
+
   if (form) {
     var submitting = false;
+    var submitBtn = form.querySelector('button[type="submit"]');
+
+    var fallbackPost = function () {
+      HTMLFormElement.prototype.submit.call(form);
+    };
+
     form.addEventListener("submit", function (e) {
-      if (submitting) return;
+      if (submitting) {
+        e.preventDefault();
+        return;
+      }
       if (form.checkValidity && !form.checkValidity()) return; // browser shows messages
-      e.preventDefault();
-      submitting = true;
 
       var breed = breedInput ? breedName(breedInput.value) : "";
       if (breedInput) {
         breedInput.value = breed;
-        // Blank breed: leave fields[breed] out of the post entirely.
-        breedInput.disabled = !breed;
+        breedInput.disabled = !breed; // blank breed: leave fields[breed] out of the post
       }
-      if (statusEl) {
-        statusEl.textContent = "Sending…";
-        statusEl.className = "form-note";
+      track(breed ? "subscribe-" + slugify(breed) : "subscribe-none", "The Sniff Test signup: " + (breed || "none"));
+
+      if (!window.fetch || !window.FormData) {
+        return; // old browser: let the normal POST happen
       }
-      track(breed ? "subscribe-" + slugify(breed) : "subscribe-none", "The Sniff Test signup: " + (breed || "no breed"));
-      // Short pause so the analytics beacon can leave before the page navigates to Kit.
-      window.setTimeout(function () {
-        HTMLFormElement.prototype.submit.call(form);
-      }, 150);
+      e.preventDefault();
+      submitting = true;
+      if (submitBtn) submitBtn.disabled = true;
+      setStatus("Sending…");
+
+      var data = new FormData(form);
+      if (breedInput) breedInput.disabled = false;
+
+      fetch(form.action, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json", "X-CKJS-Version": "6" }
+      })
+        .then(function (res) {
+          return res.json().then(
+            function (json) { return { ok: res.ok, json: json }; },
+            function () { return { ok: res.ok, json: null }; }
+          );
+        })
+        .then(function (r) {
+          var json = r.json || {};
+          if (r.ok && (json.status === "success" || r.json === null)) {
+            form.hidden = true;
+            setStatus(SUCCESS_MESSAGE, "success");
+            return;
+          }
+          if (r.ok && json.status === "quarantined" && json.url) {
+            window.location.href = json.url; // Kit's spam check page
+            return;
+          }
+          if (json.errors) {
+            submitting = false;
+            if (submitBtn) submitBtn.disabled = false;
+            setStatus(ERROR_MESSAGE, "error");
+            return;
+          }
+          fallbackPost();
+        })
+        .catch(function () {
+          fallbackPost();
+        });
     });
+
     // Back button (bfcache): allow a fresh submit.
     window.addEventListener("pageshow", function () {
       submitting = false;
+      if (submitBtn) submitBtn.disabled = false;
       if (breedInput) breedInput.disabled = false;
-      if (statusEl) statusEl.textContent = "";
     });
   }
 

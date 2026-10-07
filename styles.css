@@ -566,6 +566,9 @@ main {
 }
 
 .form-note.is-success {
+  margin-top: 0.25rem;
+  font-size: 1.02rem;
+  font-weight: 700;
   color: #2d6a4f;
 }
 
