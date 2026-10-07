@@ -130,7 +130,7 @@ python3 -m http.server 8080
 - **Mobile-first** link-in-bio layout; large tap targets.
 - **Palette (official):** Navy `#1B2A4A`, Cream `#F5EDDC`, Amber `#D89B3D` (accent only).
 - **Motifs:** refined SVG paw mark (hero, watermarks, footer) — not emoji/cartoon.
-- **Desktop side art (≥960px):** left/right rails with navy/cream/amber photo frames (GSD, Rottweiler, Pit Bull, Doberman), a "Breed files" label at the same height on both sides, plus subtle SVG breed silhouettes. On mobile the same four photos show as a strip under the hero.
+- **Desktop side art (≥960px):** left/right rails with navy/cream/amber photo frames (GSD, Rottweiler, Pit Bull, Doberman) plus subtle SVG breed silhouettes (no text labels). On mobile the same four photos show as a strip under the hero.
 - **Fonts:** Fraunces (headings) + Nunito (body/buttons) via Google Fonts (`display=swap`, non-blocking), with metric-matched local fallbacks.
 - No frameworks or build step — plain HTML/CSS/JS.
 
