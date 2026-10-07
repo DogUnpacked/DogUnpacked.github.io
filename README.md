@@ -77,7 +77,7 @@ Regenerate everything from the master with `python3 scripts/build_logo_assets.py
 
 ## Publish for free on GitHub Pages
 
-**Live:** https://joshnealai.github.io/ — repo https://github.com/joshnealai/joshnealai.github.io, Pages from `main` / root. Push to `main` to update the site. The steps below are kept for reference.
+**Live:** https://dogunpacked.github.io/ — repo https://github.com/DogUnpacked/DogUnpacked.github.io, Pages from `main` / root. Push to `main` to update the site. The steps below are kept for reference.
 
 ### Option A — New repo (recommended)
 

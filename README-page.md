@@ -3,7 +3,7 @@
 The hub page is the single link in every bio: platform buttons, a plain signup for The Sniff Test
 (weekly newsletter), the latest long-form video, and a short Breed Files note. Brand scope: **every breed, one at a time**.
 
-Live address: https://joshnealai.github.io/ (GitHub Pages, repo `joshnealai/joshnealai.github.io`, `main` branch root). If a custom domain is added later, replace `https://joshnealai.github.io/` below and the canonical / `og:url` in `index.html`.
+Live address: https://dogunpacked.github.io/ (GitHub Pages, repo `DogUnpacked/DogUnpacked.github.io`, `main` branch root). If a custom domain is added later, replace `https://dogunpacked.github.io/` below and the canonical / `og:url` in `index.html`.
 
 ## Section order
 
@@ -79,18 +79,18 @@ Platforms: YouTube, TikTok (`@dogsunpacked`), Instagram. Facebook is not used.
 
 | Platform | Bio link |
 |---|---|
-| YouTube | `https://joshnealai.github.io/?utm_source=youtube&utm_medium=bio` |
-| TikTok | `https://joshnealai.github.io/?utm_source=tiktok&utm_medium=bio` |
-| Instagram | `https://joshnealai.github.io/?utm_source=instagram&utm_medium=bio` |
+| YouTube | `https://dogunpacked.github.io/?utm_source=youtube&utm_medium=bio` |
+| TikTok | `https://dogunpacked.github.io/?utm_source=tiktok&utm_medium=bio` |
+| Instagram | `https://dogunpacked.github.io/?utm_source=instagram&utm_medium=bio` |
 
 Pinned comments / descriptions on a breed video combine breed + UTM:
 
 | Use | Link |
 |---|---|
-| TikTok pinned comment, Pit Bull video | `https://joshnealai.github.io/?breed=pit-bull&utm_source=tiktok&utm_medium=pin` |
-| YouTube pinned comment, German Shepherd video | `https://joshnealai.github.io/?breed=gsd&utm_source=youtube&utm_medium=pin` |
-| YouTube description, Doberman video | `https://joshnealai.github.io/?breed=dobie&utm_source=youtube&utm_medium=description` |
-| Instagram story, Rottweiler | `https://joshnealai.github.io/?breed=rottweiler&utm_source=instagram&utm_medium=story` |
+| TikTok pinned comment, Pit Bull video | `https://dogunpacked.github.io/?breed=pit-bull&utm_source=tiktok&utm_medium=pin` |
+| YouTube pinned comment, German Shepherd video | `https://dogunpacked.github.io/?breed=gsd&utm_source=youtube&utm_medium=pin` |
+| YouTube description, Doberman video | `https://dogunpacked.github.io/?breed=dobie&utm_source=youtube&utm_medium=description` |
+| Instagram story, Rottweiler | `https://dogunpacked.github.io/?breed=rottweiler&utm_source=instagram&utm_medium=story` |
 
 GoatCounter's count.js sends the query string with each page view; GoatCounter uses `utm_source` / `ref` as the
 referrer, so bio and pin traffic shows up per platform in its Referrers view.
@@ -109,30 +109,30 @@ slug such as `?breed=xyz` shows the default page, so nobody can craft a link tha
 heading. To add a breed (e.g. `shiba-inu`), add an `<option value="Shiba Inu">` to the datalist in `index.html`.
 
 Pinned comments: add `&utm_source=<platform>&utm_medium=pin` to any breed URL below, e.g.
-`https://joshnealai.github.io/?breed=pit-bull&utm_source=tiktok&utm_medium=pin`. The right-hand column is the ready-made pin link
+`https://dogunpacked.github.io/?breed=pit-bull&utm_source=tiktok&utm_medium=pin`. The right-hand column is the ready-made pin link
 with `PLATFORM` to replace (`tiktok`, `youtube` or `instagram`).
 
 | Breed | URL | Pinned-comment link |
 |---|---|---|
-| German Shepherd | `https://joshnealai.github.io/?breed=german-shepherd` (or `?breed=gsd`) | `https://joshnealai.github.io/?breed=german-shepherd&utm_source=PLATFORM&utm_medium=pin` |
-| Pit Bull | `https://joshnealai.github.io/?breed=pit-bull` (or `?breed=pitbull`) | `https://joshnealai.github.io/?breed=pit-bull&utm_source=PLATFORM&utm_medium=pin` |
-| Rottweiler | `https://joshnealai.github.io/?breed=rottweiler` | `https://joshnealai.github.io/?breed=rottweiler&utm_source=PLATFORM&utm_medium=pin` |
-| Doberman | `https://joshnealai.github.io/?breed=doberman` (or `?breed=dobie`) | `https://joshnealai.github.io/?breed=doberman&utm_source=PLATFORM&utm_medium=pin` |
-| Cane Corso | `https://joshnealai.github.io/?breed=cane-corso` (or `?breed=corso`) | `https://joshnealai.github.io/?breed=cane-corso&utm_source=PLATFORM&utm_medium=pin` |
-| Husky | `https://joshnealai.github.io/?breed=husky` | `https://joshnealai.github.io/?breed=husky&utm_source=PLATFORM&utm_medium=pin` |
-| Golden Retriever | `https://joshnealai.github.io/?breed=golden-retriever` | `https://joshnealai.github.io/?breed=golden-retriever&utm_source=PLATFORM&utm_medium=pin` |
-| Labrador | `https://joshnealai.github.io/?breed=labrador` | `https://joshnealai.github.io/?breed=labrador&utm_source=PLATFORM&utm_medium=pin` |
-| Beagle | `https://joshnealai.github.io/?breed=beagle` | `https://joshnealai.github.io/?breed=beagle&utm_source=PLATFORM&utm_medium=pin` |
-| Corgi | `https://joshnealai.github.io/?breed=corgi` | `https://joshnealai.github.io/?breed=corgi&utm_source=PLATFORM&utm_medium=pin` |
-| Chihuahua | `https://joshnealai.github.io/?breed=chihuahua` | `https://joshnealai.github.io/?breed=chihuahua&utm_source=PLATFORM&utm_medium=pin` |
-| French Bulldog | `https://joshnealai.github.io/?breed=french-bulldog` | `https://joshnealai.github.io/?breed=french-bulldog&utm_source=PLATFORM&utm_medium=pin` |
-| Dachshund | `https://joshnealai.github.io/?breed=dachshund` | `https://joshnealai.github.io/?breed=dachshund&utm_source=PLATFORM&utm_medium=pin` |
-| Belgian Malinois | `https://joshnealai.github.io/?breed=belgian-malinois` | `https://joshnealai.github.io/?breed=belgian-malinois&utm_source=PLATFORM&utm_medium=pin` |
-| Australian Shepherd | `https://joshnealai.github.io/?breed=australian-shepherd` | `https://joshnealai.github.io/?breed=australian-shepherd&utm_source=PLATFORM&utm_medium=pin` |
-| Border Collie | `https://joshnealai.github.io/?breed=border-collie` | `https://joshnealai.github.io/?breed=border-collie&utm_source=PLATFORM&utm_medium=pin` |
-| Boxer | `https://joshnealai.github.io/?breed=boxer` | `https://joshnealai.github.io/?breed=boxer&utm_source=PLATFORM&utm_medium=pin` |
-| Great Dane | `https://joshnealai.github.io/?breed=great-dane` | `https://joshnealai.github.io/?breed=great-dane&utm_source=PLATFORM&utm_medium=pin` |
-| Mixed breed | `https://joshnealai.github.io/?breed=mixed-breed` | `https://joshnealai.github.io/?breed=mixed-breed&utm_source=PLATFORM&utm_medium=pin` |
+| German Shepherd | `https://dogunpacked.github.io/?breed=german-shepherd` (or `?breed=gsd`) | `https://dogunpacked.github.io/?breed=german-shepherd&utm_source=PLATFORM&utm_medium=pin` |
+| Pit Bull | `https://dogunpacked.github.io/?breed=pit-bull` (or `?breed=pitbull`) | `https://dogunpacked.github.io/?breed=pit-bull&utm_source=PLATFORM&utm_medium=pin` |
+| Rottweiler | `https://dogunpacked.github.io/?breed=rottweiler` | `https://dogunpacked.github.io/?breed=rottweiler&utm_source=PLATFORM&utm_medium=pin` |
+| Doberman | `https://dogunpacked.github.io/?breed=doberman` (or `?breed=dobie`) | `https://dogunpacked.github.io/?breed=doberman&utm_source=PLATFORM&utm_medium=pin` |
+| Cane Corso | `https://dogunpacked.github.io/?breed=cane-corso` (or `?breed=corso`) | `https://dogunpacked.github.io/?breed=cane-corso&utm_source=PLATFORM&utm_medium=pin` |
+| Husky | `https://dogunpacked.github.io/?breed=husky` | `https://dogunpacked.github.io/?breed=husky&utm_source=PLATFORM&utm_medium=pin` |
+| Golden Retriever | `https://dogunpacked.github.io/?breed=golden-retriever` | `https://dogunpacked.github.io/?breed=golden-retriever&utm_source=PLATFORM&utm_medium=pin` |
+| Labrador | `https://dogunpacked.github.io/?breed=labrador` | `https://dogunpacked.github.io/?breed=labrador&utm_source=PLATFORM&utm_medium=pin` |
+| Beagle | `https://dogunpacked.github.io/?breed=beagle` | `https://dogunpacked.github.io/?breed=beagle&utm_source=PLATFORM&utm_medium=pin` |
+| Corgi | `https://dogunpacked.github.io/?breed=corgi` | `https://dogunpacked.github.io/?breed=corgi&utm_source=PLATFORM&utm_medium=pin` |
+| Chihuahua | `https://dogunpacked.github.io/?breed=chihuahua` | `https://dogunpacked.github.io/?breed=chihuahua&utm_source=PLATFORM&utm_medium=pin` |
+| French Bulldog | `https://dogunpacked.github.io/?breed=french-bulldog` | `https://dogunpacked.github.io/?breed=french-bulldog&utm_source=PLATFORM&utm_medium=pin` |
+| Dachshund | `https://dogunpacked.github.io/?breed=dachshund` | `https://dogunpacked.github.io/?breed=dachshund&utm_source=PLATFORM&utm_medium=pin` |
+| Belgian Malinois | `https://dogunpacked.github.io/?breed=belgian-malinois` | `https://dogunpacked.github.io/?breed=belgian-malinois&utm_source=PLATFORM&utm_medium=pin` |
+| Australian Shepherd | `https://dogunpacked.github.io/?breed=australian-shepherd` | `https://dogunpacked.github.io/?breed=australian-shepherd&utm_source=PLATFORM&utm_medium=pin` |
+| Border Collie | `https://dogunpacked.github.io/?breed=border-collie` | `https://dogunpacked.github.io/?breed=border-collie&utm_source=PLATFORM&utm_medium=pin` |
+| Boxer | `https://dogunpacked.github.io/?breed=boxer` | `https://dogunpacked.github.io/?breed=boxer&utm_source=PLATFORM&utm_medium=pin` |
+| Great Dane | `https://dogunpacked.github.io/?breed=great-dane` | `https://dogunpacked.github.io/?breed=great-dane&utm_source=PLATFORM&utm_medium=pin` |
+| Mixed breed | `https://dogunpacked.github.io/?breed=mixed-breed` | `https://dogunpacked.github.io/?breed=mixed-breed&utm_source=PLATFORM&utm_medium=pin` |
 
 ## Measurement (GoatCounter, cookie-free)
 
