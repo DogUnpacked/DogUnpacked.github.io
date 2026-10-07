@@ -6,7 +6,7 @@ send: true
 
 <!--
   Dog Unpacked newsletter issue template.
-  Filename for a live send: YYYY-MM-DD.md (America/New_York calendar date of the Thursday send).
+  Filename for a live send: YYYY-MM-DD.md (America/New_York calendar date of the Sunday send).
   Set send: false to skip an issue without deleting the file.
   Body below is Markdown; scripts/send.py converts it to simple HTML for Kit.
 -->
@@ -25,11 +25,11 @@ Trace the behavior back to the job the breed was bred to do. Cite temperament-te
 
 ## Watch
 
-New video: [Title](https://www.youtube.com/@DogUnpacked) — one-line description.
+New video: [Title](https://www.youtube.com/@DogUnpacked?sub_confirmation=1) — one-line description.
 
 ## Breed note
 
-A short aside for one working/power breed (GSD, Pit Bull, Rottweiler, Doberman, etc.).
+A short aside for one breed — every breed, one at a time (GSD, Pit Bull, Golden Retriever, Beagle, etc.).
 
 ## Closing
 

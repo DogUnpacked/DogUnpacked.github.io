@@ -1,13 +1,12 @@
-# Dog Unpacked — twice-weekly newsletter send via Kit API (Tue + Thu)
-# Cron: 13:00 UTC Tue/Thu ≈ 9:00 AM Eastern (EDT) / 8:00 AM Eastern (EST).
+# Dog Unpacked — The Sunday Breed File: weekly newsletter send via Kit API (Sunday)
+# Cron: 13:00 UTC Sunday ≈ 9:00 AM Eastern (EDT) / 8:00 AM Eastern (EST).
 # DST shifts the local clock by one hour; see README-newsletter.md.
-# Josh override: twice weekly (not weekly Thursday from brief).
 name: Send newsletter
 
 on:
   schedule:
-    # Tuesday and Thursday 13:00 UTC
-    - cron: "0 13 * * 2,4"
+    # Sunday 13:00 UTC
+    - cron: "0 13 * * 0"
   workflow_dispatch:
     inputs:
       dry_run:

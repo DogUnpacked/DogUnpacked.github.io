@@ -1,6 +1,6 @@
 # Dog Unpacked — Newsletter + Kit pipeline
 
-Twice-weekly educational newsletter sent through **Kit** (formerly ConvertKit) via GitHub Actions.
+**The Sunday Breed File** — weekly educational newsletter sent through **Kit** (formerly ConvertKit) via GitHub Actions. One behavior, one job, one study. Every breed, one at a time.
 
 **Do not publish until Josh provides:** Kit form ID (landing signup), `KIT_API_KEY`, and guide PDFs. (CAN-SPAM postal footer: Kit injects its shared address — see Compliance.)
 
@@ -8,11 +8,11 @@ Twice-weekly educational newsletter sent through **Kit** (formerly ConvertKit) v
 
 | | |
 |--|--|
-| Days | Tuesday and Thursday |
-| Cron | `0 13 * * 2,4` (13:00 UTC) |
+| Day | Sunday |
+| Cron | `0 13 * * 0` (13:00 UTC) |
 | Local (ET) | ~9:00 AM Eastern in summer (EDT); ~8:00 AM Eastern in winter (EST) |
 
-Josh override of the brief’s weekly-Thursday plan: **twice weekly** (Tue + Thu).
+Cadence: **weekly, Sunday** (replaces the earlier Tue + Thu schedule).
 
 GitHub cron is **UTC-only**. When the US observes daylight saving, the Eastern wall-clock time of the send shifts by one hour. If you need a fixed 9 AM ET year-round, adjust the cron when DST starts/ends, or accept the one-hour drift.
 
@@ -23,7 +23,7 @@ Manual runs: **Actions → Send newsletter → Run workflow**. `dry_run` default
 ## How to add an issue
 
 1. Copy `newsletters/_template.md` to `newsletters/YYYY-MM-DD.md`.
-2. Use the **America/New_York calendar date** of the Tuesday or Thursday you want it to send (not UTC date).
+2. Use the **America/New_York calendar date** of the Sunday you want it to send (not UTC date).
 3. Fill `subject`, `preview`, and the Markdown body.
 4. Leave `send: true`.
 5. Commit to `main` before that day’s 13:00 UTC send.
@@ -31,14 +31,14 @@ Manual runs: **Actions → Send newsletter → Run workflow**. `dry_run` default
 Example:
 
 ```bash
-cp newsletters/_template.md newsletters/2026-10-08.md
+cp newsletters/_template.md newsletters/2026-10-11.md
 # edit subject / preview / body
-git add newsletters/2026-10-08.md && git commit -m "Newsletter 2026-10-08" && git push
+git add newsletters/2026-10-11.md && git commit -m "Newsletter 2026-10-11" && git push
 ```
 
 ## How to skip a send day
 
-- **No file** for that Tuesday/Thursday’s ET date → `scripts/send.py` exits 0 (no-op).
+- **No file** for that Sunday’s ET date → `scripts/send.py` exits 0 (no-op).
 - Or keep the file and set frontmatter `send: false` → exits 0 without posting.
 
 ## Local dry-run
@@ -57,7 +57,7 @@ Dry-run never calls Kit and does not need `KIT_API_KEY`.
 3. Name: `KIT_API_KEY`. Value: the key. Never commit the key.
 4. **Rotate** by creating a new key in Kit, updating the GitHub secret, then revoking the old key in Kit.
 
-The landing-page signup form ID is separate from this API key. §3.1 of the site will replace Formspree with an embedded Kit form once Josh has a form ID — see the HTML comment in `index.html`.
+The landing-page signup form ID is separate from this API key. The landing page posts to Kit form `10011711` (email + `fields[breed]`) — see `KIT.md` and the HTML comment in `index.html`.
 
 ## Duplicate-send caveat
 
@@ -65,7 +65,7 @@ Kit `POST /v4/broadcasts` has **no idempotency key**. Re-running the live workfl
 
 `scripts/send.py` does a **best-effort** `GET /v4/broadcasts?slim=true` and skips if a broadcast subject already matches exactly. That is not a guarantee (pagination, renamed subjects, races). Prefer:
 
-- One scheduled run per send day (Tue or Thu)
+- One scheduled run per send day (Sunday)
 - Manual dispatch with `dry_run: true` unless you intend a live send
 - Avoid re-running live after a successful create
 
