@@ -5,7 +5,7 @@ send: true
 ---
 
 <!--
-  Dog Unpacked newsletter issue template.
+  The Sniff Test (Dog Unpacked newsletter) issue template.
   Filename for a live send: YYYY-MM-DD.md (America/New_York calendar date of the Sunday send).
   Set send: false to skip an issue without deleting the file.
   Body below is Markdown; scripts/send.py converts it to simple HTML for Kit.
@@ -35,4 +35,4 @@ A short aside for one breed — every breed, one at a time (GSD, Pit Bull, Golde
 
 He's not broken. He's bred that way.
 
-— Dog Unpacked
+— The Sniff Test, by Dog Unpacked

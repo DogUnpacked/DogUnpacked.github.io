@@ -1,6 +1,6 @@
 # Dog Unpacked — Newsletter + Kit pipeline
 
-**The Sunday Breed File** — weekly educational newsletter sent through **Kit** (formerly ConvertKit) via GitHub Actions. One behavior, one job, one study. Every breed, one at a time.
+**The Sniff Test** — weekly educational newsletter sent through **Kit** (formerly ConvertKit) via GitHub Actions. One behavior, one job, one study. Every breed, one at a time.
 
 **Do not publish until Josh provides:** Kit form ID (landing signup), `KIT_API_KEY`, and guide PDFs. (CAN-SPAM postal footer: Kit injects its shared address — see Compliance.)
 
@@ -18,7 +18,7 @@ GitHub cron is **UTC-only**. When the US observes daylight saving, the Eastern w
 
 **Daily cadence remains parked** (not scheduled). Do not enable a daily cron unless Josh explicitly asks.
 
-Manual runs: **Actions → Send newsletter → Run workflow**. `dry_run` defaults to **true** so a manual click cannot accidentally blast.
+Manual runs: **Actions → Send The Sniff Test → Run workflow**. `dry_run` defaults to **true** so a manual click cannot accidentally blast.
 
 ## How to add an issue
 

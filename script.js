@@ -1,9 +1,9 @@
 /**
  * Dog Unpacked — hub page enhancements (plain JS, no framework, no cookies).
  *
- *  1. Cookie-free analytics (GoatCounter): page view, platform clicks, newsletter submit
+ *  1. Cookie-free analytics (GoatCounter): page view, platform clicks, The Sniff Test signup
  *  2. Breed-aware page via ?breed=<slug>
- *  3. Newsletter: Title-Case the optional breed before posting to Kit
+ *  3. Newsletter (The Sniff Test): Title-Case the optional breed before posting to Kit
  *  4. Latest video: shown only when #latest has a data-video-id; click-to-load embed
  *
  * The page works without this file: the Kit form still posts and all links work.
@@ -116,7 +116,7 @@
   })();
 
   /* ------------------------------------------------------------------
-   * 3. Newsletter form: normalize the optional breed, count the event, post to Kit.
+   * 3. The Sniff Test signup form: normalize the optional breed, count the event, post to Kit.
    * ------------------------------------------------------------------ */
   var form = document.getElementById("newsletter-form");
   var statusEl = document.getElementById("form-status");
@@ -138,7 +138,7 @@
         statusEl.textContent = "Sending…";
         statusEl.className = "form-note";
       }
-      track(breed ? "subscribe-" + slugify(breed) : "subscribe-none", "Newsletter: " + (breed || "no breed"));
+      track(breed ? "subscribe-" + slugify(breed) : "subscribe-none", "The Sniff Test signup: " + (breed || "no breed"));
       // Short pause so the analytics beacon can leave before the page navigates to Kit.
       window.setTimeout(function () {
         HTMLFormElement.prototype.submit.call(form);

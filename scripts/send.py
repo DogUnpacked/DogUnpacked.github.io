@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Dog Unpacked — send today's newsletter issue via Kit (ConvertKit) API v4.
+Dog Unpacked — send today's issue of The Sniff Test (weekly newsletter) via Kit (ConvertKit) API v4.
 
 Looks for newsletters/YYYY-MM-DD.md using America's New York (ET) calendar date.
 Exits 0 (no-op success) when there is no file for today or frontmatter send: false.
@@ -51,7 +51,7 @@ DISCLAIMER_HTML = (
     '<hr style="border:none;border-top:1px solid #E0D4BC;margin:2em 0 1em;">'
     '<p style="font-size:12px;line-height:1.5;color:#6B7A94;">'
     "Educational content only — not veterinary or training advice. "
-    "Dog Unpacked."
+    "The Sniff Test by Dog Unpacked."
     "<br>"
     '<a href="{{ unsubscribe_url }}">Unsubscribe</a>'
     "</p>"
@@ -211,7 +211,7 @@ def build_payload(meta: dict, body_md: str) -> dict:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Send Dog Unpacked newsletter via Kit.")
+    parser = argparse.ArgumentParser(description="Send The Sniff Test (Dog Unpacked newsletter) via Kit.")
     parser.add_argument(
         "--dry-run",
         action="store_true",

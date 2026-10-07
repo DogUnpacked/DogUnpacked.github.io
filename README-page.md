@@ -1,7 +1,7 @@
 # Dog Unpacked — hub page notes (`index.html`)
 
-The hub page is the single link in every bio: platform buttons, a plain signup for The Sunday Breed File
-newsletter, the latest long-form video, and a short Breed Files note. Brand scope: **every breed, one at a time**.
+The hub page is the single link in every bio: platform buttons, a plain signup for The Sniff Test
+(weekly newsletter), the latest long-form video, and a short Breed Files note. Brand scope: **every breed, one at a time**.
 
 Replace `https://SITE/` below with the live address once GitHub Pages (or a custom domain) is set up.
 
@@ -14,7 +14,7 @@ Breed Files (`#breed-files`, text only) → footer.
 ## Newsletter signup (Kit)
 
 Plain newsletter signup. Email is required. Breed is optional: it's saved to the subscriber's Kit custom field
-`breed` and does **not** change the signup. Everyone gets the same Sunday newsletter.
+`breed` and does **not** change the signup. Everyone gets the same Sunday issue of The Sniff Test.
 
 - Posts to Kit form 10011711: `email_address`, `fields[breed]` (only when filled in, Title-Cased by
   `script.js`), `tags[]=24362096` (`source:landing`, backup for the form's own auto-tag setting).
@@ -75,7 +75,7 @@ referrer, so bio and pin traffic shows up per platform in its Referrers view.
 ## Breed-aware URLs (`?breed=`)
 
 `?breed=<lowercase-hyphenated-slug>` pre-fills "Your dog's breed (optional)" and changes the heading to
-"Join the Sunday Breed File — [Breed] edition". Nothing else changes, and the visitor can clear or edit the field.
+"Join The Sniff Test — [Breed] edition". Nothing else changes, and the visitor can clear or edit the field.
 
 Display name = hyphens become spaces, then Title Case. Shortcuts: `gsd` → German Shepherd, `pitbull` → Pit Bull,
 `corso` → Cane Corso, `dobie` → Doberman (`BREED_OVERRIDES` in `script.js`). Anything that isn't letters and
@@ -111,7 +111,7 @@ code change), which also means a made-up word renders as "[Word] edition".
 |---|---|---|
 | Page view | (automatic, count.js) | every load |
 | Platform click | `outbound-youtube`, `outbound-instagram`, `outbound-tiktok` | platform button click |
-| Newsletter submit | `subscribe-<breed-slug>` (e.g. `subscribe-german-shepherd`), or `subscribe-none` when breed is blank | valid submit, just before posting to Kit |
+| Newsletter (The Sniff Test) submit | `subscribe-<breed-slug>` (e.g. `subscribe-german-shepherd`), or `subscribe-none` when breed is blank | valid submit, just before posting to Kit |
 
 All calls go through `track()` in `script.js`, which does nothing if GoatCounter is blocked or missing.
 

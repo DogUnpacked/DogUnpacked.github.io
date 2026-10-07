@@ -1,4 +1,4 @@
-# Kit (ConvertKit) — landing signup ("The Sunday Breed File" newsletter)
+# Kit (ConvertKit) — landing signup ("The Sniff Test" newsletter)
 
 Public IDs for the Dog Unpacked hub page. **No API keys or secrets** belong in this file.
 Account plan: **Free** (verified via API `GET /v4/account`, `plan_type: free`). Custom fields and tags are
@@ -17,7 +17,7 @@ included on Free. Keep it that way: no paid features.
 
 The page uses a **brand-styled HTML form** (Navy/Cream) that POSTs to the action above, not Kit's
 default embed chrome. It is a plain newsletter signup: email required, breed optional. Everyone gets the
-same Sunday newsletter. `script.js` Title-Cases the breed (`german shepherd` → `German Shepherd`,
+same Sunday issue of The Sniff Test. `script.js` Title-Cases the breed (`german shepherd` → `German Shepherd`,
 `gsd` → `German Shepherd`) before posting.
 
 ## Created via API (2026-10-07)
@@ -27,17 +27,17 @@ same Sunday newsletter. `script.js` Title-Cases the breed (`german shepherd` →
 
 ## Still to do in the Kit dashboard (the V4 API can't change these)
 
-1. **Form name**: rename "German Shepherd File (landing)" to **The Breed File (landing)**.
+1. **Form name**: rename "German Shepherd File (landing)" to **The Sniff Test (landing)**.
 2. **Breed field on the form**: in the form builder, add a custom field mapped to **breed** and leave
    **Required unchecked** (optional). Label it "Your dog's breed (optional)". The brand page already posts it.
 3. **Auto-tag**: form settings → add tag **source:landing**, so every subscriber through this form is tagged
    even if Kit ignores the hidden `tags[]` input.
 4. **Confirmation / incentive email** (double opt-in, keep ON): make it a plain newsletter confirmation for
-   The Sunday Breed File, e.g. subject "Confirm your Sunday Breed File subscription", body "Click below to
-   confirm. Then look for the Sunday Breed File in your inbox on Sunday." **No breed File / PDF / timeline
+   The Sniff Test, e.g. subject "Confirm your subscription to The Sniff Test", body "Click below to
+   confirm. Then look for The Sniff Test in your inbox on Sunday." **No guide / PDF / timeline
    promise**, no incentive download. Remove any "working and power breeds" wording.
 5. **Sender name**: Settings → Email → the sending address `from_name` is currently the bare email address.
-   Change to **Dog Unpacked — The Breed File**.
+   Change to **Dog Unpacked — The Sniff Test**.
 6. **Descriptions**: form heading/subheading and Creator Profile byline/bio (currently empty): use
    "every breed, one at a time". Remove any "working and power breeds" wording.
 7. **Success message** (optional): "Check your inbox to confirm your subscription."

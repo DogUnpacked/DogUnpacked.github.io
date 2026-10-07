@@ -6,7 +6,7 @@ Page spec, placeholders, breed-aware URLs, UTM bio links and analytics events: s
 
 ## Newsletter pipeline
 
-See **`README-newsletter.md`** for the Kit send scaffold (Sunday cron, issue files, dry-run). The landing signup posts to Kit (form IDs in `KIT.md`).
+The newsletter is **The Sniff Test** (weekly, Sunday). See **`README-newsletter.md`** for the Kit send scaffold (Sunday cron, issue files, dry-run). The landing signup posts to Kit (form IDs in `KIT.md`).
 
 ## What’s included
 
@@ -45,7 +45,7 @@ In the hero, change:
 
 Brand thesis is set. Look for the `<!-- EDITABLE: ... -->` comment above it if you need to tweak.
 
-### 3. Newsletter — Kit
+### 3. Newsletter (The Sniff Test) — Kit
 
 The signup form posts to Kit form `10011711` (`https://app.kit.com/forms/10011711/subscriptions`) with
 `email_address` and an optional `fields[breed]`. Double opt-in stays on in Kit. IDs, the `breed` custom field, the
