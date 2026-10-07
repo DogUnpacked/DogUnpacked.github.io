@@ -172,6 +172,10 @@ main,
   top: 0.75rem;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

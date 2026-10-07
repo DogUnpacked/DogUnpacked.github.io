@@ -12,7 +12,7 @@ import asyncio, functools, http.server, pathlib, socketserver, threading
 from playwright.async_api import async_playwright
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-PORT = 8765
+PORT = 0  # 0 = any free port
 
 CHECK_JS = """() => {
   const r = el => el && el.getBoundingClientRect();
@@ -36,15 +36,22 @@ CHECK_JS = """() => {
 
 
 def serve():
-    handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(ROOT))
-    handler.log_message = lambda *a, **k: None
-    httpd = socketserver.TCPServer(("127.0.0.1", PORT), handler)
+    class Quiet(http.server.SimpleHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+    handler = functools.partial(Quiet, directory=str(ROOT))
+    class Server(socketserver.TCPServer):
+        allow_reuse_address = True
+
+    httpd = Server(("127.0.0.1", PORT), handler)
     threading.Thread(target=httpd.serve_forever, daemon=True).start()
     return httpd
 
 
 async def main():
     httpd = serve()
+    port = httpd.server_address[1]
     shots = [
         ("preview-v2-desktop", 1280, 900, 1, ""),
         ("preview-v2-mobile", 375, 812, 2, ""),
@@ -58,7 +65,7 @@ async def main():
             errors = []
             pg.on("console", lambda m: errors.append(m.text) if m.type == "error" else None)
             pg.on("pageerror", lambda e: errors.append(str(e)))
-            await pg.goto(f"http://127.0.0.1:{PORT}/index.html{qs}", wait_until="load")
+            await pg.goto(f"http://127.0.0.1:{port}/index.html{qs}", wait_until="load")
             # Load lazy images: scroll through the page.
             height = await pg.evaluate("document.body.scrollHeight")
             for y in range(0, height, 400):
