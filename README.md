@@ -63,7 +63,7 @@ The brand logo is live in the hero (circular badge above the "Dog Unpacked" word
 
 | File | Use |
 |------|-----|
-| `images/logo-original.png` | Full-res master (do not link from the page) |
+| `logo-original.png` (not in the repo) | Full-res master, kept outside the published repo (1.8 MB). Put it at `images/logo-original.png` locally to regenerate. |
 | `images/logo-256.{png,webp}`, `images/logo-512.{png,webp}` | Hero logo (`<picture>` + `srcset`) |
 | `favicon.ico` (16/32/48), `favicon-32.png` | Browser tab icons |
 | `apple-touch-icon.png` (180×180) | iOS home-screen icon |

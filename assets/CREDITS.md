@@ -27,7 +27,7 @@ Provenance notes:
 
 | File(s) | Notes |
 |---|---|
-| `images/logo-*.{png,webp}`, `images/logo-original.png`, `favicon.ico`, `favicon-32.png`, `apple-touch-icon.png`, `images/og-image.png` | Dog Unpacked logo and derivatives (see `scripts/build_logo_assets.py`). |
+| `images/logo-*.{png,webp}`, `favicon.ico`, `favicon-32.png`, `apple-touch-icon.png`, `images/og-image.png` | Dog Unpacked logo and derivatives (see `scripts/build_logo_assets.py`). |
 
 ## Pending
 

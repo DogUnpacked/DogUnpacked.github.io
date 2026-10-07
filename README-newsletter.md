@@ -18,6 +18,9 @@ GitHub cron is **UTC-only**. When the US observes daylight saving, the Eastern w
 
 **Daily cadence remains parked** (not scheduled). Do not enable a daily cron unless Josh explicitly asks.
 
+The Sunday cron only posts to Kit when `newsletters/<that Sunday's ET date>.md` exists **and** its frontmatter
+says `status: ready` (and not `send: false`). Otherwise it logs a skip and exits 0. `_template.md` never matches a date.
+
 Manual runs: **Actions → Send The Sniff Test → Run workflow**. `dry_run` defaults to **true** so a manual click cannot accidentally blast.
 
 ## How to add an issue
@@ -25,20 +28,22 @@ Manual runs: **Actions → Send The Sniff Test → Run workflow**. `dry_run` def
 1. Copy `newsletters/_template.md` to `newsletters/YYYY-MM-DD.md`.
 2. Use the **America/New_York calendar date** of the Sunday you want it to send (not UTC date).
 3. Fill `subject`, `preview`, and the Markdown body.
-4. Leave `send: true`.
+4. When the issue is approved, change `status: draft` to `status: ready`. **Nothing is sent without `status: ready`**
+   (opt-in: a missing status, `draft`, or anything else is skipped). Leave `send: true`.
 5. Commit to `main` before that day’s 13:00 UTC send.
 
 Example:
 
 ```bash
 cp newsletters/_template.md newsletters/2026-10-11.md
-# edit subject / preview / body
+# edit subject / preview / body, then set status: ready once approved
 git add newsletters/2026-10-11.md && git commit -m "Newsletter 2026-10-11" && git push
 ```
 
 ## How to skip a send day
 
 - **No file** for that Sunday’s ET date → `scripts/send.py` exits 0 (no-op).
+- File present but frontmatter `status` is not `ready` (e.g. `draft`, or missing) → exits 0 without posting.
 - Or keep the file and set frontmatter `send: false` → exits 0 without posting.
 
 ## Local dry-run

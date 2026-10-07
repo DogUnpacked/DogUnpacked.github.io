@@ -2,6 +2,7 @@
 """Generate web logo / favicon / Open Graph assets from images/logo-original.png.
 
 Usage: python3 scripts/build_logo_assets.py   (run from repo root; needs Pillow)
+The 1.8 MB master is not committed (gitignored); copy it to images/logo-original.png locally first.
 """
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageFilter

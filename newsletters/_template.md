@@ -1,13 +1,15 @@
 ---
 subject: "Issue title — keep under ~60 characters"
 preview: "Inbox preview text — one short sentence that hooks."
+status: draft
 send: true
 ---
 
 <!--
   The Sniff Test (Dog Unpacked newsletter) issue template.
   Filename for a live send: YYYY-MM-DD.md (America/New_York calendar date of the Sunday send).
-  Set send: false to skip an issue without deleting the file.
+  Nothing is sent unless status is exactly: ready  (set it only when the issue is approved).
+  Set send: false (or leave status: draft) to skip an issue without deleting the file.
   Body below is Markdown; scripts/send.py converts it to simple HTML for Kit.
 -->
 

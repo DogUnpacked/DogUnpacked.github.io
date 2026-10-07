@@ -196,8 +196,8 @@ The full earlier implementation (four cards with badges) is in git history at co
 - `.nojekyll` is in the repo root so Pages serves files as they are.
 - `data/latest.json` is committed and not gitignored. Local secrets (`.kit-api-key.local`, `.env*`) and review
   screenshots (`assets/preview-*.png`) are gitignored.
-- `images/logo-original.png` (1.8 MB) is not used by the page; the page uses the WebP/PNG logo sizes. Delete it or move
-  it out of the published folder before publishing if you don't need it in the repo. `images/og-image.png` is also
+- `images/logo-original.png` (1.8 MB master, unused by the page) was removed from the repo before publishing; keep it
+  outside the repo and copy it to `images/` only to run `scripts/build_logo_assets.py`. `images/og-image.png` is
   unlinked until the OG image is supplied (see placeholders).
 
 ## Future-proofing

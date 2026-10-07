@@ -3,7 +3,9 @@
 Dog Unpacked — send today's issue of The Sniff Test (weekly newsletter) via Kit (ConvertKit) API v4.
 
 Looks for newsletters/YYYY-MM-DD.md using America's New York (ET) calendar date.
-Exits 0 (no-op success) when there is no file for today or frontmatter send: false.
+Opt-in only: a live send happens ONLY when that file's frontmatter has `status: ready`.
+Exits 0 (no-op success) when there is no file for today, the status is anything other
+than `ready` (missing, draft, ...), or frontmatter send: false.
 
 Usage:
   python3 scripts/send.py              # live send (requires KIT_API_KEY)
@@ -234,12 +236,27 @@ def main() -> int:
         print("Frontmatter send: false — skipping send, exiting 0.")
         return 0
 
+    status = str(meta.get("status") or "").strip().lower()
+    ready = status == "ready"
+
     payload = build_payload(meta, body)
 
     if args.dry_run:
+        if not ready:
+            print(
+                f"NOTE: frontmatter status is {status or 'missing'!r}, not 'ready' — "
+                "a live run would skip this issue."
+            )
         print("DRY RUN — payload that would be POSTed to /v4/broadcasts:")
         print(json.dumps(payload, indent=2))
         print("(No Kit API call made.)")
+        return 0
+
+    if not ready:
+        print(
+            f"Frontmatter status is {status or 'missing'!r}, not 'ready' — "
+            "skipping send (opt-in only), exiting 0."
+        )
         return 0
 
     api_key = os.environ.get("KIT_API_KEY", "").strip()

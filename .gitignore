@@ -6,3 +6,16 @@ __pycache__/
 
 # Local review screenshots (not published)
 assets/preview-*.png
+
+# Full-res logo master (kept outside the published repo)
+images/logo-original.png
+
+# Python virtualenvs
+.venv/
+venv/
+env/
+
+# Live screenshots / Lighthouse reports
+live-*.png
+lighthouse-*.html
+lighthouse-*.json
