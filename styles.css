@@ -292,14 +292,12 @@ main {
   line-height: 1.5;
 }
 
-/* Proof row — small caps, navy, centered */
+/* Proof row — one plain sentence, slightly smaller than body text, navy, centered */
 .proof-row {
-  margin: 0.9rem auto 0;
+  margin: 0.8rem auto 0;
   max-width: 24rem;
-  font-size: 0.86rem;
-  font-weight: 700;
-  font-variant-caps: all-small-caps;
-  letter-spacing: 0.06em;
+  font-size: 0.88rem;
+  font-weight: 600;
   line-height: 1.5;
   color: var(--navy);
 }
