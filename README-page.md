@@ -29,7 +29,7 @@ newsletter (`#subscribe`) → Latest video → breed owner guides (`#guides`) �
 | Instagram | `https://SITE/?utm_source=instagram&utm_medium=bio` |
 | Facebook | `https://SITE/?utm_source=facebook&utm_medium=bio` |
 
-GoatCounter records the full path including the query string, so UTM sources show up in its dashboard.
+GoatCounter's count.js sends the query string with each page view; GoatCounter uses `utm_source` / `ref` as the referrer, so bio traffic shows up per platform in its Referrers view.
 
 ## Breed-aware URLs (`?breed=`)
 

@@ -1,18 +1,23 @@
 # Dog Unpacked — Landing Site
 
-A polished, mobile-first link-in-bio landing page for **Dog Unpacked**. Static HTML/CSS (plus a tiny optional script). Host it for free on **GitHub Pages**.
+A polished, mobile-first link-in-bio hub page for **Dog Unpacked**. Static HTML/CSS plus a small plain-JS enhancement script. Host it for free on **GitHub Pages**.
+
+Page spec, placeholders, breed-aware URLs, UTM bio links and analytics events: see **`README-page.md`**.
 
 ## Newsletter pipeline
 
-See **`README-newsletter.md`** for the Kit send scaffold (Thursday cron, issue files, dry-run). Formspree stays on the landing form until a Kit form ID exists (§3.1).
+See **`README-newsletter.md`** for the Kit send scaffold (Sunday cron, issue files, dry-run). The landing signup posts to Kit (form IDs in `KIT.md`).
 
 ## What’s included
 
 | File | Purpose |
 |------|---------|
-| `index.html` | Main page (hero, social, newsletter, shop, footer) |
+| `index.html` | Hub page (hero, platform buttons, newsletter, latest video, guides, footer) |
 | `styles.css` | Navy / cream / amber mobile-first styles + desktop side art |
-| `script.js` | Optional: warns if Formspree ID isn’t set yet |
+| `script.js` | GoatCounter events, `?breed=` personalization, breed Title-Case, lite YouTube embed |
+| `README-page.md` | Page notes: placeholders, bio/breed URLs, events |
+| `KIT.md` | Kit form/field/tag IDs + remaining dashboard steps |
+| `assets/CREDITS.md` | Photo sources and licenses |
 | `README.md` | This file |
 
 ## Placeholders you must fill in
@@ -39,37 +44,19 @@ In the hero, change:
 
 Brand thesis is set. Look for the `<!-- EDITABLE: ... -->` comment above it if you need to tweak.
 
-### 3. Newsletter — free Formspree endpoint
+### 3. Newsletter — Kit
 
-The form posts to:
-
-```html
-action="https://formspree.io/f/YOUR_FORM_ID"
-```
-
-**How to get a free Formspree endpoint:**
-
-1. Go to [https://formspree.io](https://formspree.io) and create a free account.
-2. Click **New Form**, name it (e.g. “Dog Unpacked Newsletter”).
-3. Copy the form endpoint URL (looks like `https://formspree.io/f/abcdefgh`).
-4. In `index.html`, replace `YOUR_FORM_ID` with your real form ID so the action becomes your endpoint.
-5. Submit a test email from the live site and confirm it arrives in Formspree (and your inbox if you set email notifications).
-
-**Fallback (no Formspree):** change the form to a mailto, e.g.:
-
-```html
-<form action="mailto:you@example.com" method="POST" enctype="text/plain">
-```
-
-(Mailto depends on the visitor’s email app and is less reliable on mobile.)
+The signup form posts to Kit form `10011711` (`https://app.kit.com/forms/10011711/subscriptions`) with
+`email_address` and `fields[breed]`. Double opt-in stays on in Kit. IDs, the `breed` custom field, the
+`source:landing` tag and the remaining Kit dashboard steps are in **`KIT.md`**. No Formspree.
 
 ### 4. Shop / guide “Buy” links
 
 | Placeholder | Replace with |
 |-------------|--------------|
-| German Shepherd / Pit Bull / Rottweiler **File** cards | Buttons say **Coming December** (`href="#"`, `aria-disabled`) until sell links exist |
+| German Shepherd / Pit Bull / Rottweiler / Doberman **File** cards | Amber **Coming December** badge on each card; one "Get notified when they drop" button under the section scrolls to `#subscribe` |
 
-Guide titles match the brief (… File). Sell links still TBD.
+When a guide goes on sale, replace that card's badge with a buy button (see the comment in the first card).
 
 ### 5. Logo, favicons & share image — done
 
@@ -99,7 +86,7 @@ Regenerate everything from the master with `python3 scripts/build_logo_assets.py
    ```bash
    cd dog-unpacked-landing
    git init
-   git add index.html styles.css script.js README.md
+   git add .
    git commit -m "Add Dog Unpacked landing page"
    git branch -M main
    git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
@@ -118,7 +105,7 @@ Regenerate everything from the master with `python3 scripts/build_logo_assets.py
 ### Option B — GitHub website UI (no git required)
 
 1. Create a new empty repo on GitHub.
-2. Click **Add file → Upload files** and upload `index.html`, `styles.css`, `script.js`, and optionally this `README.md`.
+2. Click **Add file → Upload files** and upload `index.html`, `styles.css`, `script.js`, the favicon files and the `images/` folder.
 3. Commit.
 4. Enable Pages as in steps 3–6 above.
 
@@ -144,20 +131,15 @@ python3 -m http.server 8080
 - **Mobile-first** link-in-bio layout; large tap targets.
 - **Palette (official):** Navy `#1B2A4A`, Cream `#F5EDDC`, Amber `#D89B3D` (accent only).
 - **Motifs:** refined SVG paw mark (hero, watermarks, footer) — not emoji/cartoon.
-- **Desktop side art (≥960px):** left/right rails with geometric navy/cream/amber photo frames (GSD, Rottweiler, Doberman, Pit Bull) plus subtle SVG breed silhouettes. Hidden on mobile so the centered column stays clean.
-- **Fonts:** Fraunces (display) + Nunito (UI) via Google Fonts, with system fallbacks.
-- No frameworks or build step — plain HTML/CSS.
+- **Desktop side art (≥960px):** left/right rails with navy/cream/amber photo frames (GSD, Rottweiler, Pit Bull, Doberman), a "Breed files" label at the same height on both sides, plus subtle SVG breed silhouettes. On mobile the same four photos show as a strip under the hero.
+- **Fonts:** Fraunces (headings) + Nunito (body/buttons) via Google Fonts (`display=swap`, non-blocking), with metric-matched local fallbacks.
+- No frameworks or build step — plain HTML/CSS/JS.
 
-### External images (Unsplash)
+### Breed photos
 
-Side-rail photos load from **Unsplash** (`images.unsplash.com`) under the [Unsplash License](https://unsplash.com/license) — free for commercial use, no paid stock license required. They need a network connection on first load. If you prefer fully offline hosting, download the four images into an `images/` folder and point the `<img src>` values in `index.html` at local files.
-
-| Breed | Unsplash photo |
-|-------|----------------|
-| German Shepherd | `photo-1693507078013-b4256d9baf9f` |
-| Rottweiler | `photo-1640262653842-3da89bc3e9b0` |
-| Doberman | `photo-1757781956803-2efc6921abe9` |
-| Pit Bull | `photo-1543495915-8d5f641a4bfa` |
+Local WebP files in `images/breeds/` (Unsplash License). Photo pages, photographers and license for each
+are recorded in **`assets/CREDITS.md`**. Every new photo must come from Unsplash, Pexels or Storyblocks and
+be added there.
 
 ## License
 
