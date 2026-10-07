@@ -15,7 +15,8 @@ The newsletter is **The Sniff Test** (weekly, Sunday). See **`README-newsletter.
 | `index.html` | Hub page (hero, platform buttons, newsletter, latest video, Breed Files note, footer) |
 | `styles.css` | Navy / cream / amber mobile-first styles + desktop side art |
 | `script.js` | GoatCounter events, `?breed=` personalization, breed Title-Case, lite YouTube embed |
-| `scripts/update_latest_video.py` | Puts the newest long-form YouTube video ID into the Latest section |
+| `data/latest.json` | Latest section data: up to 3 newest long-form videos `{id, title, published}`, newest first |
+| `scripts/update_latest_video.py` | Refreshes `data/latest.json` from the channel feed (skips Shorts); prints "Latest: no change" when current |
 | `README-page.md` | Page notes: placeholders, bio/breed URLs, events |
 | `KIT.md` | Kit form/field/tag IDs + remaining dashboard steps |
 | `assets/CREDITS.md` | Photo sources and licenses |

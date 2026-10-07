@@ -15,8 +15,12 @@ included on Free. Keep it that way: no paid features.
 | JS embed (not used) | `https://dog-unpacked.kit.com/ae44e15ea4/index.js` |
 | Double opt-in / incentive email | ON (keep on) |
 
-The page uses a **brand-styled HTML form** (Navy/Cream) that POSTs to the action above, not Kit's
-default embed chrome. It is a plain newsletter signup: email required, breed optional. Everyone gets the
+The page uses a **brand-styled HTML form** (Navy/Cream) that posts to the action above, not Kit's
+default embed chrome. With JS, `script.js` sends the post in the background exactly like Kit's own embed script
+(`fetch` POST of the form data, headers `Accept: application/json` and `X-CKJS-Version: 6`; Kit answers CORS with
+`access-control-allow-origin: *` and returns `{"status":"success"}`), then shows "Check your inbox — one click to
+confirm and you're in." on the page. Any failure falls back to a normal POST (Kit's hosted success message).
+Form setting checked via the public form config: reCAPTCHA is **off**, so the background post isn't challenged. It is a plain newsletter signup: email required, breed optional. Everyone gets the
 same Sunday issue of The Sniff Test. `script.js` Title-Cases the breed (`german shepherd` → `German Shepherd`,
 `gsd` → `German Shepherd`) before posting.
 
@@ -40,7 +44,10 @@ same Sunday issue of The Sniff Test. `script.js` Title-Cases the breed (`german 
    Change to **Dog Unpacked — The Sniff Test**.
 6. **Descriptions**: form heading/subheading and Creator Profile byline/bio (currently empty): use
    "every breed, one at a time". Remove any "working and power breeds" wording.
-7. **Success message** (optional): "Check your inbox to confirm your subscription."
+7. **Success message (needed)**: the form's "after subscribe" message currently reads "Check your inbox to
+   confirm — we'll send the File when it's ready." That promises a File, which the newsletter signup doesn't.
+   It shows when JS is off or the background submit falls back to a normal POST. Change it to match the page:
+   **"Check your inbox — one click to confirm and you're in."** (Keep "after subscribe" = show message, no redirect.)
 
 Do not invent form IDs. Do not commit `KIT_API_KEY` (it belongs only in GitHub Actions secrets for the
 newsletter send pipeline, and locally in the gitignored `.kit-api-key.local`).
