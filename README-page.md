@@ -47,9 +47,9 @@ A compact card just above the footer replaces the old footer email line: no emai
 appears anywhere on the page or in the repo. Messages go to the business inbox through Formspree.
 
 - Copy: heading "Contact" → "Brands, partnerships, corrections, or a breed you want covered." → Name, Email, Topic
-  (Brand / partnership, Request a breed, Correction, Other), Message (max 1000 characters, live counter) → button "Send".
+  (required; starts on a "Choose a topic" placeholder, then Brand / partnership, Request a breed, Correction, Other), Message (max 1000 characters, live counter) → button "Send".
   Success: "Got it. Replies come from Dog Unpacked within a few days." Error: "Didn't send — try again or reach us on
-  any platform above." Field errors: "Enter your name." / "Enter a valid email address." / "Write a message."
+  any platform above." Field errors: "Enter your name." / "Enter a valid email address." / "Choose a topic." / "Write a message."
 - `script.js` sends a background `fetch` POST to `FORMSPREE_ENDPOINT` with `Accept: application/json`. Fields sent:
   `name`, `email` (Formspree uses it as the reply-to), `topic` (the option text), `message`,
   `_subject` = "Dog Unpacked contact — <topic>", `_gotcha` (honeypot value, empty for humans).

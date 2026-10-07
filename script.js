@@ -321,7 +321,7 @@
   }
   /* ------------------------------------------------------------------
    * 5. Contact form -> Formspree (fetch POST, Accept: application/json).
-   *    Order on submit: validate -> honeypot (filled = show success, send nothing) ->
+   *    Order on submit: validate (name, email, topic, message) -> honeypot (filled = show success, send nothing) ->
    *    placeholder endpoint (show error, no network call) -> POST.
    * ------------------------------------------------------------------ */
   var CONTACT_SUCCESS = "Got it. Replies come from Dog Unpacked within a few days.";
@@ -329,6 +329,7 @@
   var CONTACT_FIELD_ERRORS = {
     name: "Enter your name.",
     email: "Enter a valid email address.",
+    topic: "Choose a topic.",
     message: "Write a message."
   };
 
@@ -365,6 +366,7 @@
     var checks = [
       [cName, "name", function (v) { return v.trim().length > 0; }],
       [cEmail, "email", function (v) { return EMAIL_RE.test(v.trim()); }],
+      [cTopic, "topic", function (v) { return v !== ""; }],
       [cMessage, "message", function (v) { return v.trim().length > 0 && v.length <= 1000; }]
     ];
 
@@ -379,11 +381,13 @@
       return !firstBad;
     };
 
-    // Clear a field's error as soon as it becomes valid.
+    // Clear a field's error as soon as it becomes valid ("change" covers the topic select).
     checks.forEach(function (c) {
-      c[0].addEventListener("input", function () {
+      var clear = function () {
         if (c[0].getAttribute("aria-invalid") === "true" && c[2](c[0].value)) fieldError(c[0], c[1], false);
-      });
+      };
+      c[0].addEventListener("input", clear);
+      c[0].addEventListener("change", clear);
     });
 
     if (cMessage && cCount) {
@@ -410,7 +414,7 @@
       if (!validate()) return;
 
       var topicValue = cTopic.value;
-      var topicText = cTopic.options[cTopic.selectedIndex] ? cTopic.options[cTopic.selectedIndex].text : "Other";
+      var topicText = cTopic.options[cTopic.selectedIndex].text; // validate() guarantees a real topic
 
       // Honeypot filled: almost certainly a bot. Pretend it worked; send nothing.
       if (cWebsite && cWebsite.value) {

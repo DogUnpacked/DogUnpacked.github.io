@@ -254,7 +254,7 @@
     <!-- 5. Breed Files — text only until a guide is actually on sale (December plan: README-page.md). -->
     <section class="breed-files" id="breed-files" aria-labelledby="breed-files-heading">
       <h2 id="breed-files-heading">Breed Files</h2>
-      <p>The first Dog Unpacked guide — the German Shepherd File — lands in December. Subscribers get it first. The breeds after that are chosen by what readers tell us in the form above.</p>
+      <p>The first Dog Unpacked guide — the German Shepherd File — lands in December. The breeds after that are chosen by what readers tell us in the form above.</p>
     </section>
 
     <!-- 6. Contact — Formspree via script.js (endpoint: FORMSPREE_ENDPOINT at the top of script.js; setup in README-page.md).
@@ -279,12 +279,14 @@
         </div>
         <div class="field">
           <label for="contact-topic">Topic</label>
-          <select id="contact-topic" name="topic">
+          <select id="contact-topic" name="topic" required aria-describedby="contact-topic-error">
+            <option value="" selected disabled hidden>Choose a topic</option>
             <option value="brand-partnership">Brand / partnership</option>
             <option value="request-a-breed">Request a breed</option>
             <option value="correction">Correction</option>
             <option value="other">Other</option>
           </select>
+          <p class="field-error" id="contact-topic-error" hidden></p>
         </div>
         <div class="field">
           <label for="contact-message">Message</label>
