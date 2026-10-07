@@ -12,9 +12,10 @@ See **`README-newsletter.md`** for the Kit send scaffold (Sunday cron, issue fil
 
 | File | Purpose |
 |------|---------|
-| `index.html` | Hub page (hero, platform buttons, newsletter, latest video, guides, footer) |
+| `index.html` | Hub page (hero, platform buttons, newsletter, latest video, Breed Files note, footer) |
 | `styles.css` | Navy / cream / amber mobile-first styles + desktop side art |
 | `script.js` | GoatCounter events, `?breed=` personalization, breed Title-Case, lite YouTube embed |
+| `scripts/update_latest_video.py` | Puts the newest long-form YouTube video ID into the Latest section |
 | `README-page.md` | Page notes: placeholders, bio/breed URLs, events |
 | `KIT.md` | Kit form/field/tag IDs + remaining dashboard steps |
 | `assets/CREDITS.md` | Photo sources and licenses |
@@ -47,16 +48,13 @@ Brand thesis is set. Look for the `<!-- EDITABLE: ... -->` comment above it if y
 ### 3. Newsletter — Kit
 
 The signup form posts to Kit form `10011711` (`https://app.kit.com/forms/10011711/subscriptions`) with
-`email_address` and `fields[breed]`. Double opt-in stays on in Kit. IDs, the `breed` custom field, the
+`email_address` and an optional `fields[breed]`. Double opt-in stays on in Kit. IDs, the `breed` custom field, the
 `source:landing` tag and the remaining Kit dashboard steps are in **`KIT.md`**. No Formspree.
 
-### 4. Shop / guide “Buy” links
+### 4. Breed Files (guides)
 
-| Placeholder | Replace with |
-|-------------|--------------|
-| German Shepherd / Pit Bull / Rottweiler / Doberman **File** cards | Amber **Coming December** badge on each card; one "Get notified when they drop" button under the section scrolls to `#subscribe` |
-
-When a guide goes on sale, replace that card's badge with a buy button (see the comment in the first card).
+No guide is on sale yet, so the page shows a short "Breed Files" text block only (no cards, badges or buy
+buttons). The December plan for the first product card is in `README-page.md`.
 
 ### 5. Logo, favicons & share image — done
 
@@ -68,11 +66,11 @@ The brand logo is live in the hero (circular badge above the "Dog Unpacked" word
 | `images/logo-256.{png,webp}`, `images/logo-512.{png,webp}` | Hero logo (`<picture>` + `srcset`) |
 | `favicon.ico` (16/32/48), `favicon-32.png` | Browser tab icons |
 | `apple-touch-icon.png` (180×180) | iOS home-screen icon |
-| `images/og-image.png` (1200×630) | Open Graph / Twitter share card |
+| `images/og-image.png` (1200×630) | Old logo share card; not linked while the OG image is omitted (see `README-page.md`) |
 
 Regenerate everything from the master with `python3 scripts/build_logo_assets.py` (needs Pillow).
 
-**Before publishing:** `og:image` / `twitter:image` currently use relative paths. Switch them to absolute URLs (e.g. `https://<user>.github.io/<repo>/images/og-image.png`) and add `og:url` once the GitHub Pages URL is known — see the comment in `<head>`.
+**OG image:** omitted until the Unpacked box photo (`{{OG_IMAGE}}`) is supplied. Add it with an absolute URL plus `og:url` — see the comment in `<head>`.
 
 ---
 
