@@ -93,7 +93,7 @@
   });
 
   /* ------------------------------------------------------------------
-   * 2. Breed-aware page: ?breed=<lowercase-hyphenated-slug>
+   * 2. Breed-aware page: ?breed=<lowercase-hyphenated-slug> (known breeds only)
    * ------------------------------------------------------------------ */
   var breedInput = document.getElementById("breed");
   (function breedAware() {
@@ -109,6 +109,13 @@
     if (!/^[a-z]+(-[a-z]+)*$/.test(slug) || slug.length > 40) return;
 
     var name = breedName(slug);
+    // Only known breeds (the #breed-list datalist + aliases above) get an edition heading, so a
+    // crafted link can't put arbitrary words on the page. Unknown slug -> default page.
+    var known = {};
+    var opts = document.querySelectorAll("#breed-list option");
+    for (var i = 0; i < opts.length; i++) known[slugify(opts[i].value)] = true;
+    if (!known[slugify(name)]) return;
+
     if (breedInput && !breedInput.value) breedInput.value = name;
 
     var edition = document.getElementById("breed-edition");

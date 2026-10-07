@@ -81,8 +81,10 @@ referrer, so bio and pin traffic shows up per platform in its Referrers view.
 Display name = hyphens become spaces, then Title Case. Shortcuts: `gsd` → German Shepherd, `pitbull` → Pit Bull,
 `corso` → Cane Corso, `dobie` → Doberman (`BREED_OVERRIDES` in `script.js`). Anything that isn't letters and
 hyphens (or is over 40 characters) is ignored and the default page shows, with no error. Values are written with
-`textContent` only. No cookies, no storage. Any well-formed slug is accepted (so `?breed=shiba-inu` works without a
-code change), which also means a made-up word renders as "[Word] edition".
+`textContent` only. No cookies, no storage. Only known breeds get an edition: the 19 names in the
+form's `#breed-list` datalist plus the aliases in `BREED_OVERRIDES` (`gsd`, `pitbull`, `corso`, `dobie`). An unknown
+slug such as `?breed=xyz` shows the default page, so nobody can craft a link that puts arbitrary words in the
+heading. To add a breed (e.g. `shiba-inu`), add an `<option value="Shiba Inu">` to the datalist in `index.html`.
 
 | Breed | URL |
 |---|---|
