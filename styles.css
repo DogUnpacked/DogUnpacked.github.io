@@ -2,6 +2,26 @@
    Palette: Primary Navy #1B2A4A / Base Cream #F5EDDC / Accent Amber #D89B3D (accent only, never body text)
    Fonts: Fraunces (headings, existing serif) + Nunito (body/buttons), with system fallbacks */
 
+/* Metric-matched local fallbacks: text keeps (almost) the same line breaks while the
+   web fonts load, so the font swap doesn't shift the layout (CLS). */
+@font-face {
+  font-family: "Nunito Fallback";
+  src: local("Arial"), local("Helvetica"), local("Roboto"), local("Liberation Sans");
+  size-adjust: 100%;
+  ascent-override: 101%;
+  descent-override: 35%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Fraunces Fallback";
+  src: local("Georgia"), local("Times New Roman"), local("Liberation Serif"), local("Noto Serif");
+  size-adjust: 96%;
+  ascent-override: 102%;
+  descent-override: 27%;
+  line-gap-override: 0%;
+}
+
 :root {
   --navy: #1B2A4A;
   --navy-soft: #3A4A6A;
@@ -24,8 +44,8 @@
   --radius-sm: 11px;
   --radius-pill: 999px;
   --max: 28rem;
-  --font: Nunito, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-display: Fraunces, Georgia, "Times New Roman", serif;
+  --font: Nunito, "Nunito Fallback", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: Fraunces, "Fraunces Fallback", Georgia, "Times New Roman", serif;
 }
 
 *,
@@ -215,6 +235,16 @@ main {
   }
 }
 
+.brand-kicker,
+.proof-row,
+.about-blurb,
+.newsletter-blurb,
+.form-privacy,
+.roadmap,
+.footer p {
+  text-wrap: pretty;
+}
+
 .brand-kicker {
   margin: 0 0 0.35rem;
   font-size: 0.75rem;
@@ -222,7 +252,7 @@ main {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--navy);
-  max-width: 22rem;
+  max-width: 26rem;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.45;
@@ -815,17 +845,24 @@ main {
 .box-label-line2::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 52%;
-  height: 1.5px;
-  background: var(--cream);
+  inset: 0;
+  /* one bridge per text line, so it still works when a long breed name wraps */
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 0.6em,
+    var(--cream) 0.6em,
+    var(--cream) calc(0.6em + 1.5px),
+    transparent calc(0.6em + 1.5px),
+    transparent 1.15em
+  );
   pointer-events: none;
 }
 
 .box-label-line1 {
-  font-size: 0.92rem;
-  letter-spacing: 0.12em;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-wrap: balance;
 }
 
 .box-label-line2 {
