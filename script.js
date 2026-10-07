@@ -1,11 +1,11 @@
 /**
  * Dog Unpacked — hub page enhancements (plain JS, no framework, no cookies).
  *
- *  1. Cookie-free analytics (GoatCounter): page view, platform clicks, The Sniff Test signup
+ *  1. Cookie-free analytics (GoatCounter): page view, platform clicks, signup, Latest clicks
  *  2. Breed-aware page via ?breed=<slug>
  *  3. Newsletter (The Sniff Test): Title-Case the optional breed, submit to Kit in the background
  *     and show an inline success message (falls back to a normal form POST)
- *  4. Latest video: shown only when #latest has a data-video-id; click-to-load embed
+ *  4. Latest: renders data/latest.json (up to 3 long-form videos); click-to-load embed
  *
  * The page works without this file: the Kit form still posts (Kit's hosted page confirms) and links work.
  */
@@ -219,47 +219,95 @@
   }
 
   /* ------------------------------------------------------------------
-   * 4. Latest video — lite YouTube embed. ID lives in index.html: <section id="latest" data-video-id="...">
+   * 4. Latest — data/latest.json: [{ "id", "title", "published" }, ...] newest first (max 3).
+   *    First = 16:9 click-to-load embed (no iframe until click). Next two = small linked cards.
    * ------------------------------------------------------------------ */
-  var latest = document.getElementById("latest");
-  var lite = document.getElementById("latest-video");
-  if (latest && lite) {
-    var id = (latest.getAttribute("data-video-id") || "").trim();
-    if (/^[A-Za-z0-9_-]{11}$/.test(id)) {
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "lite-yt-btn";
-      btn.setAttribute("aria-label", "Play the latest Dog Unpacked video");
+  var PLAY_SVG =
+    '<svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#b3261e"/><path d="M27 34V14l18 10z" fill="#fff"/></svg>';
+  var VIDEO_ID = /^[A-Za-z0-9_-]{11}$/;
 
-      var img = document.createElement("img");
-      img.src = "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg";
-      img.alt = "";
-      img.width = 480;
-      img.height = 360;
-      img.loading = "lazy";
-      img.decoding = "async";
-      btn.appendChild(img);
+  function thumb(id, w, h, lazy) {
+    var img = document.createElement("img");
+    img.src = "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg";
+    img.alt = "";
+    img.width = w;
+    img.height = h;
+    if (lazy) img.loading = "lazy";
+    img.decoding = "async";
+    return img;
+  }
 
-      var play = document.createElement("span");
-      play.className = "lite-yt-play";
-      play.setAttribute("aria-hidden", "true");
-      play.innerHTML =
-        '<svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#b3261e"/><path d="M27 34V14l18 10z" fill="#fff"/></svg>';
-      btn.appendChild(play);
+  function renderLatest(list) {
+    var latest = document.getElementById("latest");
+    var lite = document.getElementById("latest-video");
+    var more = document.getElementById("latest-more");
+    if (!latest || !lite || !Array.isArray(list)) return;
+    var videos = list.filter(function (v) {
+      return v && typeof v.id === "string" && VIDEO_ID.test(v.id);
+    }).slice(0, 3);
+    if (!videos.length) return;
 
-      btn.addEventListener("click", function () {
-        var iframe = document.createElement("iframe");
-        iframe.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0";
-        iframe.title = "Latest Dog Unpacked video";
-        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-        iframe.allowFullscreen = true;
-        iframe.referrerPolicy = "strict-origin-when-cross-origin";
-        lite.innerHTML = "";
-        lite.appendChild(iframe);
+    // Newest: lite embed
+    var first = videos[0];
+    var title = typeof first.title === "string" ? first.title : "Latest Dog Unpacked video";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "lite-yt-btn";
+    btn.setAttribute("aria-label", "Play: " + title);
+    btn.appendChild(thumb(first.id, 480, 360, true));
+    var play = document.createElement("span");
+    play.className = "lite-yt-play";
+    play.setAttribute("aria-hidden", "true");
+    play.innerHTML = PLAY_SVG;
+    btn.appendChild(play);
+    btn.addEventListener("click", function () {
+      track("latest_click-" + first.id, "Latest: " + title);
+      var iframe = document.createElement("iframe");
+      iframe.src = "https://www.youtube-nocookie.com/embed/" + first.id + "?autoplay=1&rel=0";
+      iframe.title = title;
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = "strict-origin-when-cross-origin";
+      lite.innerHTML = "";
+      lite.appendChild(iframe);
+    });
+    lite.appendChild(btn);
+
+    // Previous two: small cards
+    if (more && videos.length > 1) {
+      videos.slice(1).forEach(function (v) {
+        var vTitle = typeof v.title === "string" ? v.title : "Watch on YouTube";
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.className = "latest-card";
+        a.href = "https://www.youtube.com/watch?v=" + v.id;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.addEventListener("click", function () {
+          track("latest_click-" + v.id, "Latest: " + vTitle);
+        });
+        a.appendChild(thumb(v.id, 480, 360, true));
+        var span = document.createElement("span");
+        span.className = "latest-card-title";
+        span.textContent = vTitle;
+        a.appendChild(span);
+        li.appendChild(a);
+        more.appendChild(li);
       });
-
-      lite.appendChild(btn);
-      latest.hidden = false;
+      more.hidden = false;
     }
+    latest.hidden = false;
+  }
+
+  if (window.fetch) {
+    fetch("data/latest.json", { cache: "no-cache" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(renderLatest)
+      .catch(function () {
+        /* missing or broken JSON: section stays hidden */
+      });
   }
 })();

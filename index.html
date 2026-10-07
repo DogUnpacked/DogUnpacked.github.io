@@ -8,6 +8,7 @@
   <meta name="theme-color" content="#F5EDDC">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://i.ytimg.com">
   <!-- Headings: Fraunces (existing serif, unchanged). Body/buttons: Nunito. display=swap. -->
   <!-- Loaded without blocking first paint; metric-matched fallbacks in styles.css keep layout stable on swap. -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -238,12 +239,13 @@
       <p class="form-note" id="form-status" role="status" aria-live="polite"></p>
     </section>
 
-    <!-- 4. Latest video. THE VIDEO ID LIVES HERE, in data-video-id (scripts/update_latest_video.py rewrites it).
-         Empty  -> section stays hidden (omitted).
-         11-char ID -> script.js shows the section with a click-to-load thumbnail; no iframe until click. -->
-    <section class="latest" id="latest" aria-labelledby="latest-heading" data-video-id="tyUgyQCYGGA" hidden>
+    <!-- 4. Latest — rendered by script.js from data/latest.json (newest first, up to 3 long-form videos).
+         Never edit this markup for a new video: run scripts/update_latest_video.py (or edit data/latest.json).
+         Empty / missing / unreadable JSON -> the section stays hidden. -->
+    <section class="latest" id="latest" aria-labelledby="latest-heading" hidden>
       <h2 id="latest-heading">Latest</h2>
       <div class="lite-yt" id="latest-video"></div>
+      <ul class="latest-more" id="latest-more" hidden></ul>
       <p class="latest-caption">Full breed breakdowns live on YouTube.</p>
     </section>
 
