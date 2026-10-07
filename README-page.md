@@ -14,7 +14,7 @@ Breed Files (`#breed-files`, text only) → footer.
 ## Newsletter signup (Kit)
 
 Copy: badge "FREE WEEKLY NEWSLETTER" → heading "Join The Sniff Test" → "The Dog Unpacked newsletter, in your
-inbox every Sunday. One behavior. One job. One study. 90 seconds to read." → button "Get the newsletter" →
+inbox every Sunday. One behavior. One job. One study. 90 seconds to read." → button "Get The Sniff Test" →
 "Free. No spam. Unsubscribe anytime."
 
 Plain newsletter signup. Email is required. Breed is optional: it's saved to the subscriber's Kit custom field
@@ -25,14 +25,11 @@ Plain newsletter signup. Email is required. Breed is optional: it's saved to the
 - Without JS the form still posts; a blank breed is then sent as an empty `fields[breed]`.
 - IDs and the remaining Kit dashboard steps: `KIT.md`.
 
-## Footer contact
-
-Footer line 4: "For brands and partnerships: {{BUSINESS_EMAIL}}" (mailto link).
-
 ## Omitted until supplied
 
 | Item | How to switch it on |
 |---|---|
+| Business email | Footer: a commented "For brands and partnerships" line. Uncomment it and replace both `{{BUSINESS_EMAIL}}` only when a dedicated brand address exists. Never put a personal Gmail on the page. |
 | OG / Twitter image | `index.html` `<head>` comment lists the tags to add for `{{OG_IMAGE}}` (1200×630, absolute URL) and the `twitter:card` switch. |
 | GoatCounter account | Create the free account with site code `dogunpacked` (or change `GOATCOUNTER_SITE` at the top of `script.js`). Until then nothing is recorded. |
 

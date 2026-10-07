@@ -63,13 +63,7 @@
   <!-- Desktop side art (≥960px): four framed breed photos + silhouettes. Hidden on mobile
        (the mobile strip under the hero shows the same photos). Sources: assets/CREDITS.md -->
   <div class="side-rails">
-    <aside class="side-rail side-rail--left" aria-label="Breed files">
-      <div class="deco-stack" aria-hidden="true">
-        <span class="deco-rule"></span>
-        <span class="deco-chip">Breed files</span>
-        <span class="deco-rule"></span>
-      </div>
-
+    <aside class="side-rail side-rail--left" aria-label="Breed photos">
       <figure class="breed-frame breed-frame--tall breed-frame--tilt-left">
         <img src="images/breeds/german-shepherd-480.webp" alt="German Shepherd — Dog Unpacked" width="480" height="600" loading="lazy" decoding="async">
         <figcaption class="breed-caption">German Shepherd</figcaption>
@@ -87,13 +81,7 @@
       </figure>
     </aside>
 
-    <aside class="side-rail side-rail--right" aria-label="More breed files">
-      <div class="deco-stack" aria-hidden="true">
-        <span class="deco-rule"></span>
-        <span class="deco-chip">Breed files</span>
-        <span class="deco-rule"></span>
-      </div>
-
+    <aside class="side-rail side-rail--right" aria-label="More breed photos">
       <!-- Pit Bull sits above the Doberman so it clears the bottom-right paw watermark -->
       <figure class="breed-frame breed-frame--square breed-frame--tilt-left">
         <img src="images/breeds/pit-bull-480.webp" alt="Pit Bull — Dog Unpacked" width="480" height="480" loading="lazy" decoding="async">
@@ -137,7 +125,7 @@
       <p class="proof-row">Sources on screen <span aria-hidden="true">·</span> AKC breed standards <span aria-hidden="true">·</span> American Temperament Test Society <span aria-hidden="true">·</span> peer-reviewed studies</p>
 
       <!-- Mobile breed strip (<960px). Same photos as the desktop side rails. -->
-      <ul class="breed-strip" aria-label="Breed files">
+      <ul class="breed-strip" aria-label="Breed photos">
         <li class="breed-strip-item">
           <img src="images/breeds/german-shepherd-240.webp" alt="German Shepherd — Dog Unpacked" width="240" height="240" loading="lazy" decoding="async">
           <span>German Shepherd</span>
@@ -244,7 +232,7 @@
           </datalist>
         </div>
         <input type="hidden" name="tags[]" value="24362096">
-        <button type="submit" class="btn btn--primary">Get the newsletter</button>
+        <button type="submit" class="btn btn--primary">Get The Sniff Test</button>
       </form>
       <p class="form-privacy">Free. No spam. Unsubscribe anytime.</p>
       <p class="form-note" id="form-status" role="status" aria-live="polite"></p>
@@ -271,10 +259,13 @@
     <span class="footer-paw" aria-hidden="true">
       <svg viewBox="0 0 64 64" width="14" height="14" fill="currentColor"><ellipse cx="18" cy="18" rx="7" ry="9" transform="rotate(-18 18 18)"/><ellipse cx="32" cy="12" rx="7" ry="9"/><ellipse cx="46" cy="18" rx="7" ry="9" transform="rotate(18 46 18)"/><ellipse cx="12" cy="32" rx="6" ry="8" transform="rotate(-35 12 32)"/><path d="M32 28c-10 0-18 8-18 16 0 6 4 10 10 10 3 0 5-1 8-4 3 3 5 4 8 4 6 0 10-4 10-10 0-8-8-16-18-16z"/></svg>
     </span>
-    <p class="footer-tag"><span class="nowrap">He&#39;s not broken. He&#39;s bred that way. <span aria-hidden="true">·</span></span> <span class="nowrap">Every breed, one at a time.</span></p>
+    <p class="footer-tag">He&#39;s not broken. He&#39;s bred that way.<br>Every breed, one at a time.</p>
     <p>&copy; Dog Unpacked 2026</p>
     <p class="footer-disclaimer">Educational content only — not veterinary or training advice.</p>
+    <!-- BUSINESS EMAIL — omitted until a dedicated {{BUSINESS_EMAIL}} is supplied (never a personal address).
+         To enable, uncomment and replace both placeholders:
     <p class="footer-contact">For brands and partnerships: <a href="mailto:{{BUSINESS_EMAIL}}">{{BUSINESS_EMAIL}}</a></p>
+    -->
     <p class="footer-privacy">Privacy: we store your email with Kit to send the newsletter; unsubscribe anytime.</p>
   </footer>
 
