@@ -7,6 +7,7 @@
  *     and show an inline success message (falls back to a normal form POST)
  *  4. Latest: renders data/latest.json (up to 3 long-form videos); click-to-load embed
  *  5. Contact form: validation, honeypot, background POST to Formspree, inline success/error
+ *  6. Confirmed landing: ?confirmed=1 (Kit double opt-in redirect) -> "You're in." in the newsletter section
  *
  * The page works without this file: the Kit form still posts (Kit's hosted page confirms) and links work.
  */
@@ -64,6 +65,9 @@
   }
 
   var SUCCESS_MESSAGE = "Check your inbox — one click to confirm and you're in.";
+  var SUCCESS_SPAM_NOTE = "Not there in a few minutes? Check your spam or junk folder.";
+  var CONFIRMED_TITLE = "You're in.";
+  var CONFIRMED_MESSAGE = "The Sniff Test lands in your inbox every Sunday.";
   var ERROR_MESSAGE = "That didn't go through. Check your email address and try again.";
 
   // Analytics event. Safe no-op if GoatCounter is blocked or not loaded yet.
@@ -77,6 +81,17 @@
     }
   }
 
+  // Same as track(), but for events fired before count.js has loaded (e.g. on page load):
+  // queued and sent once the script is ready. Dropped silently if analytics never loads.
+  var trackQueue = [];
+  function trackWhenReady(path, title) {
+    if (window.goatcounter && typeof window.goatcounter.count === "function") {
+      track(path, title);
+    } else {
+      trackQueue.push([path, title]);
+    }
+  }
+
   /* ------------------------------------------------------------------
    * 1. GoatCounter (cookie-free). Page view is counted automatically by count.js.
    * ------------------------------------------------------------------ */
@@ -84,6 +99,12 @@
     if (!GOATCOUNTER_SITE) return;
     var s = document.createElement("script");
     s.async = true;
+    s.onload = function () {
+      while (trackQueue.length) {
+        var ev = trackQueue.shift();
+        track(ev[0], ev[1]);
+      }
+    };
     s.src = "https://gc.zgo.at/count.js";
     s.setAttribute("data-goatcounter", "https://" + GOATCOUNTER_SITE + ".goatcounter.com/count");
     document.body.appendChild(s);
@@ -143,10 +164,16 @@
   var form = document.getElementById("newsletter-form");
   var statusEl = document.getElementById("form-status");
 
-  function setStatus(text, kind) {
+  function setStatus(text, kind, subText) {
     if (!statusEl) return;
     statusEl.textContent = text;
     statusEl.className = "form-note" + (kind ? " is-" + kind : "");
+    if (subText) {
+      var sub = document.createElement("span");
+      sub.className = "form-note-sub";
+      sub.textContent = subText;
+      statusEl.appendChild(sub);
+    }
   }
 
   if (form) {
@@ -199,7 +226,7 @@
             form.hidden = true;
             var privacy = document.querySelector(".form-privacy");
             if (privacy) privacy.hidden = true;
-            setStatus(SUCCESS_MESSAGE, "success");
+            setStatus(SUCCESS_MESSAGE, "success", SUCCESS_SPAM_NOTE);
             return;
           }
           if (r.ok && json.status === "quarantined" && json.url) {
@@ -226,6 +253,56 @@
       if (breedInput) breedInput.disabled = false;
     });
   }
+
+  /* ------------------------------------------------------------------
+   * 6. Confirmed landing: Kit's double opt-in redirects confirmed subscribers to /?confirmed=1.
+   *    Replaces the signup form with "You're in." (same treatment as the success state), scrolls the
+   *    newsletter section into view, fires subscribe_confirmed once, then drops confirmed=1 from the URL
+   *    (other params like ?breed= and utm_* stay) so a refresh or a shared link shows the normal page.
+   * ------------------------------------------------------------------ */
+  (function confirmedLanding() {
+    var params;
+    try {
+      params = new URLSearchParams(window.location.search);
+    } catch (e) {
+      return;
+    }
+    if (params.get("confirmed") !== "1") return;
+
+    var section = document.getElementById("subscribe");
+    if (form) form.hidden = true;
+    var privacy = document.querySelector(".form-privacy");
+    if (privacy) privacy.hidden = true;
+    if (statusEl) {
+      statusEl.textContent = "";
+      statusEl.className = "form-note is-confirmed";
+      var title = document.createElement("span");
+      title.className = "form-note-title";
+      title.textContent = CONFIRMED_TITLE;
+      statusEl.appendChild(title);
+      statusEl.appendChild(document.createTextNode(CONFIRMED_MESSAGE));
+    }
+
+    trackWhenReady("subscribe_confirmed", "The Sniff Test: subscription confirmed");
+
+    try {
+      params.delete("confirmed");
+      var qs = params.toString();
+      window.history.replaceState(window.history.state, "", window.location.pathname + (qs ? "?" + qs : "") + window.location.hash);
+    } catch (e) {
+      /* URL stays as is; nothing else depends on it */
+    }
+
+    if (section && section.scrollIntoView) {
+      section.scrollIntoView({ block: "start" });
+      // Fonts/images can shift layout before "load"; settle on the section once more then.
+      if (document.readyState !== "complete") {
+        window.addEventListener("load", function () {
+          section.scrollIntoView({ block: "start" });
+        });
+      }
+    }
+  })();
 
   /* ------------------------------------------------------------------
    * 4. Latest — data/latest.json: [{ "id", "title", "published" }, ...] newest first (max 3).

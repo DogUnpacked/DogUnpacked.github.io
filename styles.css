@@ -574,6 +574,34 @@ main {
   color: #9b2c2c;
 }
 
+/* Second, quieter line under the success message (spam/junk folder hint) */
+.form-note-sub {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--navy-muted);
+}
+
+/* ?confirmed=1 (Kit double opt-in redirect): replaces the form like the success state */
+.form-note.is-confirmed {
+  margin-top: 0.25rem;
+  font-size: 0.96rem;
+  color: var(--navy-soft);
+}
+
+.form-note-title {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: #2d6a4f;
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;

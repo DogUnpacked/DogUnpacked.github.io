@@ -25,11 +25,17 @@ Plain newsletter signup. Email is required. Breed is optional: it's saved to the
 - How success works: `script.js` submits the form in the background the same way Kit's own embed script
   does (`fetch` POST of the form data with `Accept: application/json`; Kit allows this from any site and answers
   `{"status":"success"}`). On success the form is replaced by "Check your inbox — one click to confirm and you're
-  in." If Kit returns a validation error the visitor sees "That didn't go through. Check your email address and
+  in." with a smaller, muted line under it: "Not there in a few minutes? Check your spam or junk folder." If Kit returns a validation error the visitor sees "That didn't go through. Check your email address and
   try again." If the request fails for any other reason (network, blocked, unexpected reply) the form falls back
   to a normal POST and Kit's hosted page confirms instead. If Kit ever flags a signup for its spam check
   (`"quarantined"`), the visitor is sent to Kit's check page.
 - Without JS the form still posts normally (Kit's hosted page); a blank breed is then sent as an empty `fields[breed]`.
+- Confirmed landing: Kit's double opt-in redirects confirmed subscribers to `https://dogunpacked.github.io/?confirmed=1`
+  (set in Kit; no YouTube prompt, no redirect onward). With `confirmed=1` in the query string, `script.js` replaces the
+  form with "You're in." (heading weight) and "The Sniff Test lands in your inbox every Sunday.", scrolls the
+  newsletter section into view, fires the GoatCounter event `subscribe_confirmed` once, then removes `confirmed=1`
+  from the address bar with `history.replaceState` (`?breed=` and `utm_*` stay), so a refresh or a shared link
+  shows the normal page.
 - Not yet tested end to end with a real inbox (planned). Local tests mocked Kit; nothing was sent to Kit.
 - IDs and the remaining Kit dashboard steps: `KIT.md`.
 
@@ -189,6 +195,7 @@ with `PLATFORM` to replace (`tiktok`, `youtube` or `instagram`).
 | Platform click | `outbound-youtube`, `outbound-instagram`, `outbound-tiktok` | platform button click |
 | Newsletter (The Sniff Test) submit | `subscribe-<breed-slug>` (e.g. `subscribe-german-shepherd`), or `subscribe-none` when breed is blank | valid submit, just before posting to Kit |
 | Latest click | `latest_click-<video-id>` (e.g. `latest_click-tyUgyQCYGGA`) | play on the embed, or a click on a small card |
+| Newsletter confirmed | `subscribe_confirmed` | page opened with `?confirmed=1` (Kit's double opt-in redirect) |
 | Contact submit | `contact_submit-<topic>`: `contact_submit-brand-partnership`, `-request-a-breed`, `-correction`, `-other` | valid contact submit (not honeypot), just before posting to Formspree |
 
 All calls go through `track()` in `script.js`, which does nothing if GoatCounter is blocked or missing.

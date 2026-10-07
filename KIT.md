@@ -19,7 +19,8 @@ The page uses a **brand-styled HTML form** (Navy/Cream) that posts to the action
 default embed chrome. With JS, `script.js` sends the post in the background exactly like Kit's own embed script
 (`fetch` POST of the form data, headers `Accept: application/json` and `X-CKJS-Version: 6`; Kit answers CORS with
 `access-control-allow-origin: *` and returns `{"status":"success"}`), then shows "Check your inbox — one click to
-confirm and you're in." on the page. Any failure falls back to a normal POST (Kit's hosted success message).
+confirm and you're in." on the page, with a smaller line under it: "Not there in a few minutes? Check your spam
+or junk folder." Any failure falls back to a normal POST (Kit's hosted success message).
 Form setting checked via the public form config: reCAPTCHA is **off**, so the background post isn't challenged. It is a plain newsletter signup: email required, breed optional. Everyone gets the
 same Sunday issue of The Sniff Test. `script.js` Title-Cases the breed (`german shepherd` → `German Shepherd`,
 `gsd` → `German Shepherd`) before posting.
@@ -40,6 +41,8 @@ same Sunday issue of The Sniff Test. `script.js` Title-Cases the breed (`german 
    The Sniff Test, e.g. subject "Confirm your subscription to The Sniff Test", body "Click below to
    confirm. Then look for The Sniff Test in your inbox on Sunday." **No guide / PDF / timeline
    promise**, no incentive download. Remove any "working and power breeds" wording.
+   After confirming, redirect to **https://dogunpacked.github.io/?confirmed=1** (not the YouTube subscribe
+   prompt). The page then shows "You're in." in the newsletter section (see `README-page.md`).
 5. **Sender name**: Settings → Email → the sending address `from_name` is currently the bare email address.
    Change to **Dog Unpacked — The Sniff Test**.
 6. **Descriptions**: form heading/subheading and Creator Profile byline/bio (currently empty): use
