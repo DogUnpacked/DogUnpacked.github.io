@@ -770,6 +770,153 @@ main {
   text-wrap: pretty;
 }
 
+/* Contact — same card language as the newsletter at about half the visual weight:
+   lighter padding, no badge, smaller heading, flat border instead of the shadow. */
+.contact {
+  margin: 2.25rem 0 0.5rem;
+  padding: 1.15rem 1.1rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+  scroll-margin-top: 1.25rem;
+}
+
+.contact h2 {
+  margin: 0 0 0.3rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--navy);
+}
+
+.contact-blurb {
+  margin: 0 auto 0.85rem;
+  max-width: 24rem;
+  font-size: 0.9rem;
+  color: var(--navy-soft);
+  text-wrap: pretty;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.contact-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+@media (min-width: 520px) {
+  .contact-row {
+    flex-direction: row;
+  }
+  .contact-row > .field {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+.contact-form .field label {
+  font-size: 0.84rem;
+}
+
+.contact-form :is(input[type="text"], input[type="email"], select, textarea) {
+  width: 100%;
+  min-height: 2.75rem; /* 44px touch target */
+  padding: 0.6rem 0.85rem;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: 1rem; /* 16px: no iOS zoom on focus */
+  color: var(--navy);
+  background: var(--cream);
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.contact-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.4rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231B2A4A' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  cursor: pointer;
+}
+
+.contact-form textarea {
+  min-height: 6.5rem;
+  resize: vertical;
+  line-height: 1.45;
+}
+
+.contact-form :is(input[type="text"], input[type="email"], select, textarea):hover {
+  border-color: #C4B696;
+}
+
+.contact-form :is(input[type="text"], input[type="email"], select, textarea):focus {
+  border-color: var(--navy);
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(27, 42, 74, 0.12);
+  outline: none;
+}
+
+.contact-form [aria-invalid="true"] {
+  border-color: #9b2c2c;
+}
+
+.field-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.field-error {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #9b2c2c;
+}
+
+.char-count {
+  margin: 0 0 0 auto;
+  font-size: 0.8rem;
+  color: var(--navy-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.btn--compact {
+  min-height: 2.75rem; /* 44px */
+  padding: 0.6rem 1.2rem;
+  font-size: 0.98rem;
+}
+
+.contact-form .btn:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+/* Honeypot: off-screen, never focusable (tabindex -1) and hidden from assistive tech. */
+.hp {
+  position: absolute !important;
+  left: -10000px !important;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.contact .form-note {
+  margin-top: 0.4rem;
+  min-height: 0;
+}
+
 /* 5. Footer */
 .footer {
   text-align: center;

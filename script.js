@@ -6,6 +6,7 @@
  *  3. Newsletter (The Sniff Test): Title-Case the optional breed, submit to Kit in the background
  *     and show an inline success message (falls back to a normal form POST)
  *  4. Latest: renders data/latest.json (up to 3 long-form videos); click-to-load embed
+ *  5. Contact form: validation, honeypot, background POST to Formspree, inline success/error
  *
  * The page works without this file: the Kit form still posts (Kit's hosted page confirms) and links work.
  */
@@ -15,6 +16,11 @@
   /* ------------------------------------------------------------------
    * CONFIG
    * ------------------------------------------------------------------ */
+
+  // Contact form endpoint (Formspree form ID xeaeaajd). To switch forms, change only the ID after /f/.
+  // Safety guard: if this ever holds a "{{...}}" placeholder, the form shows its error message and makes
+  // no network call. The destination inbox is set in the Formspree dashboard, never in this repo.
+  var FORMSPREE_ENDPOINT = "https://formspree.io/f/xeaeaajd";
 
   // GoatCounter site code: https://<code>.goatcounter.com (create the account first).
   // Set to "" to disable analytics entirely.
@@ -312,5 +318,136 @@
       .catch(function () {
         /* missing or broken JSON: section stays hidden */
       });
+  }
+  /* ------------------------------------------------------------------
+   * 5. Contact form -> Formspree (fetch POST, Accept: application/json).
+   *    Order on submit: validate -> honeypot (filled = show success, send nothing) ->
+   *    placeholder endpoint (show error, no network call) -> POST.
+   * ------------------------------------------------------------------ */
+  var CONTACT_SUCCESS = "Got it. Replies come from Dog Unpacked within a few days.";
+  var CONTACT_ERROR = "Didn't send \u2014 try again or reach us on any platform above.";
+  var CONTACT_FIELD_ERRORS = {
+    name: "Enter your name.",
+    email: "Enter a valid email address.",
+    message: "Write a message."
+  };
+
+  var contactForm = document.getElementById("contact-form");
+  if (contactForm) {
+    var cStatus = document.getElementById("contact-status");
+    var cSubmit = document.getElementById("contact-submit");
+    var cName = document.getElementById("contact-name");
+    var cEmail = document.getElementById("contact-email");
+    var cTopic = document.getElementById("contact-topic");
+    var cMessage = document.getElementById("contact-message");
+    var cWebsite = document.getElementById("contact-website");
+    var cCount = document.getElementById("contact-count-n");
+    var cSending = false;
+    var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (cSubmit) cSubmit.disabled = false; // disabled in the HTML so the form can't post without JS
+
+    var setContactStatus = function (text, kind) {
+      if (!cStatus) return;
+      cStatus.textContent = text;
+      cStatus.className = "form-note" + (kind ? " is-" + kind : "");
+    };
+
+    var fieldError = function (input, key, show) {
+      var err = document.getElementById(input.id + "-error");
+      input.setAttribute("aria-invalid", show ? "true" : "false");
+      if (err) {
+        err.textContent = show ? CONTACT_FIELD_ERRORS[key] : "";
+        err.hidden = !show;
+      }
+    };
+
+    var checks = [
+      [cName, "name", function (v) { return v.trim().length > 0; }],
+      [cEmail, "email", function (v) { return EMAIL_RE.test(v.trim()); }],
+      [cMessage, "message", function (v) { return v.trim().length > 0 && v.length <= 1000; }]
+    ];
+
+    var validate = function () {
+      var firstBad = null;
+      checks.forEach(function (c) {
+        var ok = c[2](c[0].value);
+        fieldError(c[0], c[1], !ok);
+        if (!ok && !firstBad) firstBad = c[0];
+      });
+      if (firstBad) firstBad.focus();
+      return !firstBad;
+    };
+
+    // Clear a field's error as soon as it becomes valid.
+    checks.forEach(function (c) {
+      c[0].addEventListener("input", function () {
+        if (c[0].getAttribute("aria-invalid") === "true" && c[2](c[0].value)) fieldError(c[0], c[1], false);
+      });
+    });
+
+    if (cMessage && cCount) {
+      var updateCount = function () { cCount.textContent = String(cMessage.value.length); };
+      cMessage.addEventListener("input", updateCount);
+      updateCount();
+    }
+
+    var contactDone = function () {
+      contactForm.hidden = true;
+      setContactStatus(CONTACT_SUCCESS, "success");
+    };
+
+    var contactFail = function () {
+      cSending = false;
+      if (cSubmit) cSubmit.disabled = false;
+      setContactStatus(CONTACT_ERROR, "error");
+    };
+
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (cSending) return;
+      setContactStatus("");
+      if (!validate()) return;
+
+      var topicValue = cTopic.value;
+      var topicText = cTopic.options[cTopic.selectedIndex] ? cTopic.options[cTopic.selectedIndex].text : "Other";
+
+      // Honeypot filled: almost certainly a bot. Pretend it worked; send nothing.
+      if (cWebsite && cWebsite.value) {
+        contactDone();
+        return;
+      }
+
+      track("contact_submit-" + topicValue, "Contact: " + topicText);
+
+      // Endpoint not configured yet: error state, no network call.
+      if (FORMSPREE_ENDPOINT.indexOf("{{") !== -1 || !window.fetch || !window.FormData) {
+        contactFail();
+        return;
+      }
+
+      cSending = true;
+      if (cSubmit) cSubmit.disabled = true;
+      setContactStatus("Sending\u2026");
+
+      var data = new FormData();
+      data.append("name", cName.value.trim());
+      data.append("email", cEmail.value.trim());
+      data.append("topic", topicText);
+      data.append("message", cMessage.value);
+      data.append("_subject", "Dog Unpacked contact \u2014 " + topicText);
+      data.append("_gotcha", cWebsite ? cWebsite.value : ""); // Formspree discards non-empty _gotcha server-side
+
+      fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" }
+      })
+        .then(function (res) {
+          if (res.ok) contactDone();
+          else contactFail();
+        })
+        .catch(contactFail);
+    });
   }
 })();

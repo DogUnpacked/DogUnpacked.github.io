@@ -9,7 +9,7 @@ Live address: https://dogunpacked.github.io/ (GitHub Pages, repo `DogUnpacked/Do
 
 Hero (logo, eyebrow, title, tagline, description, proof row, mobile breed strip) → platform buttons
 (YouTube, Instagram, TikTok — Facebook is not used) → newsletter (`#subscribe`) → Latest (`#latest`, only when `data/latest.json` lists a video) →
-Breed Files (`#breed-files`, text only) → footer.
+Breed Files (`#breed-files`, text only) → Contact (`#contact`, Formspree form) → footer.
 
 ## Newsletter signup (Kit)
 
@@ -37,10 +37,57 @@ Plain newsletter signup. Email is required. Breed is optional: it's saved to the
 
 | Item | How to switch it on |
 |---|---|
-| Business email | Footer: a commented "For brands and partnerships" line. Uncomment it and replace both `{{BUSINESS_EMAIL}}` only when a dedicated brand address exists. Never put a personal Gmail on the page. |
 | OG / Twitter image | `index.html` `<head>` comment lists the tags to add for `{{OG_IMAGE}}` (1200×630, absolute URL) and the `twitter:card` switch. |
 | Kit success message | Kit's own form setting still says "…we'll send the File when it's ready." It only shows when JS is off or the background submit fails. Change it in the Kit dashboard (see `KIT.md`). |
 | GoatCounter account | Create the free account with site code `dogunpacked` (or change `GOATCOUNTER_SITE` at the top of `script.js`). Until then nothing is recorded. |
+
+## Contact form (Formspree)
+
+A compact card just above the footer replaces the old footer email line: no email address (business or personal)
+appears anywhere on the page or in the repo. Messages go to the business inbox through Formspree.
+
+- Copy: heading "Contact" → "Brands, partnerships, corrections, or a breed you want covered." → Name, Email, Topic
+  (Brand / partnership, Request a breed, Correction, Other), Message (max 1000 characters, live counter) → button "Send".
+  Success: "Got it. Replies come from Dog Unpacked within a few days." Error: "Didn't send — try again or reach us on
+  any platform above." Field errors: "Enter your name." / "Enter a valid email address." / "Write a message."
+- `script.js` sends a background `fetch` POST to `FORMSPREE_ENDPOINT` with `Accept: application/json`. Fields sent:
+  `name`, `email` (Formspree uses it as the reply-to), `topic` (the option text), `message`,
+  `_subject` = "Dog Unpacked contact — <topic>", `_gotcha` (honeypot value, empty for humans).
+- Honeypot: an off-screen `website` input (`aria-hidden`, `tabindex="-1"`, `autocomplete="off"`). If it is filled,
+  the page shows the success message and sends nothing; `_gotcha` is the server-side backstop.
+- The form needs JavaScript (the button is disabled in the HTML and enabled by `script.js`; a `<noscript>` line says
+  "This form needs JavaScript. Reach us on any platform above."). There is no `action` attribute, so it can never post
+  somewhere unexpected.
+- GoatCounter event `contact_submit-<topic>` on every valid, non-honeypot submit.
+
+**Plug in / change the Formspree form ID** — one line, near the top of `script.js`:
+
+```js
+var FORMSPREE_ENDPOINT = "https://formspree.io/f/xeaeaajd";
+```
+
+Replace only the ID after `/f/`. The destination inbox is set in the Formspree dashboard (form → Settings), never in
+this repo. Guard: if the value ever contains a `{{...}}` placeholder, submits show the error message and make no
+network call.
+
+**Spam filtering (Formspree dashboard, form → Settings → Spam protection):**
+
+- Formshield: on (already on for `xeaeaajd`). Start on Neutral; switch to Aggressive only if spam gets through.
+- reCAPTCHA: must stay **off**. This form submits with `fetch` (AJAX), and Formspree's built-in reCAPTCHA breaks AJAX
+  submits (every send would show the error message). Using reCAPTCHA would need our own reCAPTCHA key plus page code.
+- Restrict to Domain (if the plan offers it): set `dogunpacked.github.io`. Formspree checks the Referer and sends
+  submissions from anywhere else to spam. Update it if a custom domain is added.
+- `_gotcha` (honeypot) needs no setup.
+
+**Checklist before relying on it** (after deploy, from the live page):
+
+- [ ] Submit one test message for each topic: Brand / partnership, Request a breed, Correction, Other.
+- [ ] Confirm all four arrive at the business inbox with the right subject ("Dog Unpacked contact — <topic>") and
+      that Reply goes to the sender's email.
+- [ ] Confirm the honeypot discards: in devtools, set `document.getElementById('contact-website').value = 'x'`, submit,
+      see the success message, and confirm nothing arrives (Network tab shows no request to formspree.io).
+- [ ] Confirm the error state: offline (devtools → Network → Offline), submit, see "Didn't send — …".
+- [ ] Check Formspree's submission count matches what you sent (free plan has a monthly limit).
 
 ## Latest video (`data/latest.json`)
 
@@ -142,6 +189,7 @@ with `PLATFORM` to replace (`tiktok`, `youtube` or `instagram`).
 | Platform click | `outbound-youtube`, `outbound-instagram`, `outbound-tiktok` | platform button click |
 | Newsletter (The Sniff Test) submit | `subscribe-<breed-slug>` (e.g. `subscribe-german-shepherd`), or `subscribe-none` when breed is blank | valid submit, just before posting to Kit |
 | Latest click | `latest_click-<video-id>` (e.g. `latest_click-tyUgyQCYGGA`) | play on the embed, or a click on a small card |
+| Contact submit | `contact_submit-<topic>`: `contact_submit-brand-partnership`, `-request-a-breed`, `-correction`, `-other` | valid contact submit (not honeypot), just before posting to Formspree |
 
 All calls go through `track()` in `script.js`, which does nothing if GoatCounter is blocked or missing.
 

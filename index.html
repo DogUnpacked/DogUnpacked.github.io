@@ -256,9 +256,58 @@
       <h2 id="breed-files-heading">Breed Files</h2>
       <p>The first Dog Unpacked guide — the German Shepherd File — lands in December. Subscribers get it first. The breeds after that are chosen by what readers tell us in the form above.</p>
     </section>
+
+    <!-- 6. Contact — Formspree via script.js (endpoint: FORMSPREE_ENDPOINT at the top of script.js; setup in README-page.md).
+         No action attribute on purpose: the form only sends through script.js (which also guards against a
+         placeholder endpoint: error message, no network call).
+         The destination inbox is configured in Formspree only; it never appears in this page. -->
+    <section class="contact" id="contact" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Contact</h2>
+      <p class="contact-blurb">Brands, partnerships, corrections, or a breed you want covered.</p>
+      <form class="contact-form" id="contact-form" method="post" novalidate>
+        <div class="contact-row">
+          <div class="field">
+            <label for="contact-name">Name</label>
+            <input type="text" id="contact-name" name="name" required autocomplete="name" maxlength="100" aria-describedby="contact-name-error">
+            <p class="field-error" id="contact-name-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="contact-email">Email</label>
+            <input type="email" id="contact-email" name="email" required autocomplete="email" inputmode="email" maxlength="254" aria-describedby="contact-email-error">
+            <p class="field-error" id="contact-email-error" hidden></p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="contact-topic">Topic</label>
+          <select id="contact-topic" name="topic">
+            <option value="brand-partnership">Brand / partnership</option>
+            <option value="request-a-breed">Request a breed</option>
+            <option value="correction">Correction</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" name="message" required maxlength="1000" rows="4" aria-describedby="contact-message-error contact-count"></textarea>
+          <div class="field-meta">
+            <p class="field-error" id="contact-message-error" hidden></p>
+            <p class="char-count" id="contact-count"><span id="contact-count-n">0</span> / 1000</p>
+          </div>
+        </div>
+        <!-- Honeypot: humans never see or reach this. Filled in = bot: script.js shows success without sending,
+             and sends the value as Formspree's _gotcha so Formspree also discards it. -->
+        <div class="hp" aria-hidden="true">
+          <label for="contact-website">Website</label>
+          <input type="text" id="contact-website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn--primary btn--compact" id="contact-submit" disabled>Send</button>
+        <noscript><p class="form-note">This form needs JavaScript. Reach us on any platform above.</p></noscript>
+      </form>
+      <p class="form-note" id="contact-status" role="status" aria-live="polite"></p>
+    </section>
   </main>
 
-  <!-- 6. Footer -->
+  <!-- 7. Footer -->
   <footer class="footer">
     <span class="footer-paw" aria-hidden="true">
       <svg viewBox="0 0 64 64" width="14" height="14" fill="currentColor"><ellipse cx="18" cy="18" rx="7" ry="9" transform="rotate(-18 18 18)"/><ellipse cx="32" cy="12" rx="7" ry="9"/><ellipse cx="46" cy="18" rx="7" ry="9" transform="rotate(18 46 18)"/><ellipse cx="12" cy="32" rx="6" ry="8" transform="rotate(-35 12 32)"/><path d="M32 28c-10 0-18 8-18 16 0 6 4 10 10 10 3 0 5-1 8-4 3 3 5 4 8 4 6 0 10-4 10-10 0-8-8-16-18-16z"/></svg>
@@ -266,11 +315,7 @@
     <p class="footer-tag">He&#39;s not broken. He&#39;s bred that way.<br>Every breed, one at a time.</p>
     <p>&copy; Dog Unpacked 2026</p>
     <p class="footer-disclaimer">Educational content only — not veterinary or training advice.</p>
-    <!-- BUSINESS EMAIL — omitted until a dedicated {{BUSINESS_EMAIL}} is supplied (never a personal address).
-         To enable, uncomment and replace both placeholders:
-    <p class="footer-contact">For brands and partnerships: <a href="mailto:{{BUSINESS_EMAIL}}">{{BUSINESS_EMAIL}}</a></p>
-    -->
-    <p class="footer-privacy">Privacy: we store your email with Kit to send the newsletter; unsubscribe anytime.</p>
+    <p class="footer-privacy">Privacy: we store your email with Kit to send the newsletter, and contact messages are delivered by Formspree. Unsubscribe anytime.</p>
   </footer>
 
   <script src="script.js" defer></script>
