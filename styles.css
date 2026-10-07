@@ -26,7 +26,6 @@
   --navy: #1B2A4A;
   --navy-soft: #3A4A6A;
   --navy-muted: #4F5D78;  /* was #6B7A94 (3.7:1 on cream); darkened for ≥4.5:1 */
-  --fb-blue: #0866FF;
   --cream: #F5EDDC;
   --cream-deep: #EDE3CE;
   --cream-dark: #E5D9C0;
@@ -441,15 +440,6 @@ main {
   background: #262626;
 }
 
-/* Facebook button is commented out in index.html until the page URL exists */
-.social-btn--facebook {
-  background: var(--fb-blue);
-}
-
-.social-btn--facebook:hover {
-  background: #0654D6;
-}
-
 /* 3. Newsletter */
 .newsletter {
   background: var(--card);
@@ -738,9 +728,14 @@ main {
 }
 
 .footer a {
-  color: var(--navy);
+  color: var(--navy);               /* 12:1 on cream */
+  font-weight: 700;
   text-decoration-color: var(--amber);
   text-underline-offset: 3px;
+  /* ≥44px tap target without adding visible height */
+  display: inline-block;
+  padding: 0.75rem 0.25rem;
+  margin: -0.75rem 0;
 }
 
 .footer-disclaimer,

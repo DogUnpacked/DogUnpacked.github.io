@@ -8,7 +8,7 @@ Replace `https://SITE/` below with the live address once GitHub Pages (or a cust
 ## Section order
 
 Hero (logo, eyebrow, title, tagline, description, proof row, mobile breed strip) → platform buttons
-(YouTube, Instagram, TikTok) → newsletter (`#subscribe`) → Latest (`#latest`, only when a video ID is set) →
+(YouTube, Instagram, TikTok — Facebook is not used) → newsletter (`#subscribe`) → Latest (`#latest`, only when a video ID is set) →
 Breed Files (`#breed-files`, text only) → footer.
 
 ## Newsletter signup (Kit)
@@ -21,12 +21,14 @@ Plain newsletter signup. Email is required. Breed is optional: it's saved to the
 - Without JS the form still posts; a blank breed is then sent as an empty `fields[breed]`.
 - IDs and the remaining Kit dashboard steps: `KIT.md`.
 
+## Footer contact
+
+Footer line 4: "For brands and partnerships: {{BUSINESS_EMAIL}}" (mailto link).
+
 ## Omitted until supplied
 
 | Item | How to switch it on |
 |---|---|
-| Facebook button | `index.html`: uncomment the Facebook `<li>` in the platform list and replace `{{FACEBOOK_URL}}`. CSS is ready. |
-| Business email | `index.html` footer: uncomment the "For brands and partnerships" line and replace both `{{BUSINESS_EMAIL}}`. |
 | OG / Twitter image | `index.html` `<head>` comment lists the tags to add for `{{OG_IMAGE}}` (1200×630, absolute URL) and the `twitter:card` switch. |
 | GoatCounter account | Create the free account with site code `dogunpacked` (or change `GOATCOUNTER_SITE` at the top of `script.js`). Until then nothing is recorded. |
 
@@ -50,12 +52,13 @@ own `/shorts/` link if YouTube rate-limits the check) and anything 180 s or shor
 
 ## Bio links (UTM)
 
+Platforms: YouTube, TikTok (`@dogsunpacked`), Instagram. Facebook is not used.
+
 | Platform | Bio link |
 |---|---|
 | YouTube | `https://SITE/?utm_source=youtube&utm_medium=bio` |
 | TikTok | `https://SITE/?utm_source=tiktok&utm_medium=bio` |
 | Instagram | `https://SITE/?utm_source=instagram&utm_medium=bio` |
-| Facebook | `https://SITE/?utm_source=facebook&utm_medium=bio` |
 
 Pinned comments / descriptions on a breed video combine breed + UTM:
 
@@ -65,7 +68,6 @@ Pinned comments / descriptions on a breed video combine breed + UTM:
 | YouTube pinned comment, German Shepherd video | `https://SITE/?breed=gsd&utm_source=youtube&utm_medium=pin` |
 | YouTube description, Doberman video | `https://SITE/?breed=dobie&utm_source=youtube&utm_medium=description` |
 | Instagram story, Rottweiler | `https://SITE/?breed=rottweiler&utm_source=instagram&utm_medium=story` |
-| Facebook post, Golden Retriever | `https://SITE/?breed=golden-retriever&utm_source=facebook&utm_medium=post` |
 
 GoatCounter's count.js sends the query string with each page view; GoatCounter uses `utm_source` / `ref` as the
 referrer, so bio and pin traffic shows up per platform in its Referrers view.
@@ -108,7 +110,7 @@ code change), which also means a made-up word renders as "[Word] edition".
 | Event | GoatCounter path | When |
 |---|---|---|
 | Page view | (automatic, count.js) | every load |
-| Platform click | `outbound-youtube`, `outbound-instagram`, `outbound-tiktok` (`outbound-facebook` once enabled) | platform button click |
+| Platform click | `outbound-youtube`, `outbound-instagram`, `outbound-tiktok` | platform button click |
 | Newsletter submit | `subscribe-<breed-slug>` (e.g. `subscribe-german-shepherd`), or `subscribe-none` when breed is blank | valid submit, just before posting to Kit |
 
 All calls go through `track()` in `script.js`, which does nothing if GoatCounter is blocked or missing.
