@@ -1,11 +1,10 @@
 /**
  * Dog Unpacked — hub page enhancements (plain JS, no framework, no cookies).
  *
- *  1. Cookie-free analytics (GoatCounter) + click/submit events
+ *  1. Cookie-free analytics (GoatCounter): page view, platform clicks, newsletter submit
  *  2. Breed-aware page via ?breed=<slug>
- *  3. Newsletter: Title-Case the breed before posting to Kit
- *  4. Latest video: click-to-load YouTube embed (no iframe until click)
- *  5. Hide "needs-url" elements whose link is still a {{PLACEHOLDER}}
+ *  3. Newsletter: Title-Case the optional breed before posting to Kit
+ *  4. Latest video: shown only when #latest has a data-video-id; click-to-load embed
  *
  * The page works without this file: the Kit form still posts and all links work.
  */
@@ -13,7 +12,7 @@
   "use strict";
 
   /* ------------------------------------------------------------------
-   * CONFIG — the only values you should need to edit here.
+   * CONFIG
    * ------------------------------------------------------------------ */
 
   // GoatCounter site code: https://<code>.goatcounter.com (create the account first).
@@ -45,15 +44,14 @@
   // Display name for a typed breed or a slug ("pit-bull", "gsd", "golden retriever").
   function breedName(value) {
     var key = String(value).toLowerCase().replace(/[\s\-]+/g, "");
+    if (!key) return "";
     if (Object.prototype.hasOwnProperty.call(BREED_OVERRIDES, key)) {
       return BREED_OVERRIDES[key];
     }
-    // "Mixed breed" keeps its datalist casing.
-    if (key === "mixedbreed") return "Mixed breed";
+    if (key === "mixedbreed") return "Mixed breed"; // keep datalist casing
     return titleCase(String(value).replace(/-/g, " "));
   }
 
-  // Canonical slug for comparing a breed with guide cards: "German Shepherd" -> "german-shepherd".
   function slugify(name) {
     return String(name).toLowerCase().trim().replace(/[^a-z]+/g, "-").replace(/^-+|-+$/g, "");
   }
@@ -86,28 +84,13 @@
     window.addEventListener("load", loadAnalytics);
   }
 
-  // Outbound / CTA clicks: any element with data-track="<event name>".
+  // Platform button clicks: elements with data-track="<platform>" -> event "outbound-<platform>".
   document.addEventListener("click", function (e) {
     var el = e.target.closest ? e.target.closest("[data-track]") : null;
     if (!el) return;
     var name = el.getAttribute("data-track");
-    if (name === "guide-notify") {
-      track("guide-notify", "Guides: get notified");
-    } else {
-      track("outbound-" + name, "Outbound: " + name);
-    }
+    track("outbound-" + name, "Outbound: " + name);
   });
-
-  /* ------------------------------------------------------------------
-   * 5. Hide placeholder-only elements (CSS :has() also hides them; this is the fallback).
-   * ------------------------------------------------------------------ */
-  var needsUrl = document.querySelectorAll(".needs-url");
-  for (var i = 0; i < needsUrl.length; i++) {
-    var a = needsUrl[i].querySelector("a");
-    if (a && a.getAttribute("href").indexOf("{{") !== -1) {
-      needsUrl[i].hidden = true;
-    }
-  }
 
   /* ------------------------------------------------------------------
    * 2. Breed-aware page: ?breed=<lowercase-hyphenated-slug>
@@ -126,62 +109,56 @@
     if (!/^[a-z]+(-[a-z]+)*$/.test(slug) || slug.length > 40) return;
 
     var name = breedName(slug);
-
     if (breedInput && !breedInput.value) breedInput.value = name;
 
     var edition = document.getElementById("breed-edition");
     if (edition) edition.textContent = " — " + name + " edition";
-
-    var list = document.getElementById("guide-list");
-    if (list) {
-      var target = slugify(name);
-      var cards = list.querySelectorAll(".guide-card");
-      for (var j = 0; j < cards.length; j++) {
-        if (cards[j].getAttribute("data-breed") === target) {
-          list.insertBefore(cards[j], list.firstElementChild);
-          break;
-        }
-      }
-    }
   })();
 
   /* ------------------------------------------------------------------
-   * 3. Newsletter form: normalize breed, count the event, then post to Kit.
+   * 3. Newsletter form: normalize the optional breed, count the event, post to Kit.
    * ------------------------------------------------------------------ */
   var form = document.getElementById("newsletter-form");
   var statusEl = document.getElementById("form-status");
   if (form) {
     var submitting = false;
     form.addEventListener("submit", function (e) {
-      if (breedInput) breedInput.value = breedName(breedInput.value);
       if (submitting) return;
       if (form.checkValidity && !form.checkValidity()) return; // browser shows messages
       e.preventDefault();
       submitting = true;
+
+      var breed = breedInput ? breedName(breedInput.value) : "";
+      if (breedInput) {
+        breedInput.value = breed;
+        // Blank breed: leave fields[breed] out of the post entirely.
+        breedInput.disabled = !breed;
+      }
       if (statusEl) {
         statusEl.textContent = "Sending…";
         statusEl.className = "form-note";
       }
-      var breed = breedInput ? breedInput.value : "";
-      track("subscribe-" + slugify(breed || "unknown"), "Newsletter: " + (breed || "unknown"));
+      track(breed ? "subscribe-" + slugify(breed) : "subscribe-none", "Newsletter: " + (breed || "no breed"));
       // Short pause so the analytics beacon can leave before the page navigates to Kit.
       window.setTimeout(function () {
         HTMLFormElement.prototype.submit.call(form);
       }, 150);
     });
-    // Back button (bfcache): allow a fresh submit and clear the status line.
+    // Back button (bfcache): allow a fresh submit.
     window.addEventListener("pageshow", function () {
       submitting = false;
+      if (breedInput) breedInput.disabled = false;
       if (statusEl) statusEl.textContent = "";
     });
   }
 
   /* ------------------------------------------------------------------
-   * 4. Latest video — lite YouTube embed.
+   * 4. Latest video — lite YouTube embed. ID lives in index.html: <section id="latest" data-video-id="...">
    * ------------------------------------------------------------------ */
+  var latest = document.getElementById("latest");
   var lite = document.getElementById("latest-video");
-  if (lite) {
-    var id = lite.getAttribute("data-video-id") || "";
+  if (latest && lite) {
+    var id = (latest.getAttribute("data-video-id") || "").trim();
     if (/^[A-Za-z0-9_-]{11}$/.test(id)) {
       var btn = document.createElement("button");
       btn.type = "button";
@@ -213,13 +190,10 @@
         iframe.referrerPolicy = "strict-origin-when-cross-origin";
         lite.innerHTML = "";
         lite.appendChild(iframe);
-        lite.classList.add("is-playing");
-        track("latest-video-play", "Latest video: play");
       });
 
-      lite.innerHTML = "";
       lite.appendChild(btn);
-      lite.classList.add("has-video");
+      latest.hidden = false;
     }
   }
 })();

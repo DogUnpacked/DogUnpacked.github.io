@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Render review screenshots of the hub page with Playwright Chromium.
 
-Outputs (gitignored, local review only):
+Outputs (gitignored, local review only; mobile shots are quantized to 256 colors if Pillow is available):
   assets/preview-v2-desktop.png       1280 wide, full page
   assets/preview-v2-mobile.png        375 wide, full page
   assets/preview-v2-mobile-dobie.png  375 wide, ?breed=dobie
@@ -29,10 +29,19 @@ CHECK_JS = """() => {
     chipTops: chips,
     heading: document.getElementById('newsletter-heading').textContent,
     breedValue: document.getElementById('breed').value,
-    firstGuide: document.querySelector('#guide-list .guide-card').dataset.breed,
+    latestVisible: !document.getElementById('latest').hidden,
     under44: small,
   };
 }"""
+
+
+def quantize(path):
+    """Shrink a 2x screenshot (~2 MB -> ~0.8 MB). Skipped if Pillow isn't installed."""
+    try:
+        from PIL import Image
+    except ImportError:
+        return
+    Image.open(path).convert("RGB").quantize(colors=256).save(path, optimize=True)
 
 
 def serve():
@@ -77,6 +86,8 @@ async def main():
             print("  errors:", [e for e in errors if "goatcounter" not in e and "gc.zgo.at" not in e])
             await pg.screenshot(path=str(ROOT / "assets" / f"{name}.png"), full_page=True)
             await ctx.close()
+            if dpr > 1:
+                quantize(ROOT / "assets" / f"{name}.png")
         await b.close()
     httpd.shutdown()
 

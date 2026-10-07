@@ -20,24 +20,20 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
   <!-- Social share (Open Graph / Twitter).
-       OG IMAGE SWAP POINT: {{OG_IMAGE}} = 1200×630 Unpacked box photo (Josh supplies).
-       Until then, images/og-image.png stays. When it arrives, replace BOTH og:image and
-       twitter:image below (and their alt text).
-       TODO before publishing: og:image / twitter:image (and og:url) should be ABSOLUTE URLs,
-       e.g. https://<user>.github.io/<repo>/images/og-image.png, plus <meta property="og:url">. -->
+       OG IMAGE OMITTED until {{OG_IMAGE}} (1200×630 Unpacked box photo) is supplied. When it is, add:
+         <meta property="og:image" content="https://SITE/images/og-image.jpg">   (ABSOLUTE URL)
+         <meta property="og:image:width" content="1200">
+         <meta property="og:image:height" content="630">
+         <meta property="og:image:alt" content="...">
+         <meta name="twitter:image" content="https://SITE/images/og-image.jpg">
+       and switch twitter:card below to "summary_large_image". Also add <meta property="og:url"> once the live URL is known. -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dog Unpacked">
   <meta property="og:title" content="Dog Unpacked — He&#39;s not broken. He&#39;s bred that way.">
   <meta property="og:description" content="Every video traces one everyday behavior back to the job the breed was bred for — cited on screen. Every breed, one at a time. No myths, no fear, no training gimmicks.">
-  <meta property="og:image" content="images/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Dog Unpacked logo — a shepherd-type dog in a navy ring — with the wordmark DOG UNPACKED">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Dog Unpacked — He&#39;s not broken. He&#39;s bred that way.">
-  <meta name="twitter:description" content="Every video traces one everyday behavior back to the job the breed was bred for — cited on screen. Every breed, one at a time.">
-  <meta name="twitter:image" content="images/og-image.png">
-  <meta name="twitter:image:alt" content="Dog Unpacked logo with the wordmark DOG UNPACKED">
+  <meta name="twitter:description" content="Every video traces one everyday behavior back to the job the breed was bred for — cited on screen. Every breed, one at a time. No myths, no fear, no training gimmicks.">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -190,9 +186,9 @@
             <span class="social-label">TikTok</span>
           </a>
         </li>
-        <!-- FACEBOOK (ready, hidden): this button stays hidden while its href contains "{{".
-             To enable, replace {{FACEBOOK_URL}} on the next <a> line with the real page URL. One-line change. -->
-        <li class="needs-url">
+        <!-- FACEBOOK — omitted until the page URL is supplied. To enable: remove the comment markers
+             around this <li> and replace {{FACEBOOK_URL}}. Styles (.social-btn--facebook) are already in styles.css.
+        <li>
           <a class="social-btn social-btn--facebook" href="{{FACEBOOK_URL}}" rel="noopener noreferrer" target="_blank" data-track="facebook">
             <span class="social-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07c0 6.02 4.39 11.02 10.13 11.93v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.09 24 18.09 24 12.07z"/></svg>
@@ -200,10 +196,11 @@
             <span class="social-label">Facebook</span>
           </a>
         </li>
+        -->
       </ul>
     </section>
 
-    <!-- 3. Newsletter — The Breed File (Kit inline form, IDs in KIT.md) -->
+    <!-- 3. Newsletter — The Sunday Breed File (Kit inline form, IDs in KIT.md) -->
     <section class="newsletter" id="subscribe" aria-labelledby="newsletter-heading">
       <div class="newsletter-head">
         <span class="section-mark" aria-hidden="true">
@@ -211,15 +208,14 @@
         </span>
         <h2 id="newsletter-heading">Join the Sunday Breed File<span class="breed-edition" id="breed-edition"></span></h2>
       </div>
-      <p class="newsletter-blurb">One behavior. One job. One study. Every Sunday, 90 seconds. Tell us your breed and get its free one-page timeline — what&#39;s normal at every age, and why.</p>
-      <p class="newsletter-perk">Subscribers get the guides first, at launch pricing.</p>
+      <p class="newsletter-blurb">One behavior. One job. One study. Every Sunday, 90 seconds.</p>
       <!--
-        Brand-styled HTML POST to Kit form 10011711 (double opt-in + incentive email on in Kit).
-          email   -> email_address
-          breed   -> fields[breed]   (Kit custom field key "breed", id 1388795)
-          tags[]  -> 24362096 = tag "source:landing" (belt-and-braces; the reliable path is the
-                     form's own "add tag" setting in the Kit dashboard — see KIT.md)
-        script.js Title-Cases the breed before submit. Without JS the form still posts as typed.
+        Plain newsletter signup: brand-styled HTML POST to Kit form 10011711 (double opt-in on in Kit).
+          email   -> email_address (required)
+          breed   -> fields[breed] (OPTIONAL; Kit custom field "breed", id 1388795). It is only saved on the
+                     subscriber's profile; it does not change the signup. Everyone gets the same newsletter.
+          tags[]  -> 24362096 = "source:landing" (backup; the reliable path is the form's "add tag" setting in Kit)
+        script.js Title-Cases the breed and leaves fields[breed] out when it is blank.
       -->
       <form
         class="newsletter-form"
@@ -234,8 +230,8 @@
           <input type="email" id="email" name="email_address" placeholder="you@example.com" required autocomplete="email" inputmode="email">
         </div>
         <div class="field">
-          <label for="breed">Your dog&#39;s breed</label>
-          <input type="text" id="breed" name="fields[breed]" list="breed-list" placeholder="Start typing…" required autocomplete="off" autocapitalize="words" spellcheck="false" maxlength="60">
+          <label for="breed">Your dog&#39;s breed (optional)</label>
+          <input type="text" id="breed" name="fields[breed]" list="breed-list" placeholder="Start typing…" autocomplete="off" autocapitalize="words" spellcheck="false" maxlength="60">
           <datalist id="breed-list">
             <option value="German Shepherd"></option>
             <option value="Pit Bull"></option>
@@ -259,87 +255,25 @@
           </datalist>
         </div>
         <input type="hidden" name="tags[]" value="24362096">
-        <button type="submit" class="btn btn--primary">Send me my breed&#39;s File</button>
+        <button type="submit" class="btn btn--primary">Subscribe</button>
       </form>
-      <p class="form-privacy">German Shepherd File ready now. More breeds every month. No spam, unsubscribe anytime.</p>
+      <p class="form-privacy">No spam. Unsubscribe anytime.</p>
       <p class="form-note" id="form-status" role="status" aria-live="polite"></p>
     </section>
 
-    <!-- 4. Latest video. Set the ID in ONE place: data-video-id below.
-         While it is the {{LATEST_VIDEO_ID}} placeholder, the channel card below shows instead.
-         With a real 11-char ID, script.js swaps in a click-to-load thumbnail (no iframe until click). -->
-    <section class="latest" aria-labelledby="latest-heading">
+    <!-- 4. Latest video. THE VIDEO ID LIVES HERE, in data-video-id (scripts/update_latest_video.py rewrites it).
+         Empty  -> section stays hidden (omitted).
+         11-char ID -> script.js shows the section with a click-to-load thumbnail; no iframe until click. -->
+    <section class="latest" id="latest" aria-labelledby="latest-heading" data-video-id="" hidden>
       <h2 id="latest-heading">Latest</h2>
-      <div class="lite-yt" id="latest-video" data-video-id="{{LATEST_VIDEO_ID}}">
-        <a class="lite-yt-placeholder" href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank" data-track="youtube-latest">
-          <span class="lite-yt-play" aria-hidden="true">
-            <svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#F5EDDC"/><path d="M27 34V14l18 10z" fill="#1B2A4A"/></svg>
-          </span>
-          <span class="lite-yt-title">Watch the latest breakdown on YouTube</span>
-          <span class="lite-yt-sub">@DogUnpacked</span>
-        </a>
-      </div>
+      <div class="lite-yt" id="latest-video"></div>
       <p class="latest-caption">Full breed breakdowns live on YouTube.</p>
     </section>
 
-    <!-- 5. Breed owner guides. Reusable component: li.guide-card[data-breed=<slug>].
-         script.js moves the card matching ?breed= to the first position. -->
-    <section class="shop" id="guides" aria-labelledby="shop-heading">
-      <div class="shop-head">
-        <h2 id="shop-heading">Breed owner guides</h2>
-        <p class="shop-intro">Breed-specific files that connect everyday behavior to what the breed was built for. First drop planned for December — Buy links go live then.</p>
-      </div>
-      <ul class="card-grid" id="guide-list">
-        <li class="card guide-card" data-breed="german-shepherd">
-          <div class="box-label" aria-hidden="true">
-            <div class="box-label-inner">
-              <span class="box-label-line1">Contents: 1 German Shepherd</span>
-              <span class="box-label-line2">Not anxious · On shift</span>
-            </div>
-          </div>
-          <span class="badge-soon">Coming December</span>
-          <h3 class="card-title">German Shepherd File</h3>
-          <p class="card-blurb">Why GSDs work, watch, and worry the way they do — and how to channel that drive without the myths.</p>
-          <!-- When live: add <a class="btn btn--primary" href="SELL_URL">Get the File</a> here and remove the badge -->
-        </li>
-        <li class="card guide-card" data-breed="pit-bull">
-          <div class="box-label" aria-hidden="true">
-            <div class="box-label-inner">
-              <span class="box-label-line1">Contents: 1 Pit Bull</span>
-              <span class="box-label-line2">Not a guard dog</span>
-            </div>
-          </div>
-          <span class="badge-soon">Coming December</span>
-          <h3 class="card-title">Pit Bull File</h3>
-          <p class="card-blurb">Temperament data and breed history behind the behaviors the internet gets wrong — plus what to do with them.</p>
-        </li>
-        <li class="card guide-card" data-breed="rottweiler">
-          <div class="box-label" aria-hidden="true">
-            <div class="box-label-inner">
-              <span class="box-label-line1">Contents: 1 Rottweiler</span>
-              <span class="box-label-line2">Not growling · Rumbles</span>
-            </div>
-          </div>
-          <span class="badge-soon">Coming December</span>
-          <h3 class="card-title">Rottweiler File</h3>
-          <p class="card-blurb">From drover to guardian: the job behind the stare, the stickiness, and the strength — cited and practical.</p>
-        </li>
-        <li class="card guide-card" data-breed="doberman">
-          <div class="box-label" aria-hidden="true">
-            <div class="box-label-inner">
-              <span class="box-label-line1">Contents: 1 Doberman</span>
-              <span class="box-label-line2">Not needy · On duty</span>
-            </div>
-          </div>
-          <span class="badge-soon">Coming December</span>
-          <h3 class="card-title">Doberman File</h3>
-          <p class="card-blurb">Why the lean, the blanket, and the watching are one job, built by a tax collector in the 1880s.</p>
-        </li>
-      </ul>
-      <div class="shop-cta">
-        <a class="btn btn--primary btn--wide" href="#subscribe" data-track="guide-notify">Get notified when they drop</a>
-      </div>
-      <p class="roadmap">More Files are coming — Golden Retriever, Husky, Cane Corso, Labrador, Beagle, Corgi — in the order readers ask for them. Tell us your breed above and you&#39;ll be first to know.</p>
+    <!-- 5. Breed Files — text only until a guide is actually on sale (December plan: README-page.md). -->
+    <section class="breed-files" id="breed-files" aria-labelledby="breed-files-heading">
+      <h2 id="breed-files-heading">Breed Files</h2>
+      <p>The first Dog Unpacked guide — the German Shepherd File — lands in December. Subscribers get it first. The breeds after that are chosen by what readers tell us in the form above.</p>
     </section>
   </main>
 
@@ -351,9 +285,9 @@
     <p class="footer-tag"><span class="nowrap">He&#39;s not broken. He&#39;s bred that way. <span aria-hidden="true">·</span></span> <span class="nowrap">Every breed, one at a time.</span></p>
     <p>&copy; Dog Unpacked 2026</p>
     <p class="footer-disclaimer">Educational content only — not veterinary or training advice.</p>
-    <!-- BUSINESS EMAIL (ready, hidden while the href contains "{{"). To enable, replace both
-         {{BUSINESS_EMAIL}} placeholders on the next line with the real address. One-line change. -->
-    <p class="needs-url">For brands and partnerships: <a href="mailto:{{BUSINESS_EMAIL}}">{{BUSINESS_EMAIL}}</a></p>
+    <!-- BUSINESS EMAIL — omitted until supplied. To enable, uncomment and replace both {{BUSINESS_EMAIL}}:
+    <p>For brands and partnerships: <a href="mailto:{{BUSINESS_EMAIL}}">{{BUSINESS_EMAIL}}</a></p>
+    -->
     <p class="footer-privacy">Privacy: we store your email with Kit to send the newsletter; unsubscribe anytime.</p>
   </footer>
 
