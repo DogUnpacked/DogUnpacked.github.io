@@ -1,0 +1,5 @@
+.kit-api-key.local
+.env
+.env.*
+__pycache__/
+*.pyc

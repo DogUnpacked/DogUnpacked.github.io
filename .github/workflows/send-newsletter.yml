@@ -1,0 +1,58 @@
+# Dog Unpacked — twice-weekly newsletter send via Kit API (Tue + Thu)
+# Cron: 13:00 UTC Tue/Thu ≈ 9:00 AM Eastern (EDT) / 8:00 AM Eastern (EST).
+# DST shifts the local clock by one hour; see README-newsletter.md.
+# Josh override: twice weekly (not weekly Thursday from brief).
+name: Send newsletter
+
+on:
+  schedule:
+    # Tuesday and Thursday 13:00 UTC
+    - cron: "0 13 * * 2,4"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (parse + print payload; do not POST to Kit)"
+        required: true
+        type: boolean
+        default: true
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Resolve dry-run flag
+        id: flags
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            DRY="${{ inputs.dry_run }}"
+          else
+            # Scheduled runs always attempt a live send (still no-ops if no file / send:false).
+            DRY="false"
+          fi
+          echo "dry_run=${DRY}" >> "$GITHUB_OUTPUT"
+          echo "dry_run=${DRY}"
+
+      - name: Send (or dry-run) today's issue
+        env:
+          KIT_API_KEY: ${{ secrets.KIT_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.flags.outputs.dry_run }}" = "true" ]; then
+            python3 scripts/send.py --dry-run
+          else
+            if [ -z "${KIT_API_KEY}" ]; then
+              echo "KIT_API_KEY secret is not set. Add it under Settings → Secrets."
+              exit 1
+            fi
+            python3 scripts/send.py
+          fi

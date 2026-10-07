@@ -1,0 +1,38 @@
+---
+subject: "Issue title — keep under ~60 characters"
+preview: "Inbox preview text — one short sentence that hooks."
+send: true
+---
+
+<!--
+  Dog Unpacked newsletter issue template.
+  Filename for a live send: YYYY-MM-DD.md (America/New_York calendar date of the Thursday send).
+  Set send: false to skip an issue without deleting the file.
+  Body below is Markdown; scripts/send.py converts it to simple HTML for Kit.
+-->
+
+## The hook
+
+One everyday behavior your dog does — and why it isn't "broken."
+
+## This week's unpack
+
+Trace the behavior back to the job the breed was bred to do. Cite temperament-test data or a peer-reviewed study when you have one. Keep it practical: what the owner can *do* with the reason.
+
+- Point one
+- Point two
+- Point three
+
+## Watch
+
+New video: [Title](https://www.youtube.com/@DogUnpacked) — one-line description.
+
+## Breed note
+
+A short aside for one working/power breed (GSD, Pit Bull, Rottweiler, Doberman, etc.).
+
+## Closing
+
+He's not broken. He's bred that way.
+
+— Dog Unpacked

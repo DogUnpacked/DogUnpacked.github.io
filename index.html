@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dog Unpacked — breed-behavior education for owners of working and power breeds. He's not broken. He's bred that way. Educational content only — not veterinary or training advice.">
+  <meta name="theme-color" content="#F5EDDC">
+  <title>Dog Unpacked</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="page-bg" aria-hidden="true">
+    <svg class="paw-watermark paw-watermark--tl" viewBox="0 0 64 64" fill="currentColor">
+      <ellipse cx="18" cy="18" rx="7" ry="9" transform="rotate(-18 18 18)"/>
+      <ellipse cx="32" cy="12" rx="7" ry="9"/>
+      <ellipse cx="46" cy="18" rx="7" ry="9" transform="rotate(18 46 18)"/>
+      <ellipse cx="12" cy="32" rx="6" ry="8" transform="rotate(-35 12 32)"/>
+      <path d="M32 28c-10 0-18 8-18 16 0 6 4 10 10 10 3 0 5-1 8-4 3 3 5 4 8 4 6 0 10-4 10-10 0-8-8-16-18-16z"/>
+    </svg>
+    <svg class="paw-watermark paw-watermark--br" viewBox="0 0 64 64" fill="currentColor">
+      <ellipse cx="18" cy="18" rx="7" ry="9" transform="rotate(-18 18 18)"/>
+      <ellipse cx="32" cy="12" rx="7" ry="9"/>
+      <ellipse cx="46" cy="18" rx="7" ry="9" transform="rotate(18 46 18)"/>
+      <ellipse cx="12" cy="32" rx="6" ry="8" transform="rotate(-35 12 32)"/>
+      <path d="M32 28c-10 0-18 8-18 16 0 6 4 10 10 10 3 0 5-1 8-4 3 3 5 4 8 4 6 0 10-4 10-10 0-8-8-16-18-16z"/>
+    </svg>
+    <svg class="page-sil page-sil--left" viewBox="0 0 160 120" fill="currentColor">
+      <path d="M18 78c1-18 8-32 20-42 2-12 10-26 22-32 4-2 8 0 9 4l1 10c8-3 18-2 26 4 6 4 10 12 11 20l2 14c10 2 18 10 20 20 2 8-2 14-10 15H28c-8-1-12-7-11-15 1-10 1-18 1-28z"/>
+    </svg>
+    <svg class="page-sil page-sil--right" viewBox="0 0 150 110" fill="currentColor">
+      <path d="M16 72c2-14 8-24 18-32 6-14 18-26 34-28 6-1 10 3 10 8v8c10-2 20 2 28 10 6 6 10 14 11 22l1 10c8 4 14 12 14 20 0 6-4 10-10 10H26c-8 0-12-6-11-12 1-10 1-18 1-26z"/>
+    </svg>
+  </div>
+
+
+  <!-- Desktop side art: framed breed photos + silhouettes (hidden on mobile) -->
+  <div class="side-rails" aria-hidden="true">
+    <aside class="side-rail side-rail--left">
+      <figure class="breed-frame breed-frame--tall breed-frame--tilt-left">
+        <img
+          src="images/gsd.jpg"
+          alt=""
+          width="240"
+          height="300"
+          loading="lazy"
+          decoding="async"
+        >
+        <figcaption class="breed-caption">German Shepherd</figcaption>
+      </figure>
+
+      <svg class="breed-sil breed-sil--gsd" viewBox="0 0 160 120" fill="currentColor">
+        <!-- Stylized GSD profile silhouette -->
+        <path d="M18 78c1-18 8-32 20-42 2-12 10-26 22-32 4-2 8 0 9 4l1 10c8-3 18-2 26 4 6 4 10 12 11 20l2 14c10 2 18 10 20 20 2 8-2 14-10 15H28c-8-1-12-7-11-15 1-10 1-18 1-28z"/>
+        <path d="M52 28c-1-8 2-16 6-18 1 6 2 12 1 18H52z"/>
+        <ellipse cx="68" cy="52" rx="3" ry="2.2" fill="#F5EDDC" opacity="0.35"/>
+      </svg>
+
+      <figure class="breed-frame breed-frame--square breed-frame--tilt-right">
+        <img
+          src="images/rottweiler.jpg"
+          alt=""
+          width="200"
+          height="200"
+          loading="lazy"
+          decoding="async"
+        >
+        <figcaption class="breed-caption">Rottweiler</figcaption>
+      </figure>
+
+      <div class="deco-stack">
+        <span class="deco-rule"></span>
+        <span class="deco-chip">Working breeds</span>
+        <span class="deco-rule"></span>
+      </div>
+    </aside>
+
+    <aside class="side-rail side-rail--right">
+      <div class="deco-stack deco-stack--top">
+        <span class="deco-chip">Power breeds</span>
+        <span class="deco-rule"></span>
+      </div>
+
+      <figure class="breed-frame breed-frame--tall breed-frame--tilt-right">
+        <img
+          src="images/doberman.jpg"
+          alt=""
+          width="220"
+          height="275"
+          loading="lazy"
+          decoding="async"
+        >
+        <figcaption class="breed-caption">Doberman</figcaption>
+      </figure>
+
+      <svg class="breed-sil breed-sil--bully" viewBox="0 0 150 110" fill="currentColor">
+        <!-- Broad-head bully/pit silhouette -->
+        <path d="M16 72c2-14 8-24 18-32 6-14 18-26 34-28 6-1 10 3 10 8v8c10-2 20 2 28 10 6 6 10 14 11 22l1 10c8 4 14 12 14 20 0 6-4 10-10 10H26c-8 0-12-6-11-12 1-10 1-18 1-26z"/>
+        <ellipse cx="78" cy="58" rx="3.2" ry="2.4" fill="#F5EDDC" opacity="0.3"/>
+      </svg>
+
+      <figure class="breed-frame breed-frame--square breed-frame--tilt-left">
+        <img
+          src="images/pitbull.jpg"
+          alt=""
+          width="190"
+          height="190"
+          loading="lazy"
+          decoding="async"
+        >
+        <figcaption class="breed-caption">Pit Bull</figcaption>
+      </figure>
+
+      <svg class="breed-sil breed-sil--dobe" viewBox="0 0 100 130" fill="currentColor">
+        <!-- Alert Doberman head silhouette -->
+        <path d="M50 6c-3 0-6 14-6 24 0 6 1 12 3 16-14 6-26 22-28 42-1 10 1 20 4 28 3 10 10 16 20 18h14c10-2 17-8 20-18 3-8 5-18 4-28-2-20-14-36-28-42 2-4 3-10 3-16 0-10-3-24-6-24zm-10 28c-5-8-2-20 3-24 1 6 2 14 1 22h-4zm16 0c-1-8 0-16 1-22 5 4 8 16 3 24h-4z"/>
+      </svg>
+    </aside>
+  </div>
+
+  <main id="main">
+    <!-- 1. Hero -->
+    <header class="hero">
+      <!-- LOGO: replace .hero-mark with <img class="hero-logo" src="logo.png" alt="Dog Unpacked" width="72" height="72"> when you have a brand mark -->
+      <div class="hero-mark" aria-hidden="true" data-logo-slot="true">
+        <svg class="paw-icon" viewBox="0 0 64 64" role="img" focusable="false">
+          <title>Paw print</title>
+          <ellipse cx="18" cy="18" rx="7.5" ry="9.5" transform="rotate(-18 18 18)"/>
+          <ellipse cx="32" cy="11.5" rx="7.5" ry="9.5"/>
+          <ellipse cx="46" cy="18" rx="7.5" ry="9.5" transform="rotate(18 46 18)"/>
+          <ellipse cx="11.5" cy="32" rx="6.5" ry="8.5" transform="rotate(-35 11.5 32)"/>
+          <path d="M32 27c-10.5 0-19 8.5-19 17 0 6.5 4.2 10.5 10.5 10.5 3.2 0 5.4-1.1 8.5-4.2 3.1 3.1 5.3 4.2 8.5 4.2 6.3 0 10.5-4 10.5-10.5 0-8.5-8.5-17-19-17z"/>
+        </svg>
+      </div>
+      <p class="brand-kicker">Breed-behavior education for working &amp; power breeds</p>
+      <h1 class="brand-name">Dog Unpacked</h1>
+      <!-- EDITABLE: replace the tagline below with your own -->
+      <p class="tagline">He&#39;s not broken. He&#39;s bred that way.</p>
+      <p class="about-blurb">Every video traces one everyday behavior back to the job the breed was bred to do — using breed history, temperament-test data, and peer-reviewed studies, cited on screen. No myths, no fear, no training gimmicks.</p>
+    </header>
+
+    <!-- 2. Social links -->
+    <section class="social" aria-labelledby="social-heading">
+      <h2 id="social-heading" class="visually-hidden">Follow us</h2>
+      <ul class="social-list">
+        <!-- Social URLs are live — keep these hrefs as-is unless the handles change -->
+        <li>
+          <a class="social-btn social-btn--youtube" href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank">
+            <span class="social-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.8 15.5v-7l6.3 3.5-6.3 3.5z"/></svg>
+            </span>
+            <span class="social-label">YouTube</span>
+          </a>
+        </li>
+        <li>
+          <a class="social-btn social-btn--instagram" href="https://www.instagram.com/dogunpacked" rel="noopener noreferrer" target="_blank">
+            <span class="social-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.9.2 2.3.4.6.2 1 .5 1.5 1 .4.4.7.9 1 1.5.2.4.4 1.1.4 2.3.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.9-.4 2.3-.2.6-.5 1-1 1.5-.4.4-.9.7-1.5 1-.4.2-1.1.4-2.3.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.9-.2-2.3-.4a4.1 4.1 0 0 1-1.5-1 4.1 4.1 0 0 1-1-1.5c-.2-.4-.4-1.1-.4-2.3C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.9.4-2.3.2-.6.5-1 1-1.5.4-.4.9-.7 1.5-1 .4-.2 1.1-.4 2.3-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.2 0-3.5 0-4.8.1-1.1 0-1.7.2-2.1.4-.5.2-.8.4-1.1.8-.3.3-.6.6-.8 1.1-.2.4-.3 1-.4 2.1 0 1.2-.1 1.6-.1 4.8s0 3.5.1 4.8c0 1.1.2 1.7.4 2.1.2.5.4.8.8 1.1.3.3.6.6 1.1.8.4.2 1 .3 2.1.4 1.2 0 1.6.1 4.8.1s3.5 0 4.8-.1c1.1 0 1.7-.2 2.1-.4.5-.2.8-.4 1.1-.8.3-.3.6-.6.8-1.1.2-.4.3-1 .4-2.1 0-1.2.1-1.6.1-4.8s0-3.5-.1-4.8c0-1.1-.2-1.7-.4-2.1a2.9 2.9 0 0 0-.8-1.1 2.9 2.9 0 0 0-1.1-.8c-.4-.2-1-.3-2.1-.4-1.3-.1-1.6-.1-4.8-.1zm0 3.1a5 5 0 1 1 0 9.9 5 5 0 0 1 0-9.9zm0 1.8a3.2 3.2 0 1 0 0 6.3 3.2 3.2 0 0 0 0-6.3zm6.4-2.1a1.2 1.2 0 1 1 0 2.3 1.2 1.2 0 0 1 0-2.3z"/></svg>
+            </span>
+            <span class="social-label">Instagram</span>
+          </a>
+        </li>
+        <li>
+          <!-- TikTok: live URL is @dogsunpacked. Brief says @dogunpacked — VERIFY handle with Josh before changing. -->
+          <a class="social-btn social-btn--tiktok" href="https://www.tiktok.com/@dogsunpacked" rel="noopener noreferrer" target="_blank">
+            <span class="social-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19.6 6.7a5.6 5.6 0 0 1-3.3-1V15a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v2.7a2.8 2.8 0 1 0 2 2.7V2.5h2.6a5.6 5.6 0 0 0 3.3 3.5v.7z"/></svg>
+            </span>
+            <span class="social-label">TikTok</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 3. Free German Shepherd File — Kit signup (§3) -->
+    <section class="newsletter" aria-labelledby="newsletter-heading">
+      <div class="newsletter-head">
+        <span class="section-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" width="18" height="18" fill="currentColor"><ellipse cx="18" cy="18" rx="7" ry="9" transform="rotate(-18 18 18)"/><ellipse cx="32" cy="12" rx="7" ry="9"/><ellipse cx="46" cy="18" rx="7" ry="9" transform="rotate(18 46 18)"/><ellipse cx="12" cy="32" rx="6" ry="8" transform="rotate(-35 12 32)"/><path d="M32 28c-10 0-18 8-18 16 0 6 4 10 10 10 3 0 5-1 8-4 3 3 5 4 8 4 6 0 10-4 10-10 0-8-8-16-18-16z"/></svg>
+        </span>
+        <h2 id="newsletter-heading">Get the free German Shepherd File</h2>
+      </div>
+      <p class="newsletter-blurb">One page: what&#39;s normal at every age, and why — backed by the studies. We&#39;ll confirm your email now and send the File when it&#39;s ready.</p>
+      <!--
+        Brand-styled HTML POST to Kit (native Navy/Cream). Form IDs in KIT.md.
+        Alternate Kit JS embed (not used — avoids Kit default chrome):
+        <script async data-uid="ae44e15ea4" src="https://dog-unpacked.kit.com/ae44e15ea4/index.js"></script>
+      -->
+      <form
+        class="newsletter-form"
+        action="https://app.kit.com/forms/10011711/subscriptions"
+        method="post"
+        id="newsletter-form"
+        data-sv-form="10011711"
+        data-uid="ae44e15ea4"
+      >
+        <label class="visually-hidden" for="email">Email address</label>
+        <input
+          type="email"
+          id="email"
+          name="email_address"
+          placeholder="you@example.com"
+          required
+          autocomplete="email"
+          inputmode="email"
+          aria-label="Email address"
+        >
+        <button type="submit" class="btn btn--primary">Send me the File</button>
+      </form>
+      <p class="form-privacy">No spam. Unsubscribe anytime.</p>
+      <p class="form-note" id="form-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- 4. Shop / guides -->
+    <section class="shop" aria-labelledby="shop-heading">
+      <div class="shop-head">
+        <h2 id="shop-heading">Breed owner guides</h2>
+        <p class="shop-intro">Breed-specific files that connect everyday behavior to what the breed was built for. First drop planned for December — Buy links go live then.</p>
+      </div>
+      <ul class="card-grid">
+        <li class="card">
+          <span class="card-badge" aria-hidden="true">01</span>
+          <h3 class="card-title">German Shepherd File</h3>
+          <p class="card-blurb">Why GSDs work, watch, and worry the way they do — and how to channel that drive without the myths.</p>
+          <!-- Coming December — swap href for Gumroad/Payhip/Stripe when live -->
+          <a class="btn btn--accent btn--disabled" href="#" aria-disabled="true" tabindex="-1">Coming December</a>
+        </li>
+        <li class="card">
+          <span class="card-badge" aria-hidden="true">02</span>
+          <h3 class="card-title">Pit Bull File</h3>
+          <p class="card-blurb">Temperament data and breed history behind the behaviors the internet gets wrong — plus what to do with them.</p>
+          <!-- Coming December — swap href for Gumroad/Payhip/Stripe when live -->
+          <a class="btn btn--accent btn--disabled" href="#" aria-disabled="true" tabindex="-1">Coming December</a>
+        </li>
+        <li class="card">
+          <span class="card-badge" aria-hidden="true">03</span>
+          <h3 class="card-title">Rottweiler File</h3>
+          <p class="card-blurb">From drover to guardian: the job behind the stare, the stickiness, and the strength — cited and practical.</p>
+          <!-- Coming December — swap href for Gumroad/Payhip/Stripe when live -->
+          <a class="btn btn--accent btn--disabled" href="#" aria-disabled="true" tabindex="-1">Coming December</a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- 5. Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-paw" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="14" height="14" fill="currentColor"><ellipse cx="18" cy="18" rx="7" ry="9" transform="rotate(-18 18 18)"/><ellipse cx="32" cy="12" rx="7" ry="9"/><ellipse cx="46" cy="18" rx="7" ry="9" transform="rotate(18 46 18)"/><ellipse cx="12" cy="32" rx="6" ry="8" transform="rotate(-35 12 32)"/><path d="M32 28c-10 0-18 8-18 16 0 6 4 10 10 10 3 0 5-1 8-4 3 3 5 4 8 4 6 0 10-4 10-10 0-8-8-16-18-16z"/></svg>
+      </span>
+      <p>&copy; Dog Unpacked, 2026</p>
+    </div>
+    <p class="footer-disclaimer">Educational content only — not veterinary or training advice.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
