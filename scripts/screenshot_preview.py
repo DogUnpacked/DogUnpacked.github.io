@@ -5,6 +5,7 @@ Outputs (gitignored, local review only; mobile shots are quantized to 256 colors
   assets/preview-v2-desktop.png       1280 wide, full page
   assets/preview-v2-mobile.png        375 wide, full page
   assets/preview-v2-mobile-dobie.png  375 wide, ?breed=dobie
+  assets/preview-v2-mobile-pitbull.png 375 wide, ?breed=pit-bull
 
 Serves the folder over a local HTTP server (so ?breed= works) and prints layout checks.
 """
@@ -19,17 +20,19 @@ CHECK_JS = """() => {
   const overlap = (a, b) => a && b && !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom);
   const pit = document.querySelector('img[src*="pit-bull-480"]');
   const paw = document.querySelector('.paw-watermark--br');
-  const chips = [...document.querySelectorAll('.deco-chip')].map(c => Math.round(r(c).top));
   const small = [...document.querySelectorAll('a.social-btn, button, a.btn, input')]
     .filter(e => e.offsetParent && r(e).height < 44).map(e => e.outerHTML.slice(0, 60));
   return {
     scrollWidth: document.documentElement.scrollWidth,
     innerWidth: window.innerWidth,
     pitOverlapsPaw: overlap(pit && pit.offsetParent ? r(pit.closest('figure')) : null, r(paw)),
-    chipTops: chips,
     heading: document.getElementById('newsletter-heading').textContent,
     breedValue: document.getElementById('breed').value,
     latestVisible: !document.getElementById('latest').hidden,
+    latestEmbed: !!document.querySelector('#latest-video .lite-yt-btn img'),
+    latestCards: document.querySelectorAll('#latest-more a').length,
+    footerTag: document.querySelector('.footer-tag').innerText,
+    gmail: /gmail/i.test(document.documentElement.innerHTML),
     under44: small,
   };
 }"""
@@ -65,6 +68,7 @@ async def main():
         ("preview-v2-desktop", 1280, 900, 1, ""),
         ("preview-v2-mobile", 375, 812, 2, ""),
         ("preview-v2-mobile-dobie", 375, 812, 2, "?breed=dobie"),
+        ("preview-v2-mobile-pitbull", 375, 812, 2, "?breed=pit-bull"),
     ]
     async with async_playwright() as p:
         b = await p.chromium.launch()
