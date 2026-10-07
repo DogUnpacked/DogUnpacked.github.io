@@ -71,15 +71,21 @@ action="https://formspree.io/f/YOUR_FORM_ID"
 
 Guide titles match the brief (… File). Sell links still TBD.
 
-### 5. Optional logo swap
+### 5. Logo, favicons & share image — done
 
-In the hero, look for:
+The brand logo is live in the hero (circular badge above the "Dog Unpacked" wordmark, 144px on phones / 168px on wider screens).
 
-```html
-<!-- LOGO: replace .hero-mark with <img class="hero-logo" src="logo.png" alt="Dog Unpacked" width="72" height="72"> when you have a brand mark -->
-```
+| File | Use |
+|------|-----|
+| `images/logo-original.png` | Full-res master (do not link from the page) |
+| `images/logo-256.{png,webp}`, `images/logo-512.{png,webp}` | Hero logo (`<picture>` + `srcset`) |
+| `favicon.ico` (16/32/48), `favicon-32.png` | Browser tab icons |
+| `apple-touch-icon.png` (180×180) | iOS home-screen icon |
+| `images/og-image.png` (1200×630) | Open Graph / Twitter share card |
 
-Replace the `.hero-mark` SVG block with that `<img>` (or keep both during testing). Styles for `.hero-logo` are already in `styles.css`. The mark also has `data-logo-slot="true"` for future tooling.
+Regenerate everything from the master with `python3 scripts/build_logo_assets.py` (needs Pillow).
+
+**Before publishing:** `og:image` / `twitter:image` currently use relative paths. Switch them to absolute URLs (e.g. `https://<user>.github.io/<repo>/images/og-image.png`) and add `og:url` once the GitHub Pages URL is known — see the comment in `<head>`.
 
 ---
 

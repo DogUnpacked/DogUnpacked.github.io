@@ -10,6 +10,29 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Favicons / app icons -->
+  <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Social share (Open Graph / Twitter).
+       TODO: og:image, twitter:image (and og:url) must be ABSOLUTE URLs for most scrapers.
+       Once the GitHub Pages URL is known, switch to e.g.
+       https://<user>.github.io/<repo>/images/og-image.png and add <meta property="og:url">. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dog Unpacked">
+  <meta property="og:title" content="Dog Unpacked — He&#39;s not broken. He&#39;s bred that way.">
+  <meta property="og:description" content="Breed-behavior education for owners of working and power breeds — breed history, temperament data, and peer-reviewed studies.">
+  <meta property="og:image" content="images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Dog Unpacked logo — a shepherd-type dog in a navy ring — with the wordmark DOG UNPACKED">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Dog Unpacked — He&#39;s not broken. He&#39;s bred that way.">
+  <meta name="twitter:description" content="Breed-behavior education for owners of working and power breeds.">
+  <meta name="twitter:image" content="images/og-image.png">
+  <meta name="twitter:image:alt" content="Dog Unpacked logo with the wordmark DOG UNPACKED">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -125,17 +148,21 @@
   <main id="main">
     <!-- 1. Hero -->
     <header class="hero">
-      <!-- LOGO: replace .hero-mark with <img class="hero-logo" src="logo.png" alt="Dog Unpacked" width="72" height="72"> when you have a brand mark -->
-      <div class="hero-mark" aria-hidden="true" data-logo-slot="true">
-        <svg class="paw-icon" viewBox="0 0 64 64" role="img" focusable="false">
-          <title>Paw print</title>
-          <ellipse cx="18" cy="18" rx="7.5" ry="9.5" transform="rotate(-18 18 18)"/>
-          <ellipse cx="32" cy="11.5" rx="7.5" ry="9.5"/>
-          <ellipse cx="46" cy="18" rx="7.5" ry="9.5" transform="rotate(18 46 18)"/>
-          <ellipse cx="11.5" cy="32" rx="6.5" ry="8.5" transform="rotate(-35 11.5 32)"/>
-          <path d="M32 27c-10.5 0-19 8.5-19 17 0 6.5 4.2 10.5 10.5 10.5 3.2 0 5.4-1.1 8.5-4.2 3.1 3.1 5.3 4.2 8.5 4.2 6.3 0 10.5-4 10.5-10.5 0-8.5-8.5-17-19-17z"/>
-        </svg>
-      </div>
+      <!-- Brand logo (circular badge). Sources: images/logo-*.{webp,png}; regenerate with scripts/build_logo_assets.py -->
+      <picture class="hero-logo-wrap">
+        <source type="image/webp" srcset="images/logo-256.webp 256w, images/logo-512.webp 512w" sizes="(min-width: 640px) 168px, 144px">
+        <img
+          class="hero-logo"
+          src="images/logo-256.png"
+          srcset="images/logo-256.png 256w, images/logo-512.png 512w"
+          sizes="(min-width: 640px) 168px, 144px"
+          alt="Dog Unpacked logo"
+          width="168"
+          height="168"
+          decoding="async"
+          fetchpriority="high"
+        >
+      </picture>
       <p class="brand-kicker">Breed-behavior education for working &amp; power breeds</p>
       <h1 class="brand-name">Dog Unpacked</h1>
       <!-- EDITABLE: replace the tagline below with your own -->
