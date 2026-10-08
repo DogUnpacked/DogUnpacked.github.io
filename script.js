@@ -32,7 +32,7 @@
   // ?breed= shortcuts. Anything else: hyphens -> spaces, Title Case.
   var BREED_OVERRIDES = {
     gsd: "German Shepherd",
-    pitbull: "Pit Bull",
+    pitbull: "American Pit Bull Terrier",
     corso: "Cane Corso",
     dobie: "Doberman"
   };
@@ -66,6 +66,21 @@
     return String(name).toLowerCase().trim().replace(/[^a-z]+/g, "-").replace(/^-+|-+$/g, "");
   }
 
+  // The 87.6% sample is American Pit Bull Terrier, so that name is the label.
+  // Photos and the stat still key off pit-bull. The query slug stays pit-bull.
+  var CONTENT_SLUGS = {
+    "american-pit-bull-terrier": "pit-bull"
+  };
+
+  function contentSlug(name) {
+    var slug = slugify(name);
+    return CONTENT_SLUGS[slug] || slug;
+  }
+
+  function editionText(name) {
+    return "\u00a0— " + name + "\u00a0edition";
+  }
+
   // Photos that exist in images/breeds/. Src is never built from the query string.
   var BREED_PHOTOS = {
     "german-shepherd": { src: "images/breeds/german-shepherd-480.webp", w: 480, h: 600 },
@@ -75,18 +90,19 @@
   };
 
   // Verified ATTS pass rates from the brand brief. A breed missing here gets no number.
-  // Pit Bull uses the American Pit Bull Terrier sample. Husky has a rate and no sample size.
+  // The 87.6% line is the American Pit Bull Terrier sample, not every pit-type dog.
+  // Husky has a rate and no sample size.
   var BREED_STATS = {
     "german-shepherd": "American Temperament Test Society. German Shepherds: 85.7% pass rate, 3,500 dogs.",
     "rottweiler": "American Temperament Test Society. Rottweilers: 85.0% pass rate, 6,216 dogs.",
     "doberman": "American Temperament Test Society. Dobermans: 80.1% pass rate, 1,870 dogs.",
-    "pit-bull": "American Temperament Test Society. American Pit Bull Terriers: 87.6% pass rate, 960 dogs.",
+    "pit-bull": "American Temperament Test Society. American Pit Bull Terrier: 87.6% pass rate, 960 dogs.",
     "golden-retriever": "American Temperament Test Society. Golden Retrievers: 85.9% pass rate, 836 dogs.",
     "husky": "American Temperament Test Society. Huskies: 86.7% pass rate."
   };
 
   function personalizeBreed(name) {
-    var slug = slugify(name);
+    var slug = contentSlug(name);
     document.documentElement.setAttribute("data-breed", slug);
 
     var kicker = document.getElementById("hero-kicker");
@@ -140,8 +156,8 @@
       filesNote.textContent = slug === "german-shepherd"
         ? "This one is for your German Shepherd."
         : slug === "mixed-breed"
-          ? "The next File is chosen from what readers ask for. That includes mixed breeds."
-          : "The next File is chosen from what readers ask for. That includes your " + name + ".";
+          ? "The next File is chosen from the breeds readers name when they sign up. That includes mixed breeds."
+          : "The next File is chosen from the breeds readers name when they sign up. That includes your " + name + ".";
       filesNote.hidden = false;
     }
   }
@@ -226,14 +242,17 @@
     // crafted link can't put arbitrary words on the page. Unknown slug -> default page.
     var known = {};
     var opts = document.querySelectorAll("#breed-list option");
-    for (var i = 0; i < opts.length; i++) known[slugify(opts[i].value)] = true;
-    if (!known[slugify(name)]) return;
+    for (var i = 0; i < opts.length; i++) {
+      var listed = slugify(opts[i].value);
+      known[listed] = true;
+      if (CONTENT_SLUGS[listed]) known[CONTENT_SLUGS[listed]] = true;
+    }
+    if (!known[slugify(name)] && !known[contentSlug(name)]) return;
 
     if (breedInput && !breedInput.value) breedInput.value = name;
 
     var edition = document.getElementById("breed-edition");
-    // Non-breaking spaces keep "— Pit Bull edition" together so it wraps as one unit.
-    if (edition) edition.textContent = "\u00a0— " + name.replace(/ /g, "\u00a0") + "\u00a0edition";
+    if (edition) edition.textContent = editionText(name);
     personalizeBreed(name);
   })();
 
@@ -279,7 +298,7 @@
         breedInput.value = breed;
         breedInput.disabled = !breed; // blank breed: leave fields[breed] out of the post
       }
-      track(breed ? "subscribe-" + slugify(breed) : "subscribe-none", "The Sniff Test signup: " + (breed || "none"));
+      track(breed ? "subscribe-" + contentSlug(breed) : "subscribe-none", "The Sniff Test signup: " + (breed || "none"));
 
       if (!window.fetch || !window.FormData) {
         return; // old browser: let the normal POST happen
@@ -728,7 +747,7 @@
         else buttons[i].removeAttribute("aria-current");
       }
       if (breedInput) breedInput.value = name;
-      if (edition) edition.textContent = "\u00a0— " + name.replace(/ /g, "\u00a0") + "\u00a0edition";
+      if (edition) edition.textContent = editionText(name);
       personalizeBreed(name);
       paint(slug, name, !fromUrl);
       if (fromUrl) return;

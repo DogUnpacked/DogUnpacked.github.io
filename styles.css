@@ -1522,10 +1522,16 @@ h1 {
     align-items: stretch;
   }
 
-  .latest-card img {
+  .latest-more:not(:has(li:nth-child(2))) .latest-card img {
     flex: 1 1 auto;
     min-height: 9rem;
     aspect-ratio: auto;
+  }
+
+  .latest-more:has(li:nth-child(2)) .latest-card img {
+    flex: none;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
   }
 
   .dial-result:has(.dial-figure:not([hidden])) {

@@ -12,7 +12,7 @@ On a 390×844 phone the email field, breed field, and "Get The Sniff Test" butto
 
 ## Newsletter signup (Kit)
 
-Copy: badge "Free weekly newsletter" → heading "The Sniff Test" → "One behavior, one job, one study, and what to do tonight. Every Sunday. 90 seconds to read." → button "Get The Sniff Test" → "Free. No spam. Unsubscribe anytime."
+Copy: badge "Free weekly newsletter" → heading "The Sniff Test" → "One behavior, one job, one study, and what to do tonight. Every Sunday. About a two-minute read." → button "Get The Sniff Test" → "Free. No spam. Unsubscribe anytime." The document title is "Everything Dog Unpacked — He's not broken. He's bred that way." Issues run 250 to 400 words, so the page does not say "90 seconds."
 
 Plain newsletter signup. Email is required. Breed is optional: it's saved to the subscriber's Kit custom field
 `breed` and does **not** change the signup. Everyone gets the same Sunday issue of The Sniff Test.
@@ -150,7 +150,7 @@ referrer, so bio and pin traffic shows up per platform in its Referrers view.
 `?breed=<lowercase-hyphenated-slug>` pre-fills "Your dog's breed (optional)" and changes the heading to
 "The Sniff Test — [Breed] edition". The visitor can clear or edit the field. The signup is still the same Sunday letter for every breed.
 
-Display name = hyphens become spaces, then Title Case. Shortcuts: `gsd` → German Shepherd, `pitbull` → Pit Bull,
+Display name = hyphens become spaces, then Title Case. Shortcuts: `gsd` → German Shepherd, `pitbull` → American Pit Bull Terrier,
 `corso` → Cane Corso, `dobie` → Doberman (`BREED_OVERRIDES` in `script.js`). Anything that isn't letters and
 hyphens (or is over 40 characters) is ignored and the default page shows, with no error. Values are written with
 `textContent` only. Image `src` values come from a fixed map, never from the query string. No cookies, no storage. Only known breeds get an edition: the 19 names in the
@@ -161,9 +161,9 @@ heading. To add a breed (e.g. `shiba-inu`), add an `<option value="Shiba Inu">` 
 For a known breed, `script.js` also:
 
 - Sets the hero kicker to the breed name (default kicker: "Every breed, one at a time").
-- Shows that breed's photo when one exists in `images/breeds/` (German Shepherd, Pit Bull, Rottweiler, Doberman). Other breeds get a type plate with the name, not a stand-in photo.
-- Shows one verified American Temperament Test Society pass rate, and only for breeds that have one in the brand brief. The line under it is "A pass rate is a number, not a verdict. You decide what it means." Pit Bull uses the American Pit Bull Terrier sample (87.6%, 960 dogs). Husky is 86.7% with no sample size, so none is shown. Cane Corso and the other datalist breeds get no number.
-- Adds one line in Breed Files. German Shepherd: "This one is for your German Shepherd." Mixed breed: the next File is chosen from what readers ask for, including mixed breeds. Any other known breed: the next File is chosen from what readers ask for, and names that breed. It does not say subscribers get a File first.
+- Shows that breed's photo when one exists in `images/breeds/` (German Shepherd, American Pit Bull Terrier, Rottweiler, Doberman). Other breeds get a type plate with the name, not a stand-in photo.
+- Shows one verified American Temperament Test Society pass rate, and only for breeds that have one in the brand brief. The line under it is "A pass rate is a number, not a verdict. You decide what it means." The 87.6% line is labeled American Pit Bull Terrier (960 dogs), including the hero kicker, the edition, the photo caption, and the breed picker. `?breed=pit-bull` and `?breed=pitbull` both use that name. Husky is 86.7% with no sample size, so none is shown. Cane Corso and the other datalist breeds get no number.
+- Adds one line in Breed Files. German Shepherd: "This one is for your German Shepherd." Mixed breed: the next File is chosen from the breeds readers name when they sign up, including mixed breeds. Any other known breed: the next File is chosen from the breeds readers name when they sign up, and names that breed. It does not say subscribers get a File first.
 - Marks that breed on the dial (`#breed-dial`) and fills the panel: the tagline, the method ("one thing he does, traced to the job he was built for"), and a verified ATTS line only when `BREED_STATS` has one. Breeds with no figure get "No verified figure for this breed on this page." Photos in the panel come from the same fixed map as the hero. Picking a breed updates `?breed=` with `history.replaceState` and keeps `utm_*`. Without JavaScript the breed names are ordinary `?breed=` links.
 
 Verified lines in `BREED_STATS` (`script.js`): German Shepherd 85.7% (3,500), Rottweiler 85.0% (6,216), Doberman 80.1% (1,870), American Pit Bull Terrier 87.6% (960), Golden Retriever 85.9% (836), Husky 86.7%. Do not add a figure that is not in the brief.
@@ -175,7 +175,7 @@ with `PLATFORM` to replace (`tiktok`, `youtube` or `instagram`).
 | Breed | URL | Pinned-comment link |
 |---|---|---|
 | German Shepherd | `https://dogunpacked.com/?breed=german-shepherd` (or `?breed=gsd`) | `https://dogunpacked.com/?breed=german-shepherd&utm_source=PLATFORM&utm_medium=pin` |
-| Pit Bull | `https://dogunpacked.com/?breed=pit-bull` (or `?breed=pitbull`) | `https://dogunpacked.com/?breed=pit-bull&utm_source=PLATFORM&utm_medium=pin` |
+| American Pit Bull Terrier | `https://dogunpacked.com/?breed=pit-bull` (or `?breed=pitbull`) | `https://dogunpacked.com/?breed=pit-bull&utm_source=PLATFORM&utm_medium=pin` |
 | Rottweiler | `https://dogunpacked.com/?breed=rottweiler` | `https://dogunpacked.com/?breed=rottweiler&utm_source=PLATFORM&utm_medium=pin` |
 | Doberman | `https://dogunpacked.com/?breed=doberman` (or `?breed=dobie`) | `https://dogunpacked.com/?breed=doberman&utm_source=PLATFORM&utm_medium=pin` |
 | Cane Corso | `https://dogunpacked.com/?breed=cane-corso` (or `?breed=corso`) | `https://dogunpacked.com/?breed=cane-corso&utm_source=PLATFORM&utm_medium=pin` |
@@ -209,7 +209,9 @@ All calls go through `track()` in `script.js`, which does nothing if GoatCounter
 
 ## Breed Files teaser (until a guide is on sale)
 
-The section is a teaser, not a checkout. A cream dossier (decorative, `aria-hidden`) sits beside the copy and repeats only the facts already in the text: German Shepherd File, owner guide, $15 PDF, on sale in December. There is no buy button, no second breed, and no crossed-out temperament line. Copy states that nothing is for sale until that file is real, and that later breeds are chosen by what readers say in the form. It does not say newsletter subscribers get the File first.
+The section is a teaser, not a checkout. A cream dossier (decorative, `aria-hidden`) sits beside the copy and repeats only the facts already in the text: German Shepherd File, owner guide, $15 PDF, on sale in December. There is no buy button, no second breed, no $29 price, and no crossed-out temperament line. Later Files are chosen by the breeds readers name in the newsletter signup. A breed request in the contact form is a second route. The page does not say newsletter subscribers get the File first.
+
+The letter frame (`#issue`) lists the real issue order and no sample facts: one behavior, the job it comes from, one study, what to do tonight, the video, and one reply question. It does not use hook, unpack, or breed-note labels. The signup pitch stays "One behavior, one job, one study, and what to do tonight."
 
 ## December: when the German Shepherd File is on sale
 
