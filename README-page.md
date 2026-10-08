@@ -6,7 +6,7 @@ Live address: https://dogunpacked.com/ (custom domain on GitHub Pages, repo `Dog
 
 ## Section order
 
-Sticky header (logo, wordmark, jump to The Sniff Test; Breed Files and Contact from 840px) → hero (kicker, tagline as the H1, one-line promise, and the signup card) → platform row (YouTube, Instagram, TikTok — Facebook is not used) → breed frames (beside the hero from 960px, under the platform row on a phone) → the standard (`#standard`) → Latest (`#latest`, only when `data/latest.json` lists a video) → Breed Files teaser (`#breed-files`) → Contact (`#contact`, Formspree form) → footer.
+Sticky header (logo, wordmark, jump to The Sniff Test; Breeds, Breed Files, and Contact from 840px) → hero (kicker, tagline as the H1, one-line promise, and the signup card) → platform row (YouTube, Instagram, TikTok — Facebook is not used) → breed frames (beside the hero from 960px, under the platform row on a phone) → the standard (`#standard`) → the letter frame (`#issue`, the parts of every Sniff Test, not a past issue) → breed dial (`#breed-dial`) → Latest (`#latest`, only when `data/latest.json` lists a video) → Breed Files teaser (`#breed-files`) → Contact (`#contact`, Formspree form) → footer. On a phone, once the signup card scrolls out of view, a bar with "Get The Sniff Test" sticks to the bottom until the contact section or the footer is on screen, and it stays hidden after a signup.
 
 On a 390×844 phone the email field, breed field, and "Get The Sniff Test" button sit in the first screen, with the three platform buttons still in that screen. A `?breed=` visit keeps that order and swaps the frames for that breed.
 
@@ -163,7 +163,8 @@ For a known breed, `script.js` also:
 - Sets the hero kicker to the breed name (default kicker: "Every breed, one at a time").
 - Shows that breed's photo when one exists in `images/breeds/` (German Shepherd, Pit Bull, Rottweiler, Doberman). Other breeds get a type plate with the name, not a stand-in photo.
 - Shows one verified American Temperament Test Society pass rate, and only for breeds that have one in the brand brief. The line under it is "A pass rate is a number, not a verdict. You decide what it means." Pit Bull uses the American Pit Bull Terrier sample (87.6%, 960 dogs). Husky is 86.7% with no sample size, so none is shown. Cane Corso and the other datalist breeds get no number.
-- Adds one line in Breed Files. German Shepherd: "This one is for your German Shepherd." Any other known breed: the next File is chosen from what readers ask for, and names that breed. It does not say subscribers get a File first.
+- Adds one line in Breed Files. German Shepherd: "This one is for your German Shepherd." Mixed breed: the next File is chosen from what readers ask for, including mixed breeds. Any other known breed: the next File is chosen from what readers ask for, and names that breed. It does not say subscribers get a File first.
+- Marks that breed on the dial (`#breed-dial`) and fills the panel: the tagline, the method ("one thing he does, traced to the job he was built for"), and a verified ATTS line only when `BREED_STATS` has one. Breeds with no figure get "No verified figure for this breed on this page." Photos in the panel come from the same fixed map as the hero. Picking a breed updates `?breed=` with `history.replaceState` and keeps `utm_*`. Without JavaScript the breed names are ordinary `?breed=` links.
 
 Verified lines in `BREED_STATS` (`script.js`): German Shepherd 85.7% (3,500), Rottweiler 85.0% (6,216), Doberman 80.1% (1,870), American Pit Bull Terrier 87.6% (960), Golden Retriever 85.9% (836), Husky 86.7%. Do not add a figure that is not in the brief.
 
@@ -208,50 +209,29 @@ All calls go through `track()` in `script.js`, which does nothing if GoatCounter
 
 ## Breed Files teaser (until a guide is on sale)
 
-The section is a teaser, not a product card. It shows the Unpacked box label (`Contents: 1 German Shepherd`, with `Not anxious` crossed out and `On shift` left standing), the name "German Shepherd File", "$15 PDF", and "On sale in December." There is no buy button and no second breed. Copy states that nothing is for sale until that file is real, and that later breeds are chosen by what readers say in the form. It does not say newsletter subscribers get the File first.
+The section is a teaser, not a checkout. A cream dossier (decorative, `aria-hidden`) sits beside the copy and repeats only the facts already in the text: German Shepherd File, owner guide, $15 PDF, on sale in December. There is no buy button, no second breed, and no crossed-out temperament line. Copy states that nothing is for sale until that file is real, and that later breeds are chosen by what readers say in the form. It does not say newsletter subscribers get the File first.
 
 ## December: when the German Shepherd File is on sale
 
 Replace the teaser with **one product card**, only for a guide that actually exists:
 
-- Header art: the Unpacked box label in HTML/CSS (no image): kraft-brown card border, cream label, navy
-  stencil-style text. Line 1 `CONTENTS: 1 GERMAN SHEPHERD`, line 2 `NOT ANXIOUS · ON SHIFT`.
-- Title "German Shepherd File", a two-line description, the price, and a real Buy button
+- Keep the live facts: owner guide, $15 PDF, on sale in December. Do not bring back a crossed-out temperament line.
+- Title "German Shepherd File", a two-line description of what the real file contains, the price, and a real Buy button
   (Kit Commerce, which works on the Free plan, or Gumroad).
 - Add a second card only when a second guide exists. No "coming soon" cards.
 
-Component sketch (removed from the live CSS to keep it tidy; drop into `styles.css` when needed):
+Component sketch (not on the live page; add it when a buy URL exists):
 
 ```html
 <article class="product-card">
-  <div class="box-label" aria-hidden="true">
-    <div class="box-label-inner">
-      <span class="box-label-line1">Contents: 1 German Shepherd</span>
-      <span class="box-label-line2">Not anxious · On shift</span>
-    </div>
-  </div>
   <h3>German Shepherd File</h3>
-  <p>[two-line description]</p>
-  <p class="price">$[price]</p>
+  <p>[two-line description of the real file]</p>
+  <p class="price">$15 PDF</p>
   <a class="btn btn--primary" href="[Kit Commerce / Gumroad URL]">Buy the German Shepherd File</a>
 </article>
 ```
 
-```css
-.box-label { background: #B08355; border: 2px solid #8C6239; border-radius: 6px; padding: .7rem; }
-.box-label-inner { background: var(--cream); border: 2px dashed var(--navy); padding: .6rem .7rem;
-  display: flex; flex-direction: column; align-items: center; gap: .25rem; text-align: center;
-  color: var(--navy); text-transform: uppercase; font-family: "Arial Black", Arial, var(--font); font-weight: 900; }
-.box-label-line1, .box-label-line2 { position: relative; display: inline-block; }
-/* stencil bridges: one cream hairline per text line */
-.box-label-line1::after, .box-label-line2::after { content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: repeating-linear-gradient(to bottom, transparent 0 .6em, var(--cream) .6em calc(.6em + 1.5px),
-  transparent calc(.6em + 1.5px) 1.15em); }
-.box-label-line1 { font-size: .9rem; letter-spacing: .1em; }
-.box-label-line2 { font-size: .74rem; letter-spacing: .16em; }
-```
-
-The full earlier implementation (four cards with badges) is in git history at commit 3bf7784.
+The earlier stencil label and the four-card version are in git history (commit 3bf7784). Do not put that label back on the page.
 
 ## GitHub Pages readiness
 

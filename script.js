@@ -8,6 +8,8 @@
  *  4. Latest: renders data/latest.json (up to 3 long-form videos); click-to-load embed
  *  5. Contact form: validation, honeypot, background POST to Formspree, inline success/error
  *  6. Confirmed landing: ?confirmed=1 (Kit double opt-in redirect) -> "You're in." in the newsletter section
+ *  7. Breed dial: pick a known breed, show the verified angle, keep ?breed= and utm_* in the URL
+ *  8. Sticky mobile signup bar once the hero form leaves the screen
  *
  * The page works without this file: the Kit form still posts (Kit's hosted page confirms) and links work.
  */
@@ -93,8 +95,9 @@
     var grid = document.getElementById("breed-grid");
     var caption = document.getElementById("visual-caption");
     var photo = BREED_PHOTOS[slug];
+    var fig = document.getElementById("breed-feature");
+    var plate = document.getElementById("breed-plate");
     if (photo) {
-      var fig = document.getElementById("breed-feature");
       var img = document.getElementById("breed-feature-img");
       var cap = document.getElementById("breed-feature-cap");
       if (fig && img) {
@@ -107,15 +110,16 @@
         if (cap) cap.textContent = name;
         fig.hidden = false;
       }
+      if (plate) plate.hidden = true;
       if (grid) grid.hidden = true;
       if (caption) caption.hidden = true;
     } else {
-      var plate = document.getElementById("breed-plate");
       var plateName = document.getElementById("breed-plate-name");
       if (plate && plateName) {
         plateName.textContent = name;
         plate.hidden = false;
       }
+      if (fig) fig.hidden = true;
       if (grid) grid.hidden = true;
       if (caption) caption.hidden = true;
     }
@@ -126,6 +130,9 @@
     if (stat && statWrap && statText) {
       statText.textContent = stat;
       statWrap.hidden = false;
+    } else if (statWrap) {
+      if (statText) statText.textContent = "";
+      statWrap.hidden = true;
     }
 
     var filesNote = document.getElementById("files-breed-note");
@@ -641,4 +648,149 @@
         .catch(contactFail);
     });
   }
+
+  /* ------------------------------------------------------------------
+   * 7. Breed dial. Same known breeds as the form. A figure only when BREED_STATS has one.
+   *    Photo src only from BREED_PHOTOS. Click updates the hero, the form, and the URL
+   *    without dropping utm_*. No-JS visitors follow the real ?breed= links.
+   * ------------------------------------------------------------------ */
+  (function breedDial() {
+    var picks = document.getElementById("dial-picks");
+    var stage = document.getElementById("dial-stage");
+    if (!picks || !stage) return;
+
+    var empty = document.getElementById("dial-empty");
+    var result = document.getElementById("dial-result");
+    var figure = document.getElementById("dial-figure");
+    var photo = document.getElementById("dial-photo");
+    var cap = document.getElementById("dial-cap");
+    var nameEl = document.getElementById("dial-name");
+    var statEl = document.getElementById("dial-stat");
+    var noteEl = document.getElementById("dial-note");
+    var edition = document.getElementById("breed-edition");
+    var NO_STAT = "No verified figure for this breed on this page. The letter still starts from him: one behavior, one job, one study.";
+    var STAT_NOTE = "A pass rate is a number, not a verdict. You decide what it means.";
+
+    function paint(slug, name, animate) {
+      var apply = function () {
+        if (empty) empty.hidden = true;
+        if (result) result.hidden = false;
+        if (nameEl) nameEl.textContent = name;
+        var shot = BREED_PHOTOS[slug];
+        if (shot && figure && photo) {
+          photo.width = shot.w;
+          photo.height = shot.h;
+          photo.alt = "";
+          photo.src = shot.src;
+          if (cap) cap.textContent = name;
+          figure.hidden = false;
+        } else if (figure) {
+          figure.hidden = true;
+          if (photo) photo.removeAttribute("src");
+        }
+        var stat = BREED_STATS[slug];
+        if (stat && statEl) {
+          statEl.textContent = stat;
+          statEl.hidden = false;
+          if (noteEl) noteEl.textContent = STAT_NOTE;
+        } else {
+          if (statEl) {
+            statEl.textContent = "";
+            statEl.hidden = true;
+          }
+          if (noteEl) noteEl.textContent = NO_STAT;
+        }
+      };
+
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (animate && !reduce && typeof document.startViewTransition === "function") {
+        document.startViewTransition(apply);
+      } else {
+        apply();
+      }
+    }
+
+    function findPick(slug) {
+      var buttons = picks.querySelectorAll(".dial-pick");
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i].getAttribute("data-dial") === slug) return buttons[i];
+      }
+      return null;
+    }
+
+    function selectDial(slug, fromUrl) {
+      var link = findPick(slug);
+      if (!link) return;
+      var name = link.textContent.replace(/\s+/g, " ").trim();
+      var buttons = picks.querySelectorAll(".dial-pick");
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i] === link) buttons[i].setAttribute("aria-current", "true");
+        else buttons[i].removeAttribute("aria-current");
+      }
+      if (breedInput) breedInput.value = name;
+      if (edition) edition.textContent = "\u00a0— " + name.replace(/ /g, "\u00a0") + "\u00a0edition";
+      personalizeBreed(name);
+      paint(slug, name, !fromUrl);
+      if (fromUrl) return;
+      try {
+        var params = new URLSearchParams(window.location.search);
+        params.set("breed", slug);
+        params.delete("confirmed");
+        var qs = params.toString();
+        window.history.replaceState(window.history.state, "", window.location.pathname + (qs ? "?" + qs : "") + window.location.hash);
+      } catch (e) {
+        /* the panel still updated */
+      }
+    }
+
+    picks.addEventListener("click", function (e) {
+      var link = e.target.closest ? e.target.closest("a.dial-pick") : null;
+      if (!link || !picks.contains(link)) return;
+      e.preventDefault();
+      selectDial(link.getAttribute("data-dial"), false);
+    });
+
+    var current = document.documentElement.getAttribute("data-breed");
+    if (current) selectDial(current, true);
+  })();
+
+  /* ------------------------------------------------------------------
+   * 8. Sticky signup on small screens, only after the hero form has scrolled away,
+   *    and never over the contact form, the footer, or a finished signup.
+   * ------------------------------------------------------------------ */
+  (function stickySignup() {
+    var bar = document.getElementById("sticky-cta");
+    var subscribe = document.getElementById("subscribe");
+    if (!bar || !subscribe || !("IntersectionObserver" in window)) return;
+
+    var contact = document.getElementById("contact");
+    var footer = document.getElementById("footer");
+    var subscribeIn = true;
+    var blocking = {};
+
+    function sync() {
+      var formHidden = !!(form && form.hidden);
+      var blocked = !!(blocking.contact || blocking.footer);
+      bar.hidden = subscribeIn || blocked || formHidden;
+    }
+
+    new IntersectionObserver(function (entries) {
+      subscribeIn = entries[0].isIntersecting;
+      sync();
+    }).observe(subscribe);
+
+    if (contact || footer) {
+      var blockObs = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) blocking[entries[i].target.id] = entries[i].isIntersecting;
+        sync();
+      }, { rootMargin: "0px 0px 88px 0px" });
+      if (contact) blockObs.observe(contact);
+      if (footer) blockObs.observe(footer);
+    }
+
+    if (form && window.MutationObserver) {
+      new MutationObserver(sync).observe(form, { attributes: true, attributeFilter: ["hidden"] });
+    }
+    sync();
+  })();
 })();
