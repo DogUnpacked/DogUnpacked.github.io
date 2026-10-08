@@ -29,15 +29,34 @@ The newsletter is **The Sniff Test** (weekly, Sunday). See **`README-newsletter.
 
 `/breeds/` is a static directory of AKC-recognized breeds, plus American Pit Bull Terrier (UKC) and a mixed-breed page. Each breed is a real page at `/breeds/<slug>/`.
 
+The American Kennel Club breeds-by-year list names 205 breeds, with one entry called Fox Terrier. This directory gives Smooth Fox Terrier and Wire Fox Terrier each a page, because AKC publishes a separate standard for each. Toy Fox Terrier is already its own breed. Poodle is one page. The three varieties are Standard, Miniature, and Toy. American Pit Bull Terrier is here from the United Kennel Club. Mixed breed has a page of its own.
+
 All of the copy, sources, and photo credits live in **`data/breeds.json`**. `scripts/build_breeds.py` (Python standard library only) writes the HTML, updates `sitemap.xml`, writes `docs/breed-facts-review.csv`, and refreshes the breed table in `assets/CREDITS.md`. Commit the generated HTML. GitHub Pages does not build it.
 
 To add a breed later:
 
-1. Add one object to the `breeds` array in `data/breeds.json` (name, slug, group, job, home note, facts with source name and URL, and a `photo` object).
-2. Add a WebP at the `photo.file` path and a square thumbnail at `photo.thumb`, or set `photo.placeholder` to `true`.
+1. Add one object to the `breeds` array in `data/breeds.json` (name, slug, group, job, facts with source name and URL, an optional `videos` array, and a `photo` object).
+2. Add a WebP at the `photo.file` path and a square thumbnail at `photo.thumb`, or set `photo.placeholder` to `true`. `photo.focal_x` and `photo.focal_y` (0 to 1) record the point the thumbnail was cropped around, so a later crop can keep the dog's head in frame.
 3. Run `python3 scripts/build_breeds.py` and commit `data/breeds.json`, the image, and the generated files.
 
-A breed page links a YouTube video only when that breed's name or one of its `aliases` appears in a title in `data/latest.json`. The home page newsletter block is unchanged. Dial names on the home page link to these pages. `/?breed=<slug>` still prefills The Sniff Test for the 19 breeds in the signup list.
+Breed pages do not read `data/latest.json`. That file only feeds the latest-video strip on the home page, and the updater skips Shorts. A breed page shows one card per item in that breed's `videos` array. Each item is `{id, title, type, url}`:
+
+| Field | What to put |
+|---|---|
+| `id` | The 11-character YouTube id |
+| `title` | The title as it appears on YouTube |
+| `type` | `video` for a long video, `short` for a YouTube Short |
+| `url` | `https://www.youtube.com/watch?v/<id>` for a long video, `https://www.youtube.com/shorts/<id>` for a Short |
+
+Put every `video` ahead of every `short`. The card is a link with a lazy-loaded thumbnail from `i.ytimg.com`. It does not embed a player. Breeds with at least one card use that card as the call to action under the job line. A generic video that is not about one breed stays off the breed pages.
+
+To add a video or Short to a breed:
+
+1. Add one object to that breed's `videos` array in `data/breeds.json`, using the fields above. Create the array if the breed does not have one yet.
+2. Keep long videos first, then Shorts.
+3. Run `python3 scripts/build_breeds.py` and commit `data/breeds.json` plus the regenerated page.
+
+The home page newsletter block is unchanged. Dial names on the home page link to these pages. `/?breed=<slug>` still prefills The Sniff Test for the 19 breeds in the signup list.
 
 ## Placeholders you must fill in
 

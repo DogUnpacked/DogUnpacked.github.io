@@ -55,50 +55,120 @@ def load():
     if len(slugs) != len(set(slugs)):
         raise SystemExit("duplicate breed slug in data/breeds.json")
     for breed in breeds:
+        if len(breed["facts"]) > 3:
+            raise SystemExit(f"more than 3 facts for {breed['slug']}")
         blob = " ".join(
-            [breed["name"], breed["job"]["text"], breed["home"]]
+            [breed["name"], breed["job"]["text"]]
             + [fact["text"] for fact in breed["facts"]]
         )
         if breed.get("atts"):
-            blob += " " + breed["atts"]["text"] + " " + breed["atts"]["note"]
+            blob += " " + breed["atts"]["text"]
         if "!" in blob:
             raise SystemExit(f"exclamation mark in {breed['slug']}")
         if BANNED.search(blob):
             raise SystemExit(f"banned word in {breed['slug']}: {BANNED.search(blob).group(0)}")
+        if re.search(r"working\s*&\s*power breeds", blob, re.I):
+            raise SystemExit(f"banned phrase in {breed['slug']}")
         if "@" in blob:
             raise SystemExit(f"@ in breed copy for {breed['slug']}")
-        if not breed["facts"]:
-            raise SystemExit(f"no facts for {breed['slug']}")
+        texts = [breed["job"]["text"]] + [fact["text"] for fact in breed["facts"]]
+        for i, left in enumerate(texts):
+            for right in texts[i + 1 :]:
+                if similarity(left, right) > 0.6:
+                    raise SystemExit(f"near-duplicate copy in {breed['slug']}")
         photo = breed.get("photo") or {}
         author = photo.get("author") or ""
         if not photo.get("placeholder"):
             if any(mark in author for mark in ("!", "@")) or "http" in author.lower() or "www." in author.lower():
                 raise SystemExit(f"messy photo credit for {breed['slug']}: {author}")
+        videos_for(breed)
+    ids = []
+    for breed in breeds:
+        for item in breed.get("videos") or []:
+            ids.append(item["id"])
+    if len(ids) != len(set(ids)):
+        raise SystemExit("same YouTube id is listed on more than one breed")
     return breeds
 
 
-def videos_for(breed):
-    if not LATEST.exists():
-        return []
-    try:
-        latest = json.loads(LATEST.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return []
-    names = [breed["name"]] + list(breed.get("aliases") or [])
-    found = []
-    for item in latest:
-        if not isinstance(item, dict):
-            continue
-        title = item.get("title") or ""
-        vid = item.get("id") or ""
-        if not re.fullmatch(r"[A-Za-z0-9_-]{11}", vid):
-            continue
-        for name in names:
-            if len(name) < 4:
+def similarity(left, right):
+    stop = {
+        "a", "an", "the", "of", "to", "and", "in", "for", "from", "with", "as", "by",
+        "on", "at", "or", "that", "this", "was", "were", "are", "is", "be", "been",
+        "their", "its", "it", "they", "them", "his", "her", "who", "which",
+    }
+
+    def stems(text):
+        words = re.sub(r"[^a-z0-9 ]", " ", text.lower()).split()
+        out = []
+        for word in words:
+            if word in stop or len(word) <= 2:
                 continue
-            if re.search(r"\b" + re.escape(name) + r"\b", title, re.I):
-                found.append({"id": vid, "title": title})
-                break
+            if word.endswith("ies") and len(word) > 4:
+                word = word[:-3] + "y"
+            elif word.endswith("s") and not word.endswith("ss") and len(word) > 4:
+                word = word[:-1]
+            out.append(word)
+        return out
+
+    left_counts = {}
+    right_counts = {}
+    for word in stems(left):
+        left_counts[word] = left_counts.get(word, 0) + 1
+    for word in stems(right):
+        right_counts[word] = right_counts.get(word, 0) + 1
+    keys = set(left_counts) | set(right_counts)
+    if not keys:
+        return 0.0
+    dot = sum(left_counts.get(key, 0) * right_counts.get(key, 0) for key in keys)
+    left_norm = sum(value * value for value in left_counts.values()) ** 0.5
+    right_norm = sum(value * value for value in right_counts.values()) ** 0.5
+    if not left_norm or not right_norm:
+        return 0.0
+    return dot / (left_norm * right_norm)
+
+
+VIDEO_ID = re.compile(r"^[A-Za-z0-9_-]{11}$")
+
+
+def videos_for(breed):
+    """Cards come from the breed's videos list, not from data/latest.json.
+
+    latest.json only feeds the home page. Long videos (type "video") stay
+    ahead of Shorts (type "short").
+    """
+    raw = breed.get("videos") or []
+    if not isinstance(raw, list):
+        raise SystemExit(f"videos must be a list for {breed['slug']}")
+    found = []
+    seen = set()
+    saw_short = False
+    for item in raw:
+        if not isinstance(item, dict):
+            raise SystemExit(f"bad video entry for {breed['slug']}")
+        vid = item.get("id") or ""
+        title = item.get("title") or ""
+        kind = item.get("type") or ""
+        url = item.get("url") or ""
+        if not VIDEO_ID.fullmatch(vid):
+            raise SystemExit(f"bad video id for {breed['slug']}: {vid}")
+        if vid in seen:
+            raise SystemExit(f"duplicate video id for {breed['slug']}: {vid}")
+        seen.add(vid)
+        if kind == "video":
+            expect = "https://www.youtube.com/watch?v=" + vid
+            if saw_short:
+                raise SystemExit(f"long video listed after a Short for {breed['slug']}")
+        elif kind == "short":
+            expect = "https://www.youtube.com/shorts/" + vid
+            saw_short = True
+        else:
+            raise SystemExit(f"video type must be video or short for {breed['slug']}")
+        if url != expect:
+            raise SystemExit(f"video url does not match type for {breed['slug']}: {url}")
+        if not title.strip():
+            raise SystemExit(f"missing video title for {breed['slug']}")
+        found.append({"id": vid, "title": title, "type": kind, "url": url})
     return found
 
 
@@ -228,27 +298,80 @@ def footer():
 """
 
 
-def source_line(name, url):
-    return (
-        f'<p class="fact-source">Source: <a href="{esc(url)}">{esc(name)}</a></p>'
-    )
-
-
 def photo_block(breed):
     photo = breed["photo"]
     if photo.get("placeholder"):
         initial = esc(breed["name"][:1])
         return f"""<div class="breed-hero-photo breed-hero-photo--empty" role="img" aria-label="No photo yet for {esc(breed['name'])}">
         <span aria-hidden="true">{initial}</span>
-        <p>Photo coming. The facts below do not depend on one.</p>
       </div>"""
+    return f"""<figure class="breed-hero-photo">
+        <img src="/{esc(photo["file"])}" width="{int(photo["width"])}" height="{int(photo["height"])}" alt="{esc(photo.get("alt") or breed["name"])}" decoding="async" fetchpriority="high">
+      </figure>"""
+
+
+def credit_line(breed):
+    seen = set()
+    links = []
+    items = [breed["job"]] + list(breed["facts"])
+    if breed.get("atts"):
+        items.append(breed["atts"])
+    for item in items:
+        url = item.get("source_url") or ""
+        name = item.get("source_name") or ""
+        if not url or url in seen:
+            continue
+        seen.add(url)
+        links.append(f'<a href="{esc(url)}">{esc(name)}</a>')
+    sources = ", ".join(links)
+    photo = breed["photo"]
+    if photo.get("placeholder"):
+        return f'<p class="breed-credit">Sources: {sources}.</p>'
     license_bit = esc(photo["license"])
     if photo.get("license_url"):
         license_bit = f'<a href="{esc(photo["license_url"])}">{esc(photo["license"])}</a>'
-    return f"""<figure class="breed-hero-photo">
-        <img src="/{esc(photo["file"])}" width="{int(photo["width"])}" height="{int(photo["height"])}" alt="{esc(photo.get("alt") or breed["name"])}" decoding="async" fetchpriority="high">
-        <figcaption>Photo: {esc(photo["author"])}. {license_bit}. <a href="{esc(photo["source_url"])}">Source</a>.</figcaption>
-      </figure>"""
+    return (
+        f'<p class="breed-credit">Photo: {esc(photo["author"])}. {license_bit}. '
+        f'<a href="{esc(photo["source_url"])}">Image source</a>. Sources: {sources}.</p>'
+    )
+
+
+def signup_block(breed, invite):
+    signup = breed.get("signup_slug") or breed["slug"]
+    invite_html = ""
+    if invite:
+        invite_html = '<p class="signup-invite">If you want this breed covered, put the name in the breed field.</p>'
+    return f"""<section class="breed-signup" aria-labelledby="sniff-heading">
+        <h2 id="sniff-heading">The Sniff Test</h2>
+        {invite_html}
+        <p>One behavior, one job, one study, and what to do tonight.</p>
+        <p class="signup-when">Every Sunday. About a two-minute read.</p>
+        <a class="btn btn--primary" href="/?breed={esc(signup)}#subscribe">Get The Sniff Test</a>
+        <p class="signup-free">Free. Unsubscribe anytime.</p>
+      </section>"""
+
+
+def video_block(breed):
+    vids = videos_for(breed)
+    if not vids:
+        return ""
+    links = []
+    for vid in vids:
+        kind = '<span class="breed-video-type">Short</span>' if vid["type"] == "short" else ""
+        thumb = "https://i.ytimg.com/vi/" + vid["id"] + "/hqdefault.jpg"
+        links.append(
+            f'<a class="breed-video-link" href="{esc(vid["url"])}" rel="noopener noreferrer" target="_blank">'
+            f'<span class="breed-video-thumb">'
+            f'<img src="{esc(thumb)}" width="480" height="360" alt="" loading="lazy" decoding="async" fetchpriority="low" referrerpolicy="no-referrer">'
+            f'</span>'
+            f'<span class="breed-video-copy">'
+            f'<span class="breed-video-kicker">Dog Unpacked{kind}</span>'
+            f'<span class="breed-video-title">{esc(vid["title"])}</span>'
+            f'</span>'
+            f'<span class="visually-hidden"> (opens in a new tab)</span></a>'
+        )
+    label = "Dog Unpacked video" if len(vids) == 1 else "Dog Unpacked videos"
+    return f'<section class="breed-video" aria-label="{label}">{"".join(links)}</section>'
 
 
 def breed_page(breed):
@@ -269,38 +392,25 @@ def breed_page(breed):
         ("Breeds", f"{SITE}/breeds/"),
         (breed["name"], canonical),
     ]
-    facts = []
-    for fact in breed["facts"]:
-        facts.append(
-            "<li><p>"
-            + esc(fact["text"])
-            + "</p>"
-            + source_line(fact["source_name"], fact["source_url"])
-            + "</li>"
-        )
+    fact_html = ""
+    if breed["facts"]:
+        items = "".join(f"<li><p>{esc(fact['text'])}</p></li>" for fact in breed["facts"])
+        fact_html = f"""<section class="breed-block" aria-labelledby="facts-heading">
+        <h2 id="facts-heading">Facts</h2>
+        <ol class="fact-list">
+          {items}
+        </ol>
+      </section>"""
     atts = ""
     if breed.get("atts"):
-        atts = f"""<section class="breed-block" aria-labelledby="atts-heading">
-        <h2 id="atts-heading">Temperament test</h2>
-        <p>{esc(breed["atts"]["text"])}</p>
-        {source_line(breed["atts"]["source_name"], breed["atts"]["source_url"])}
-        <p class="breed-note">{esc(breed["atts"]["note"])}</p>
-      </section>"""
-    video_html = ""
-    vids = videos_for(breed)
-    if vids:
-        links = []
-        for vid in vids:
-            url = "https://www.youtube.com/watch?v=" + vid["id"]
-            links.append(
-                f'<li><a href="{esc(url)}" rel="noopener noreferrer" target="_blank">{esc(vid["title"])}<span class="visually-hidden"> (opens in a new tab)</span></a></li>'
-            )
-        video_html = f"""<section class="breed-block" aria-labelledby="video-heading">
-        <h2 id="video-heading">On YouTube</h2>
-        <ul class="breed-links">{"".join(links)}</ul>
-      </section>"""
-    kicker = breed.get("group_label") or breed["group"]
-    signup = breed.get("signup_slug") or slug
+        atts = f"""<p class="breed-atts">{esc(breed["atts"]["text"])}</p>"""
+    video_html = video_block(breed)
+    label = breed.get("group_label") or ""
+    fact_blob = " ".join(fact["text"] for fact in breed["facts"]).lower()
+    tag = ""
+    if label and label.lower() not in {"other", "mixed breed"} and label.lower() not in fact_blob:
+        tag = f'<p class="group-tag">{esc(label)}</p>'
+    invite = not video_html
     page = f"""{head(title, description, canonical, image, image_w, image_h, image_alt, crumbs)}
 {header("breeds")}
   <main id="main">
@@ -312,32 +422,18 @@ def breed_page(breed):
         <span aria-hidden="true">/</span>
         <span aria-current="page">{esc(breed["name"])}</span>
       </nav>
-      <p class="kicker">{esc(kicker)}</p>
+      {tag}
       <h1>{esc(breed["name"])}</h1>
       {photo_block(breed)}
       <section class="breed-block" aria-labelledby="job-heading">
         <h2 id="job-heading">The job</h2>
         <p>{esc(breed["job"]["text"])}</p>
-        {source_line(breed["job"]["source_name"], breed["job"]["source_url"])}
       </section>
-      <section class="breed-block" aria-labelledby="facts-heading">
-        <h2 id="facts-heading">Facts</h2>
-        <ol class="fact-list">
-          {"".join(facts)}
-        </ol>
-      </section>
-      <section class="breed-block" aria-labelledby="home-heading">
-        <h2 id="home-heading">What that means at home</h2>
-        <p>{esc(breed["home"])}</p>
-        <p class="breed-note">This follows from the job above.</p>
-      </section>
+      {video_html if video_html else signup_block(breed, True)}
+      {fact_html}
       {atts}
-      {video_html}
-      <section class="breed-signup" aria-labelledby="sniff-heading">
-        <h2 id="sniff-heading">The Sniff Test</h2>
-        <p>One behavior, one job, one study. The same Sunday letter for every dog.</p>
-        <a class="btn btn--primary" href="/?breed={esc(signup)}#subscribe">Get The Sniff Test</a>
-      </section>
+      {signup_block(breed, False) if video_html else ""}
+      {credit_line(breed)}
     </article>
   </main>
 {footer()}
@@ -351,8 +447,7 @@ def index_page(breeds):
     canonical = f"{SITE}/breeds/"
     title = "Dog breeds — Dog Unpacked"
     description = (
-        "AKC-recognized breeds, plus American Pit Bull Terrier and mixed breed. "
-        "Each page gives the original job, sourced facts, and a photo."
+        "Every breed the American Kennel Club recognizes, plus the American Pit Bull Terrier and mixed breeds."
     )
     crumbs = [("Dog Unpacked", f"{SITE}/"), ("Breeds", canonical)]
     buttons = ['<button type="button" class="group-filter" data-group="" aria-pressed="true">All</button>']
@@ -384,15 +479,8 @@ def index_page(breeds):
 {header("breeds")}
   <main id="main">
     <div class="wrap breed-index">
-      <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="/">Dog Unpacked</a>
-        <span aria-hidden="true">/</span>
-        <span aria-current="page">Breeds</span>
-      </nav>
-      <p class="kicker">Every breed, one at a time</p>
       <h1>Breeds</h1>
-      <p class="dek">The job comes first. Open a breed and read what it was built to do.</p>
-      <p class="breed-intro">The American Kennel Club's breeds-by-year list names 205 breeds, with one entry called Fox Terrier. Smooth Fox Terrier and Wire Fox Terrier each have a page here, because AKC publishes a separate standard for each. Toy Fox Terrier is already its own breed. American Pit Bull Terrier is included from the United Kennel Club. Mixed breed has a page of its own.</p>
+      <p class="breed-intro">Every breed the American Kennel Club recognizes, plus the American Pit Bull Terrier and mixed breeds.</p>
       <div class="breed-tools">
         <div class="field">
           <label for="breed-search">Search breeds</label>
