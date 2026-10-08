@@ -1,13 +1,23 @@
 # Dog Unpacked — The Sniff Test: weekly newsletter send via Kit API (Sunday)
-# Cron: 13:00 UTC Sunday ≈ 9:00 AM Eastern (EDT) / 8:00 AM Eastern (EST).
-# DST shifts the local clock by one hour; see README-newsletter.md.
+# Target send time: Sunday 6:00 AM America/New_York, year-round.
+# GitHub cron is UTC-only, so two Sunday triggers are scheduled:
+#   "0 10 * * 0"  10:00 UTC = 6:00 AM EDT (UTC-4, summer)
+#   "0 11 * * 0"  11:00 UTC = 6:00 AM EST (UTC-5, winter)
+# The "DST guard" step lets exactly one of them through each Sunday: the 10:00 UTC trigger only
+# proceeds when ET is on UTC-4, the 11:00 UTC trigger only when ET is on UTC-5. The decision is
+# keyed on which cron fired (github.event.schedule), not the wall-clock hour, so a late cron start
+# (GitHub can delay scheduled runs by minutes to ~1h) still sends instead of being skipped.
+# US DST changes happen at 2:00 AM local, i.e. before 10:00 UTC, so the transition Sundays are safe.
+# See README-newsletter.md.
 # SAFETY: nothing is sent unless newsletters/<ET date>.md has frontmatter `status: ready`.
 name: Send The Sniff Test
 
 on:
   schedule:
-    # Sunday 13:00 UTC
-    - cron: "0 13 * * 0"
+    # Sunday 10:00 UTC = 6:00 AM EDT (used while ET is on daylight time)
+    - cron: "0 10 * * 0"
+    # Sunday 11:00 UTC = 6:00 AM EST (used while ET is on standard time)
+    - cron: "0 11 * * 0"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -16,21 +26,57 @@ on:
         type: boolean
         default: true
 
+# Never let two send runs overlap (extra safety against duplicate broadcasts).
+concurrency:
+  group: send-the-sniff-test
+  cancel-in-progress: false
+
 jobs:
   send:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
+      - name: DST guard (only one Sunday trigger sends at 6:00 AM ET)
+        id: guard
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          FIRED_CRON: ${{ github.event.schedule }}
+        run: |
+          set -euo pipefail
+          ET_NOW="$(TZ=America/New_York date '+%Y-%m-%d %H:%M %Z (UTC%z)')"
+          ET_OFFSET="$(TZ=America/New_York date '+%z')"   # -0400 (EDT) or -0500 (EST)
+          echo "event=${EVENT_NAME} cron='${FIRED_CRON}' now_utc=$(date -u '+%Y-%m-%d %H:%M UTC') now_et=${ET_NOW}"
+          PROCEED="false"
+          if [ "${EVENT_NAME}" != "schedule" ]; then
+            # Manual workflow_dispatch: unchanged behaviour (dry_run input decides).
+            PROCEED="true"
+          elif [ "${FIRED_CRON}" = "0 10 * * 0" ]; then
+            if [ "${ET_OFFSET}" = "-0400" ]; then PROCEED="true"; else
+              echo "10:00 UTC trigger but ET is on standard time (${ET_OFFSET}); the 11:00 UTC trigger sends. Skipping."
+            fi
+          elif [ "${FIRED_CRON}" = "0 11 * * 0" ]; then
+            if [ "${ET_OFFSET}" = "-0500" ]; then PROCEED="true"; else
+              echo "11:00 UTC trigger but ET is on daylight time (${ET_OFFSET}); the 10:00 UTC trigger already sent. Skipping."
+            fi
+          else
+            echo "Unrecognised schedule '${FIRED_CRON}'. Skipping (fail safe)."
+          fi
+          echo "proceed=${PROCEED}" >> "$GITHUB_OUTPUT"
+          echo "proceed=${PROCEED}"
+
       - name: Checkout
+        if: steps.guard.outputs.proceed == 'true'
         uses: actions/checkout@v4
 
       - name: Set up Python
+        if: steps.guard.outputs.proceed == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Resolve dry-run flag
+        if: steps.guard.outputs.proceed == 'true'
         id: flags
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
@@ -44,6 +90,7 @@ jobs:
           echo "dry_run=${DRY}"
 
       - name: Send (or dry-run) today's issue
+        if: steps.guard.outputs.proceed == 'true'
         env:
           KIT_API_KEY: ${{ secrets.KIT_API_KEY }}
         run: |

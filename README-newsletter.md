@@ -9,12 +9,18 @@
 | | |
 |--|--|
 | Day | Sunday |
-| Cron | `0 13 * * 0` (13:00 UTC) |
-| Local (ET) | ~9:00 AM Eastern in summer (EDT); ~8:00 AM Eastern in winter (EST) |
+| Send time | **6:00 AM Eastern (America/New_York), year-round** |
+| Cron | `0 10 * * 0` (10:00 UTC = 6:00 AM EDT) **and** `0 11 * * 0` (11:00 UTC = 6:00 AM EST) |
 
 Cadence: **weekly, Sunday** (replaces the earlier Tue + Thu schedule).
 
-GitHub cron is **UTC-only**. When the US observes daylight saving, the Eastern wall-clock time of the send shifts by one hour. If you need a fixed 9 AM ET year-round, adjust the cron when DST starts/ends, or accept the one-hour drift.
+GitHub cron is **UTC-only**, so the workflow schedules both Sunday triggers and a **DST guard** step lets exactly one of them
+send. It keys off which cron fired (`github.event.schedule`): the 10:00 UTC run proceeds only while New York is on
+daylight time (UTC-4, EDT); the 11:00 UTC run proceeds only while it is on standard time (UTC-5, EST). The other run logs
+a skip and exits 0 without checking out or calling Kit. Because the decision depends on the trigger rather than the
+wall-clock hour, a late cron start (GitHub can delay scheduled runs by minutes to ~an hour) still sends. US clock changes
+happen at 2:00 AM local (before 10:00 UTC), so the DST-switch Sundays (e.g. Nov 1, 2026) work too. No manual cron edits
+are needed when DST starts or ends.
 
 **Daily cadence remains parked** (not scheduled). Do not enable a daily cron unless Josh explicitly asks.
 
@@ -30,7 +36,7 @@ Manual runs: **Actions → Send The Sniff Test → Run workflow**. `dry_run` def
 3. Fill `subject`, `preview`, and the Markdown body.
 4. When the issue is approved, change `status: draft` to `status: ready`. **Nothing is sent without `status: ready`**
    (opt-in: a missing status, `draft`, or anything else is skipped). Leave `send: true`.
-5. Commit to `main` before that day’s 13:00 UTC send.
+5. Commit to `main` before that day’s 6:00 AM ET send (10:00 UTC in EDT / 11:00 UTC in EST).
 
 Example:
 
@@ -70,7 +76,7 @@ Kit `POST /v4/broadcasts` has **no idempotency key**. Re-running the live workfl
 
 `scripts/send.py` does a **best-effort** `GET /v4/broadcasts?slim=true` and skips if a broadcast subject already matches exactly. That is not a guarantee (pagination, renamed subjects, races). Prefer:
 
-- One scheduled run per send day (Sunday)
+- One scheduled send per Sunday (the DST guard skips the other trigger; a `concurrency` group prevents overlapping runs)
 - Manual dispatch with `dry_run: true` unless you intend a live send
 - Avoid re-running live after a successful create
 
@@ -91,5 +97,5 @@ Every send appends an educational disclaimer and Kit’s `{{ unsubscribe_url }}`
 | `newsletters/_template.md` | Frontmatter + body scaffold |
 | `newsletters/YYYY-MM-DD.md` | One issue per send day |
 | `scripts/send.py` | ET date lookup → Kit POST |
-| `.github/workflows/send-newsletter.yml` | Cron + workflow_dispatch |
+| `.github/workflows/send-newsletter.yml` | Two Sunday crons + DST guard (6:00 AM ET) + workflow_dispatch |
 | `assets/` | Guide PDFs (e.g. `german-shepherd-file.pdf` when ready) |
