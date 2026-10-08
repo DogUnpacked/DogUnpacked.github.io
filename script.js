@@ -8,7 +8,7 @@
  *  4. Latest: renders data/latest.json (up to 3 long-form videos); click-to-load embed
  *  5. Contact form: validation, honeypot, background POST to Formspree, inline success/error
  *  6. Confirmed landing: ?confirmed=1 (Kit double opt-in redirect) -> "You're in." in the newsletter section
- *  7. Breed dial: pick a known breed, show the verified angle, keep ?breed= and utm_* in the URL
+ *  7. Breed dial: each breed links to its page. ?breed= on this page still prefills the signup.
  *  8. Sticky mobile signup bar once the hero form leaves the screen
  *
  * The page works without this file: the Kit form still posts (Kit's hosted page confirms) and links work.
@@ -661,9 +661,8 @@
   }
 
   /* ------------------------------------------------------------------
-   * 7. Breed dial. Same known breeds as the form. A figure only when BREED_STATS has one.
-   *    Photo src only from BREED_PHOTOS. Click updates the hero, the form, and the URL
-   *    without dropping utm_*. No-JS visitors follow the real ?breed= links.
+   * 7. Breed dial. The picks link to /breeds/<slug>/. Arriving with ?breed= still
+   *    fills the panel, the hero, and the signup. The panel's page link uses that slug.
    * ------------------------------------------------------------------ */
   (function breedDial() {
     var picks = document.getElementById("dial-picks");
@@ -754,12 +753,13 @@
       }
     }
 
-    picks.addEventListener("click", function (e) {
-      var link = e.target.closest ? e.target.closest("a.dial-pick") : null;
-      if (!link || !picks.contains(link)) return;
-      e.preventDefault();
-      selectDial(link.getAttribute("data-dial"), false);
-    });
+    var pageLink = document.getElementById("dial-page");
+
+    var selectDialWithPage = selectDial;
+    selectDial = function (slug, fromUrl) {
+      selectDialWithPage(slug, fromUrl);
+      if (pageLink) pageLink.href = "/breeds/" + slug + "/";
+    };
 
     var current = document.documentElement.getAttribute("data-breed");
     if (current) selectDial(current, true);

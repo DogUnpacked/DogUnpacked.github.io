@@ -16,12 +16,28 @@ The newsletter is **The Sniff Test** (weekly, Sunday). See **`README-newsletter.
 | `styles.css` | Navy / cream / amber mobile-first styles |
 | `script.js` | GoatCounter events, `?breed=` personalization, breed Title-Case, lite YouTube embed |
 | `fonts/` | Self-hosted Nunito and Fraunces (OFL) |
+| `data/breeds.json` | Breed directory: one entry per breed. Pages are generated from this file. |
 | `data/latest.json` | Latest section data: up to 3 newest long-form videos `{id, title, published}`, newest first |
+| `scripts/build_breeds.py` | Writes `/breeds/` pages, `sitemap.xml`, `docs/breed-facts-review.csv`, and the breed table in `assets/CREDITS.md` |
 | `scripts/update_latest_video.py` | Refreshes `data/latest.json` from the channel feed (skips Shorts); prints "Latest: no change" when current |
 | `README-page.md` | Page notes: placeholders, bio/breed URLs, events |
 | `KIT.md` | Kit form/field/tag IDs + remaining dashboard steps |
 | `assets/CREDITS.md` | Photo sources and licenses |
 | `README.md` | This file |
+
+## Breed directory
+
+`/breeds/` is a static directory of AKC-recognized breeds, plus American Pit Bull Terrier (UKC) and a mixed-breed page. Each breed is a real page at `/breeds/<slug>/`.
+
+All of the copy, sources, and photo credits live in **`data/breeds.json`**. `scripts/build_breeds.py` (Python standard library only) writes the HTML, updates `sitemap.xml`, writes `docs/breed-facts-review.csv`, and refreshes the breed table in `assets/CREDITS.md`. Commit the generated HTML. GitHub Pages does not build it.
+
+To add a breed later:
+
+1. Add one object to the `breeds` array in `data/breeds.json` (name, slug, group, job, home note, facts with source name and URL, and a `photo` object).
+2. Add a WebP at the `photo.file` path and a square thumbnail at `photo.thumb`, or set `photo.placeholder` to `true`.
+3. Run `python3 scripts/build_breeds.py` and commit `data/breeds.json`, the image, and the generated files.
+
+A breed page links a YouTube video only when that breed's name or one of its `aliases` appears in a title in `data/latest.json`. The home page newsletter block is unchanged. Dial names on the home page link to these pages. `/?breed=<slug>` still prefills The Sniff Test for the 19 breeds in the signup list.
 
 ## Placeholders you must fill in
 

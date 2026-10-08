@@ -1643,3 +1643,314 @@ h1 {
     transform: none;
   }
 }
+
+/* Breed directory ------------------------------------------------------- */
+
+.nav-breeds {
+  display: inline-flex;
+}
+
+.dial-more {
+  margin: 0.9rem 0 0;
+}
+
+.dial-more a {
+  color: var(--cream);
+  font-weight: 800;
+  text-underline-offset: 3px;
+}
+
+.breed-index,
+.breed-article {
+  padding: 1.25rem 0 3.5rem;
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  margin: 0 0 0.9rem;
+  color: var(--navy-muted);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.crumbs a {
+  color: var(--navy);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--amber);
+  text-underline-offset: 3px;
+}
+
+.breed-index h1,
+.breed-article h1 {
+  max-width: 18ch;
+}
+
+.breed-intro {
+  max-width: 42rem;
+  margin: 0.85rem 0 0;
+  color: var(--navy-soft);
+}
+
+.breed-tools {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1.25rem 0 1.1rem;
+}
+
+.breed-tools input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.65rem 0.85rem;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: 1rem;
+  color: var(--navy);
+  background: #fff;
+}
+
+.breed-tools input:focus-visible,
+.group-filter:focus-visible,
+.breed-card:focus-visible,
+.fact-source a:focus-visible,
+.breed-links a:focus-visible,
+.crumbs a:focus-visible,
+.dial-more a:focus-visible {
+  outline: 3px solid var(--navy);
+  outline-offset: 2px;
+}
+
+.group-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.group-filter {
+  min-height: 44px;
+  padding: 0.35rem 0.8rem;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--navy);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.group-filter[aria-pressed="true"] {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--cream);
+}
+
+.breed-empty {
+  margin: 0 0 1rem;
+  font-weight: 800;
+}
+
+.breed-directory {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.breed-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 44px;
+  color: var(--navy);
+  text-decoration: none;
+  background: var(--card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.breed-card img,
+.breed-card-fallback {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: var(--cream-dark);
+}
+
+.breed-card-fallback {
+  display: grid;
+  place-items: center;
+  background: var(--navy);
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+}
+
+.breed-card span {
+  display: block;
+  padding: 0.65rem 0.7rem 0.8rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.breed-hero-photo {
+  margin: 1.1rem 0 0;
+  max-width: 36rem;
+}
+
+.breed-hero-photo img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  background: var(--cream-dark);
+}
+
+.breed-hero-photo figcaption,
+.breed-hero-photo--empty p {
+  margin: 0.45rem 0 0;
+  color: var(--navy-muted);
+  font-size: 0.88rem;
+}
+
+.breed-hero-photo figcaption a {
+  color: var(--navy);
+  font-weight: 800;
+}
+
+.breed-hero-photo--empty {
+  display: grid;
+  place-items: center;
+  gap: 0.35rem;
+  min-height: 16rem;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  background: var(--navy);
+  color: var(--cream);
+  text-align: center;
+}
+
+.breed-hero-photo--empty span {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.breed-hero-photo--empty p {
+  margin: 0;
+  max-width: 22rem;
+  color: var(--cream);
+}
+
+.breed-block {
+  margin-top: 1.6rem;
+  max-width: 40rem;
+}
+
+.breed-block h2,
+.breed-signup h2 {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 4vw, 1.85rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--navy);
+}
+
+.breed-block p,
+.breed-signup p {
+  margin: 0.4rem 0 0;
+  color: var(--navy-soft);
+}
+
+.fact-list {
+  margin: 0.2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fact-list li {
+  margin: 0;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.fact-list li p:first-child {
+  margin: 0;
+  color: var(--navy);
+  font-weight: 700;
+}
+
+.fact-source {
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.fact-source a,
+.breed-links a {
+  color: var(--navy);
+}
+
+.breed-note {
+  color: var(--navy-muted);
+  font-size: 0.92rem;
+}
+
+.breed-links {
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breed-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 800;
+}
+
+.breed-signup {
+  max-width: 40rem;
+  margin-top: 1.8rem;
+  padding: 1.05rem 1rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.breed-signup .btn {
+  margin-top: 0.85rem;
+}
+
+@media (min-width: 720px) {
+  .breed-directory {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1040px) {
+  .breed-directory {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .brand-word {
+    font-size: 0.92rem;
+  }
+
+  .site-nav a {
+    padding-inline: 0.5rem;
+  }
+}
