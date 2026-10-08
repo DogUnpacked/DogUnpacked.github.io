@@ -3,7 +3,7 @@
 The hub page is the single link in every bio: platform buttons, a plain signup for The Sniff Test
 (weekly newsletter), the latest long-form video, and a short Breed Files note. Brand scope: **every breed, one at a time**.
 
-Live address: https://dogunpacked.github.io/ (GitHub Pages, repo `DogUnpacked/DogUnpacked.github.io`, `main` branch root). If a custom domain is added later, replace `https://dogunpacked.github.io/` below and the canonical / `og:url` in `index.html`.
+Live address: https://dogunpacked.com/ (custom domain on GitHub Pages, repo `DogUnpacked/DogUnpacked.github.io`, `main` branch root; DNS in Cloudflare, A records to GitHub Pages IPs plus `www` CNAME to `dogunpacked.github.io`, all DNS only). The old https://dogunpacked.github.io/ address redirects here.
 
 ## Section order
 
@@ -30,7 +30,7 @@ Plain newsletter signup. Email is required. Breed is optional: it's saved to the
   to a normal POST and Kit's hosted page confirms instead. If Kit ever flags a signup for its spam check
   (`"quarantined"`), the visitor is sent to Kit's check page.
 - Without JS the form still posts normally (Kit's hosted page); a blank breed is then sent as an empty `fields[breed]`.
-- Confirmed landing: Kit's double opt-in redirects confirmed subscribers to `https://dogunpacked.github.io/?confirmed=1`
+- Confirmed landing: Kit's double opt-in redirects confirmed subscribers to `https://dogunpacked.com/?confirmed=1`
   (set in Kit; no YouTube prompt, no redirect onward). With `confirmed=1` in the query string, `script.js` replaces the
   form with "You're in." (heading weight) and "The Sniff Test lands in your inbox every Sunday.", scrolls the
   newsletter section into view, fires the GoatCounter event `subscribe_confirmed` once, then removes `confirmed=1`
@@ -81,7 +81,7 @@ network call.
 - Formshield: on (already on for `xeaeaajd`). Start on Neutral; switch to Aggressive only if spam gets through.
 - reCAPTCHA: must stay **off**. This form submits with `fetch` (AJAX), and Formspree's built-in reCAPTCHA breaks AJAX
   submits (every send would show the error message). Using reCAPTCHA would need our own reCAPTCHA key plus page code.
-- Restrict to Domain (if the plan offers it): set `dogunpacked.github.io`. Formspree checks the Referer and sends
+- Restrict to Domain (if the plan offers it): set `dogunpacked.com`. Formspree checks the Referer and sends
   submissions from anywhere else to spam. Update it if a custom domain is added.
 - `_gotcha` (honeypot) needs no setup.
 
@@ -132,18 +132,18 @@ Platforms: YouTube, TikTok (`@dogsunpacked`), Instagram. Facebook is not used.
 
 | Platform | Bio link |
 |---|---|
-| YouTube | `https://dogunpacked.github.io/?utm_source=youtube&utm_medium=bio` |
-| TikTok | `https://dogunpacked.github.io/?utm_source=tiktok&utm_medium=bio` |
-| Instagram | `https://dogunpacked.github.io/?utm_source=instagram&utm_medium=bio` |
+| YouTube | `https://dogunpacked.com/?utm_source=youtube&utm_medium=bio` |
+| TikTok | `https://dogunpacked.com/?utm_source=tiktok&utm_medium=bio` |
+| Instagram | `https://dogunpacked.com/?utm_source=instagram&utm_medium=bio` |
 
 Pinned comments / descriptions on a breed video combine breed + UTM:
 
 | Use | Link |
 |---|---|
-| TikTok pinned comment, Pit Bull video | `https://dogunpacked.github.io/?breed=pit-bull&utm_source=tiktok&utm_medium=pin` |
-| YouTube pinned comment, German Shepherd video | `https://dogunpacked.github.io/?breed=gsd&utm_source=youtube&utm_medium=pin` |
-| YouTube description, Doberman video | `https://dogunpacked.github.io/?breed=dobie&utm_source=youtube&utm_medium=description` |
-| Instagram story, Rottweiler | `https://dogunpacked.github.io/?breed=rottweiler&utm_source=instagram&utm_medium=story` |
+| TikTok pinned comment, Pit Bull video | `https://dogunpacked.com/?breed=pit-bull&utm_source=tiktok&utm_medium=pin` |
+| YouTube pinned comment, German Shepherd video | `https://dogunpacked.com/?breed=gsd&utm_source=youtube&utm_medium=pin` |
+| YouTube description, Doberman video | `https://dogunpacked.com/?breed=dobie&utm_source=youtube&utm_medium=description` |
+| Instagram story, Rottweiler | `https://dogunpacked.com/?breed=rottweiler&utm_source=instagram&utm_medium=story` |
 
 GoatCounter's count.js sends the query string with each page view; GoatCounter uses `utm_source` / `ref` as the
 referrer, so bio and pin traffic shows up per platform in its Referrers view.
@@ -162,30 +162,30 @@ slug such as `?breed=xyz` shows the default page, so nobody can craft a link tha
 heading. To add a breed (e.g. `shiba-inu`), add an `<option value="Shiba Inu">` to the datalist in `index.html`.
 
 Pinned comments: add `&utm_source=<platform>&utm_medium=pin` to any breed URL below, e.g.
-`https://dogunpacked.github.io/?breed=pit-bull&utm_source=tiktok&utm_medium=pin`. The right-hand column is the ready-made pin link
+`https://dogunpacked.com/?breed=pit-bull&utm_source=tiktok&utm_medium=pin`. The right-hand column is the ready-made pin link
 with `PLATFORM` to replace (`tiktok`, `youtube` or `instagram`).
 
 | Breed | URL | Pinned-comment link |
 |---|---|---|
-| German Shepherd | `https://dogunpacked.github.io/?breed=german-shepherd` (or `?breed=gsd`) | `https://dogunpacked.github.io/?breed=german-shepherd&utm_source=PLATFORM&utm_medium=pin` |
-| Pit Bull | `https://dogunpacked.github.io/?breed=pit-bull` (or `?breed=pitbull`) | `https://dogunpacked.github.io/?breed=pit-bull&utm_source=PLATFORM&utm_medium=pin` |
-| Rottweiler | `https://dogunpacked.github.io/?breed=rottweiler` | `https://dogunpacked.github.io/?breed=rottweiler&utm_source=PLATFORM&utm_medium=pin` |
-| Doberman | `https://dogunpacked.github.io/?breed=doberman` (or `?breed=dobie`) | `https://dogunpacked.github.io/?breed=doberman&utm_source=PLATFORM&utm_medium=pin` |
-| Cane Corso | `https://dogunpacked.github.io/?breed=cane-corso` (or `?breed=corso`) | `https://dogunpacked.github.io/?breed=cane-corso&utm_source=PLATFORM&utm_medium=pin` |
-| Husky | `https://dogunpacked.github.io/?breed=husky` | `https://dogunpacked.github.io/?breed=husky&utm_source=PLATFORM&utm_medium=pin` |
-| Golden Retriever | `https://dogunpacked.github.io/?breed=golden-retriever` | `https://dogunpacked.github.io/?breed=golden-retriever&utm_source=PLATFORM&utm_medium=pin` |
-| Labrador | `https://dogunpacked.github.io/?breed=labrador` | `https://dogunpacked.github.io/?breed=labrador&utm_source=PLATFORM&utm_medium=pin` |
-| Beagle | `https://dogunpacked.github.io/?breed=beagle` | `https://dogunpacked.github.io/?breed=beagle&utm_source=PLATFORM&utm_medium=pin` |
-| Corgi | `https://dogunpacked.github.io/?breed=corgi` | `https://dogunpacked.github.io/?breed=corgi&utm_source=PLATFORM&utm_medium=pin` |
-| Chihuahua | `https://dogunpacked.github.io/?breed=chihuahua` | `https://dogunpacked.github.io/?breed=chihuahua&utm_source=PLATFORM&utm_medium=pin` |
-| French Bulldog | `https://dogunpacked.github.io/?breed=french-bulldog` | `https://dogunpacked.github.io/?breed=french-bulldog&utm_source=PLATFORM&utm_medium=pin` |
-| Dachshund | `https://dogunpacked.github.io/?breed=dachshund` | `https://dogunpacked.github.io/?breed=dachshund&utm_source=PLATFORM&utm_medium=pin` |
-| Belgian Malinois | `https://dogunpacked.github.io/?breed=belgian-malinois` | `https://dogunpacked.github.io/?breed=belgian-malinois&utm_source=PLATFORM&utm_medium=pin` |
-| Australian Shepherd | `https://dogunpacked.github.io/?breed=australian-shepherd` | `https://dogunpacked.github.io/?breed=australian-shepherd&utm_source=PLATFORM&utm_medium=pin` |
-| Border Collie | `https://dogunpacked.github.io/?breed=border-collie` | `https://dogunpacked.github.io/?breed=border-collie&utm_source=PLATFORM&utm_medium=pin` |
-| Boxer | `https://dogunpacked.github.io/?breed=boxer` | `https://dogunpacked.github.io/?breed=boxer&utm_source=PLATFORM&utm_medium=pin` |
-| Great Dane | `https://dogunpacked.github.io/?breed=great-dane` | `https://dogunpacked.github.io/?breed=great-dane&utm_source=PLATFORM&utm_medium=pin` |
-| Mixed breed | `https://dogunpacked.github.io/?breed=mixed-breed` | `https://dogunpacked.github.io/?breed=mixed-breed&utm_source=PLATFORM&utm_medium=pin` |
+| German Shepherd | `https://dogunpacked.com/?breed=german-shepherd` (or `?breed=gsd`) | `https://dogunpacked.com/?breed=german-shepherd&utm_source=PLATFORM&utm_medium=pin` |
+| Pit Bull | `https://dogunpacked.com/?breed=pit-bull` (or `?breed=pitbull`) | `https://dogunpacked.com/?breed=pit-bull&utm_source=PLATFORM&utm_medium=pin` |
+| Rottweiler | `https://dogunpacked.com/?breed=rottweiler` | `https://dogunpacked.com/?breed=rottweiler&utm_source=PLATFORM&utm_medium=pin` |
+| Doberman | `https://dogunpacked.com/?breed=doberman` (or `?breed=dobie`) | `https://dogunpacked.com/?breed=doberman&utm_source=PLATFORM&utm_medium=pin` |
+| Cane Corso | `https://dogunpacked.com/?breed=cane-corso` (or `?breed=corso`) | `https://dogunpacked.com/?breed=cane-corso&utm_source=PLATFORM&utm_medium=pin` |
+| Husky | `https://dogunpacked.com/?breed=husky` | `https://dogunpacked.com/?breed=husky&utm_source=PLATFORM&utm_medium=pin` |
+| Golden Retriever | `https://dogunpacked.com/?breed=golden-retriever` | `https://dogunpacked.com/?breed=golden-retriever&utm_source=PLATFORM&utm_medium=pin` |
+| Labrador | `https://dogunpacked.com/?breed=labrador` | `https://dogunpacked.com/?breed=labrador&utm_source=PLATFORM&utm_medium=pin` |
+| Beagle | `https://dogunpacked.com/?breed=beagle` | `https://dogunpacked.com/?breed=beagle&utm_source=PLATFORM&utm_medium=pin` |
+| Corgi | `https://dogunpacked.com/?breed=corgi` | `https://dogunpacked.com/?breed=corgi&utm_source=PLATFORM&utm_medium=pin` |
+| Chihuahua | `https://dogunpacked.com/?breed=chihuahua` | `https://dogunpacked.com/?breed=chihuahua&utm_source=PLATFORM&utm_medium=pin` |
+| French Bulldog | `https://dogunpacked.com/?breed=french-bulldog` | `https://dogunpacked.com/?breed=french-bulldog&utm_source=PLATFORM&utm_medium=pin` |
+| Dachshund | `https://dogunpacked.com/?breed=dachshund` | `https://dogunpacked.com/?breed=dachshund&utm_source=PLATFORM&utm_medium=pin` |
+| Belgian Malinois | `https://dogunpacked.com/?breed=belgian-malinois` | `https://dogunpacked.com/?breed=belgian-malinois&utm_source=PLATFORM&utm_medium=pin` |
+| Australian Shepherd | `https://dogunpacked.com/?breed=australian-shepherd` | `https://dogunpacked.com/?breed=australian-shepherd&utm_source=PLATFORM&utm_medium=pin` |
+| Border Collie | `https://dogunpacked.com/?breed=border-collie` | `https://dogunpacked.com/?breed=border-collie&utm_source=PLATFORM&utm_medium=pin` |
+| Boxer | `https://dogunpacked.com/?breed=boxer` | `https://dogunpacked.com/?breed=boxer&utm_source=PLATFORM&utm_medium=pin` |
+| Great Dane | `https://dogunpacked.com/?breed=great-dane` | `https://dogunpacked.com/?breed=great-dane&utm_source=PLATFORM&utm_medium=pin` |
+| Mixed breed | `https://dogunpacked.com/?breed=mixed-breed` | `https://dogunpacked.com/?breed=mixed-breed&utm_source=PLATFORM&utm_medium=pin` |
 
 ## Measurement (GoatCounter, cookie-free)
 

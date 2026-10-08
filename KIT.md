@@ -41,7 +41,7 @@ same Sunday issue of The Sniff Test. `script.js` Title-Cases the breed (`german 
    The Sniff Test, e.g. subject "Confirm your subscription to The Sniff Test", body "Click below to
    confirm. Then look for The Sniff Test in your inbox on Sunday." **No guide / PDF / timeline
    promise**, no incentive download. Remove any "working and power breeds" wording.
-   After confirming, redirect to **https://dogunpacked.github.io/?confirmed=1** (not the YouTube subscribe
+   After confirming, redirect to **https://dogunpacked.com/?confirmed=1** (not the YouTube subscribe
    prompt). The page then shows "You're in." in the newsletter section (see `README-page.md`).
 5. **Sender name**: Settings → Email → the sending address `from_name` is currently the bare email address.
    Change to **Dog Unpacked — The Sniff Test**.
