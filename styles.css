@@ -1899,6 +1899,7 @@ h1 {
 .breed-card img,
 .breed-card-fallback {
   width: 100%;
+  height: auto;
   aspect-ratio: 1;
   object-fit: cover;
   background: var(--cream-dark);

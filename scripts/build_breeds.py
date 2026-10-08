@@ -458,7 +458,7 @@ def index_page(breeds):
                 f'<button type="button" class="group-filter" data-group="{esc(group)}" aria-pressed="false">{esc(group)}</button>'
             )
     cards = []
-    for breed in breeds:
+    for index, breed in enumerate(breeds):
         photo = breed["photo"]
         search = " ".join(
             [breed["name"], breed["slug"].replace("-", " ")]
@@ -468,9 +468,17 @@ def index_page(breeds):
         if photo.get("placeholder"):
             media = f'<span class="breed-card-fallback" aria-hidden="true">{esc(breed["name"][:1])}</span>'
         else:
+            # The first row is on screen at every breakpoint (2, 3, or 4 columns).
+            # The first thumb is the LCP image: eager, high priority, decoded immediately.
+            if index == 0:
+                extra = ' fetchpriority="high" decoding="sync"'
+            elif index < 4:
+                extra = ' decoding="async"'
+            else:
+                extra = ' loading="lazy" decoding="async"'
             media = (
                 f'<img src="/{esc(photo["thumb"])}" width="{int(photo["thumb_width"])}" height="{int(photo["thumb_height"])}" '
-                f'alt="" loading="lazy" decoding="async">'
+                f'alt=""{extra}>'
             )
         cards.append(
             f'<a class="breed-card" href="/breeds/{esc(breed["slug"])}/" data-group="{esc(breed["group"])}" data-name="{esc(search)}">{media}<span>{esc(breed["name"])}</span></a>'
