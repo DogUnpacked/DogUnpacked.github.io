@@ -1,21 +1,18 @@
 # Dog Unpacked — hub page notes (`index.html`)
 
-The hub page is the single link in every bio: platform buttons, a plain signup for The Sniff Test
-(weekly newsletter), the latest long-form video, and a short Breed Files note. Brand scope: **every breed, one at a time**.
+The hub page is the single link in every bio, and the place owned revenue starts. The primary action is The Sniff Test (free Sunday newsletter). YouTube subscribe and follows on TikTok and Instagram are the secondary actions. Brand scope: **every breed, one at a time**.
 
 Live address: https://dogunpacked.com/ (custom domain on GitHub Pages, repo `DogUnpacked/DogUnpacked.github.io`, `main` branch root; DNS in Cloudflare, A records to GitHub Pages IPs plus `www` CNAME to `dogunpacked.github.io`, all DNS only). The old https://dogunpacked.github.io/ address redirects here.
 
 ## Section order
 
-Hero (logo, eyebrow, title, tagline, description, proof row, mobile breed strip) → platform buttons
-(YouTube, Instagram, TikTok — Facebook is not used) → newsletter (`#subscribe`) → Latest (`#latest`, only when `data/latest.json` lists a video) →
-Breed Files (`#breed-files`, text only) → Contact (`#contact`, Formspree form) → footer.
+Sticky header (logo, wordmark, jump to The Sniff Test; Breeds and Contact from 840px) → hero (kicker, tagline as the H1, one-line promise, and the signup card) → platform row (YouTube, Instagram, TikTok — Facebook is not used) → breed frames (beside the hero from 960px, under the platform row on a phone) → one proof line (Morrill et al. 2022) → breed dial (`#breed-dial`) → Latest (`#latest`, only when `data/latest.json` lists a video) → a short Coming soon note for Breed Files (`#guides`, no nav link) → Contact (`#contact`, Formspree form) → footer. On a phone, once the signup card scrolls out of view, a bar with "Get The Sniff Test" sticks to the bottom until the contact section or the footer is on screen, and it stays hidden after a signup.
+
+On a 390×844 phone the email field, breed field, and "Get The Sniff Test" button sit in the first screen, with the three platform buttons still in that screen. A `?breed=` visit keeps that order and swaps the frames for that breed.
 
 ## Newsletter signup (Kit)
 
-Copy: badge "FREE WEEKLY NEWSLETTER" → heading "Join The Sniff Test" → "The Dog Unpacked newsletter, in your
-inbox every Sunday. One behavior. One job. One study. 90 seconds to read." → button "Get The Sniff Test" →
-"Free. No spam. Unsubscribe anytime."
+Copy: heading "The Sniff Test" → "One behavior, one job, one study, and what to do tonight." → "Every Sunday. About a two-minute read." → button "Get The Sniff Test" → "Free. Unsubscribe anytime." No badge and no "No spam." The document title is "Everything Dog Unpacked — He's not broken. He's bred that way." Issues run 250 to 400 words, so the page does not say "90 seconds."
 
 Plain newsletter signup. Email is required. Breed is optional: it's saved to the subscriber's Kit custom field
 `breed` and does **not** change the signup. Everyone gets the same Sunday issue of The Sniff Test.
@@ -43,7 +40,7 @@ Plain newsletter signup. Email is required. Breed is optional: it's saved to the
 
 | Item | How to switch it on |
 |---|---|
-| OG / Twitter image | `index.html` `<head>` comment lists the tags to add for `{{OG_IMAGE}}` (1200×630, absolute URL) and the `twitter:card` switch. |
+| Share image | Live: `images/og-image.png` (1200×630 logo card, absolute URL, `summary_large_image`). Replace that file when a box photo is ready and keep the same meta tags. |
 | Kit success message | Kit's own form setting still says "…we'll send the File when it's ready." It only shows when JS is off or the background submit fails. Change it in the Kit dashboard (see `KIT.md`). |
 | GoatCounter account | Create the free account with site code `dogunpacked` (or change `GOATCOUNTER_SITE` at the top of `script.js`). Until then nothing is recorded. |
 
@@ -106,9 +103,9 @@ network call.
 ```
 
 Up to 3 long-form videos, newest first. The first shows as a click-to-load 16:9 thumbnail (no YouTube iframe
-until the visitor clicks; the embed uses youtube-nocookie.com). The second and third show as small cards that
-open the YouTube watch page in a new tab. Fewer entries = fewer cards. Empty list, missing file or broken
-JSON = the section stays hidden. Shorts never go in this file.
+until the visitor clicks; the embed uses youtube-nocookie.com), with the title and `published` date under it.
+The second and third show as small cards that open the YouTube watch page in a new tab. Fewer entries = fewer
+cards. Empty list, missing file or broken JSON = the section stays hidden. Shorts never go in this file.
 
 **Sunday update procedure** (after a new long-form video is live):
 
@@ -150,16 +147,24 @@ referrer, so bio and pin traffic shows up per platform in its Referrers view.
 
 ## Breed-aware URLs (`?breed=`)
 
-`?breed=<lowercase-hyphenated-slug>` pre-fills "Your dog's breed (optional)" and changes the heading to
-"Join The Sniff Test — [Breed] edition". Nothing else changes, and the visitor can clear or edit the field.
+`?breed=<lowercase-hyphenated-slug>` pre-fills "Your dog's breed (optional)" and adds "— for your [Breed]" after "The Sniff Test". That line names his dog. It is the same Sunday letter for every breed, not a separate issue. The visitor can clear or edit the field.
 
-Display name = hyphens become spaces, then Title Case. Shortcuts: `gsd` → German Shepherd, `pitbull` → Pit Bull,
+Display name = hyphens become spaces, then Title Case. Shortcuts: `gsd` → German Shepherd, `pitbull` → American Pit Bull Terrier,
 `corso` → Cane Corso, `dobie` → Doberman (`BREED_OVERRIDES` in `script.js`). Anything that isn't letters and
 hyphens (or is over 40 characters) is ignored and the default page shows, with no error. Values are written with
-`textContent` only. No cookies, no storage. Only known breeds get an edition: the 19 names in the
+`textContent` only. Image `src` values come from a fixed map, never from the query string. No cookies, no storage. Only known breeds get the "for your" line: the 19 names in the
 form's `#breed-list` datalist plus the aliases in `BREED_OVERRIDES` (`gsd`, `pitbull`, `corso`, `dobie`). An unknown
 slug such as `?breed=xyz` shows the default page, so nobody can craft a link that puts arbitrary words in the
 heading. To add a breed (e.g. `shiba-inu`), add an `<option value="Shiba Inu">` to the datalist in `index.html`.
+
+For a known breed, `script.js` also:
+
+- Sets the hero kicker to the breed name (default kicker: "Every breed, one at a time").
+- Shows that breed's photo when one exists in `images/breeds/` (German Shepherd, American Pit Bull Terrier, Rottweiler, Doberman). Other breeds get a type plate with the name, not a stand-in photo.
+- Shows one verified American Temperament Test Society pass rate, and only for breeds that have one in the brand brief. The line under it is "A pass rate is a number, not a verdict. You decide what it means." The 87.6% line is labeled American Pit Bull Terrier (960 dogs), including the hero kicker, the "for your" line, the photo caption, and the breed picker. `?breed=pit-bull` and `?breed=pitbull` both use that name. Husky is 86.7% with no sample size, so none is shown. Cane Corso and the other datalist breeds get no number.
+- Marks that breed on the dial (`#breed-dial`) and fills the panel: the tagline, the method ("one thing he does, traced to the job he was built for"), and a verified ATTS line only when `BREED_STATS` has one. Breeds with no figure get "No verified figure for this breed on this page." Photos in the panel come from the same fixed map as the hero. Picking a breed updates `?breed=` with `history.replaceState` and keeps `utm_*`. Without JavaScript the breed names are ordinary `?breed=` links.
+
+Verified lines in `BREED_STATS` (`script.js`): German Shepherd 85.7% (3,500), Rottweiler 85.0% (6,216), Doberman 80.1% (1,870), American Pit Bull Terrier 87.6% (960), Golden Retriever 85.9% (836), Husky 86.7%. Do not add a figure that is not in the brief.
 
 Pinned comments: add `&utm_source=<platform>&utm_medium=pin` to any breed URL below, e.g.
 `https://dogunpacked.com/?breed=pit-bull&utm_source=tiktok&utm_medium=pin`. The right-hand column is the ready-made pin link
@@ -168,7 +173,7 @@ with `PLATFORM` to replace (`tiktok`, `youtube` or `instagram`).
 | Breed | URL | Pinned-comment link |
 |---|---|---|
 | German Shepherd | `https://dogunpacked.com/?breed=german-shepherd` (or `?breed=gsd`) | `https://dogunpacked.com/?breed=german-shepherd&utm_source=PLATFORM&utm_medium=pin` |
-| Pit Bull | `https://dogunpacked.com/?breed=pit-bull` (or `?breed=pitbull`) | `https://dogunpacked.com/?breed=pit-bull&utm_source=PLATFORM&utm_medium=pin` |
+| American Pit Bull Terrier | `https://dogunpacked.com/?breed=pit-bull` (or `?breed=pitbull`) | `https://dogunpacked.com/?breed=pit-bull&utm_source=PLATFORM&utm_medium=pin` |
 | Rottweiler | `https://dogunpacked.com/?breed=rottweiler` | `https://dogunpacked.com/?breed=rottweiler&utm_source=PLATFORM&utm_medium=pin` |
 | Doberman | `https://dogunpacked.com/?breed=doberman` (or `?breed=dobie`) | `https://dogunpacked.com/?breed=doberman&utm_source=PLATFORM&utm_medium=pin` |
 | Cane Corso | `https://dogunpacked.com/?breed=cane-corso` (or `?breed=corso`) | `https://dogunpacked.com/?breed=cane-corso&utm_source=PLATFORM&utm_medium=pin` |
@@ -200,48 +205,11 @@ with `PLATFORM` to replace (`tiktok`, `youtube` or `instagram`).
 
 All calls go through `track()` in `script.js`, which does nothing if GoatCounter is blocked or missing.
 
-## December: when the German Shepherd File is on sale
+## Coming soon (`#guides`)
 
-Section 5 (Breed Files) becomes **one product card**, only for a guide that actually exists:
+A short navy band, not a product card and not in the nav. Label "Coming soon", heading "Breed Files", then: in-depth breed guides are in the works, starting with the German Shepherd. The Sniff Test link is where that news goes. No price, no date, no buy or preorder button, and no line that subscribers hear about it first.
 
-- Header art: the Unpacked box label in HTML/CSS (no image): kraft-brown card border, cream label, navy
-  stencil-style text. Line 1 `CONTENTS: 1 GERMAN SHEPHERD`, line 2 `NOT ANXIOUS · ON SHIFT`.
-- Title "German Shepherd File", a two-line description, the price, and a real Buy button
-  (Kit Commerce, which works on the Free plan, or Gumroad).
-- Add a second card only when a second guide exists. No "coming soon" cards.
-
-Component sketch (removed from the live CSS to keep it tidy; drop into `styles.css` when needed):
-
-```html
-<article class="product-card">
-  <div class="box-label" aria-hidden="true">
-    <div class="box-label-inner">
-      <span class="box-label-line1">Contents: 1 German Shepherd</span>
-      <span class="box-label-line2">Not anxious · On shift</span>
-    </div>
-  </div>
-  <h3>German Shepherd File</h3>
-  <p>[two-line description]</p>
-  <p class="price">$[price]</p>
-  <a class="btn btn--primary" href="[Kit Commerce / Gumroad URL]">Buy the German Shepherd File</a>
-</article>
-```
-
-```css
-.box-label { background: #B08355; border: 2px solid #8C6239; border-radius: 6px; padding: .7rem; }
-.box-label-inner { background: var(--cream); border: 2px dashed var(--navy); padding: .6rem .7rem;
-  display: flex; flex-direction: column; align-items: center; gap: .25rem; text-align: center;
-  color: var(--navy); text-transform: uppercase; font-family: "Arial Black", Arial, var(--font); font-weight: 900; }
-.box-label-line1, .box-label-line2 { position: relative; display: inline-block; }
-/* stencil bridges: one cream hairline per text line */
-.box-label-line1::after, .box-label-line2::after { content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: repeating-linear-gradient(to bottom, transparent 0 .6em, var(--cream) .6em calc(.6em + 1.5px),
-  transparent calc(.6em + 1.5px) 1.15em); }
-.box-label-line1 { font-size: .9rem; letter-spacing: .1em; }
-.box-label-line2 { font-size: .74rem; letter-spacing: .16em; }
-```
-
-The full earlier implementation (four cards with badges) is in git history at commit 3bf7784.
+The signup pitch stays "One behavior, one job, one study, and what to do tonight." The page does not show a sample letter or a second explanation of that order.
 
 ## GitHub Pages readiness
 
@@ -262,7 +230,8 @@ The full earlier implementation (four cards with badges) is in git history at co
 
 ## Assets
 
-- Photos: `images/breeds/*.webp` (WebP, under 30 KB each, explicit width/height, `loading="lazy"`).
-  Sources and licenses: `assets/CREDITS.md`.
+- Photos: `images/breeds/*.webp` (WebP, explicit width/height). Sources and licenses: `assets/CREDITS.md`.
+- Fonts: self-hosted Latin variable subsets in `fonts/` (Nunito, Fraunces), SIL Open Font License (`fonts/OFL-*.txt`). No Google Fonts request.
+- Share image: `images/og-image.png` (1200×630), linked with absolute `https://dogunpacked.com/` URLs.
 - Review screenshots: `python3 scripts/screenshot_preview.py` (Playwright) writes `assets/preview-v2-*.png`
   (gitignored).

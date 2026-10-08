@@ -29,8 +29,12 @@ Provenance notes:
 |---|---|
 | `images/logo-*.{png,webp}`, `favicon.ico`, `favicon-32.png`, `apple-touch-icon.png`, `images/og-image.png` | Dog Unpacked logo and derivatives (see `scripts/build_logo_assets.py`). |
 
-## Pending
+## Share image
 
-| Placeholder | Needed |
+| File | Notes |
 |---|---|
-| `{{OG_IMAGE}}` | 1200×630 Unpacked box photo. Add its source here when supplied (own photo, or Unsplash / Pexels / Storyblocks with license URL). |
+| `images/og-image.png` (1200×630) | Owned logo card, used for Open Graph and Twitter. A later box photo can replace this file; record its source here when it does. |
+
+## Type
+
+Nunito and Fraunces Latin subsets in `fonts/` are self-hosted under the SIL Open Font License (`fonts/OFL-nunito.txt`, `fonts/OFL-fraunces.txt`). They are not photographs.

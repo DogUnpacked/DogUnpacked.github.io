@@ -3,322 +3,407 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dog Unpacked — He&#39;s not broken. He&#39;s bred that way.</title>
-  <meta name="description" content="Your dog&#39;s odd habits, explained by the job his breed was built for. One behavior at a time, backed by real research — not myths, not fear-mongering, not training gimmicks.">
+  <title>Everything Dog Unpacked — He's not broken. He's bred that way.</title>
+  <meta name="description" content="Why your dog does that, explained by the job his breed was bred for. The Sniff Test is free every Sunday: one behavior, one job, one study.">
   <meta name="theme-color" content="#F5EDDC">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://i.ytimg.com">
-  <!-- Headings: Fraunces (existing serif, unchanged). Body/buttons: Nunito. display=swap. -->
-  <!-- Loaded without blocking first paint; metric-matched fallbacks in styles.css keep layout stable on swap. -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap"></noscript>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="color-scheme" content="light">
   <link rel="canonical" href="https://dogunpacked.com/">
+  <link rel="preload" href="fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" as="image" href="images/logo-256.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="styles.css">
 
-  <!-- Favicons / app icons -->
   <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
-  <!-- Social share (Open Graph / Twitter).
-       OG IMAGE OMITTED until {{OG_IMAGE}} (1200×630 Unpacked box photo) is supplied. When it is, add:
-         <meta property="og:image" content="https://dogunpacked.com/images/og-image.jpg">   (ABSOLUTE URL)
-         <meta property="og:image:width" content="1200">
-         <meta property="og:image:height" content="630">
-         <meta property="og:image:alt" content="...">
-         <meta name="twitter:image" content="https://dogunpacked.com/images/og-image.jpg">
-       and switch twitter:card below to "summary_large_image". -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dogunpacked.com/">
   <meta property="og:site_name" content="Dog Unpacked">
-  <meta property="og:title" content="Dog Unpacked — He&#39;s not broken. He&#39;s bred that way.">
-  <meta property="og:description" content="Your dog&#39;s odd habits, explained by the job his breed was built for. One behavior at a time, backed by real research — not myths, not fear-mongering, not training gimmicks.">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Dog Unpacked — He&#39;s not broken. He&#39;s bred that way.">
-  <meta name="twitter:description" content="Your dog&#39;s odd habits, explained by the job his breed was built for. One behavior at a time, backed by real research — not myths, not fear-mongering, not training gimmicks.">
+  <meta property="og:title" content="Everything Dog Unpacked — He's not broken. He's bred that way.">
+  <meta property="og:description" content="Why your dog does that, explained by the job his breed was bred for. The Sniff Test is free every Sunday: one behavior, one job, one study.">
+  <meta property="og:image" content="https://dogunpacked.com/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="Dog Unpacked logo">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Everything Dog Unpacked — He's not broken. He's bred that way.">
+  <meta name="twitter:description" content="Why your dog does that, explained by the job his breed was bred for. The Sniff Test is free every Sunday: one behavior, one job, one study.">
+  <meta name="twitter:image" content="https://dogunpacked.com/images/og-image.png">
+  <meta name="twitter:image:alt" content="Dog Unpacked logo">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://dogunpacked.com/#organization",
+        "name": "Dog Unpacked",
+        "url": "https://dogunpacked.com/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://dogunpacked.com/images/logo-512.png"
+        },
+        "slogan": "He's not broken. He's bred that way.",
+        "description": "Why your dog does that, explained by the job his breed was bred for.",
+        "sameAs": [
+          "https://www.youtube.com/@DogUnpacked",
+          "https://www.instagram.com/dogunpacked",
+          "https://www.tiktok.com/@dogsunpacked"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://dogunpacked.com/#website",
+        "url": "https://dogunpacked.com/",
+        "name": "Dog Unpacked",
+        "inLanguage": "en",
+        "publisher": { "@id": "https://dogunpacked.com/#organization" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://dogunpacked.com/#webpage",
+        "url": "https://dogunpacked.com/",
+        "name": "Everything Dog Unpacked — He's not broken. He's bred that way.",
+        "description": "Why your dog does that, explained by the job his breed was bred for. The Sniff Test is free every Sunday: one behavior, one job, one study.",
+        "isPartOf": { "@id": "https://dogunpacked.com/#website" },
+        "about": { "@id": "https://dogunpacked.com/#organization" },
+        "inLanguage": "en",
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://dogunpacked.com/images/og-image.png"
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <div class="page-bg" aria-hidden="true">
-    <svg class="paw-watermark paw-watermark--tl" viewBox="0 0 64 64" fill="currentColor">
-      <ellipse cx="18" cy="18" rx="7" ry="9" transform="rotate(-18 18 18)"/>
-      <ellipse cx="32" cy="12" rx="7" ry="9"/>
-      <ellipse cx="46" cy="18" rx="7" ry="9" transform="rotate(18 46 18)"/>
-      <ellipse cx="12" cy="32" rx="6" ry="8" transform="rotate(-35 12 32)"/>
-      <path d="M32 28c-10 0-18 8-18 16 0 6 4 10 10 10 3 0 5-1 8-4 3 3 5 4 8 4 6 0 10-4 10-10 0-8-8-16-18-16z"/>
-    </svg>
-    <svg class="paw-watermark paw-watermark--br" viewBox="0 0 64 64" fill="currentColor">
-      <ellipse cx="18" cy="18" rx="7" ry="9" transform="rotate(-18 18 18)"/>
-      <ellipse cx="32" cy="12" rx="7" ry="9"/>
-      <ellipse cx="46" cy="18" rx="7" ry="9" transform="rotate(18 46 18)"/>
-      <ellipse cx="12" cy="32" rx="6" ry="8" transform="rotate(-35 12 32)"/>
-      <path d="M32 28c-10 0-18 8-18 16 0 6 4 10 10 10 3 0 5-1 8-4 3 3 5 4 8 4 6 0 10-4 10-10 0-8-8-16-18-16z"/>
-    </svg>
-    <svg class="page-sil page-sil--left" viewBox="0 0 160 120" fill="currentColor">
-      <path d="M18 78c1-18 8-32 20-42 2-12 10-26 22-32 4-2 8 0 9 4l1 10c8-3 18-2 26 4 6 4 10 12 11 20l2 14c10 2 18 10 20 20 2 8-2 14-10 15H28c-8-1-12-7-11-15 1-10 1-18 1-28z"/>
-    </svg>
-    <svg class="page-sil page-sil--right" viewBox="0 0 150 110" fill="currentColor">
-      <path d="M16 72c2-14 8-24 18-32 6-14 18-26 34-28 6-1 10 3 10 8v8c10-2 20 2 28 10 6 6 10 14 11 22l1 10c8 4 14 12 14 20 0 6-4 10-10 10H26c-8 0-12-6-11-12 1-10 1-18 1-26z"/>
-    </svg>
-  </div>
-  <!-- Desktop side art (≥960px): four framed breed photos + silhouettes. Hidden on mobile
-       (the mobile strip under the hero shows the same photos). Sources: assets/CREDITS.md -->
-  <div class="side-rails">
-    <aside class="side-rail side-rail--left" aria-label="Breed photos">
-      <figure class="breed-frame breed-frame--tall breed-frame--tilt-left">
-        <img src="images/breeds/german-shepherd-480.webp" alt="German Shepherd — Dog Unpacked" width="480" height="600" loading="lazy" decoding="async">
-        <figcaption class="breed-caption">German Shepherd</figcaption>
-      </figure>
-
-      <svg class="breed-sil breed-sil--gsd" viewBox="0 0 160 120" fill="currentColor" aria-hidden="true">
-        <!-- Stylized GSD profile silhouette -->
-        <path d="M18 78c1-18 8-32 20-42 2-12 10-26 22-32 4-2 8 0 9 4l1 10c8-3 18-2 26 4 6 4 10 12 11 20l2 14c10 2 18 10 20 20 2 8-2 14-10 15H28c-8-1-12-7-11-15 1-10 1-18 1-28z"/>
-        <path d="M52 28c-1-8 2-16 6-18 1 6 2 12 1 18H52z"/>
-        <ellipse cx="68" cy="52" rx="3" ry="2.2" fill="#F5EDDC" opacity="0.35"/>
-      </svg>
-      <figure class="breed-frame breed-frame--square breed-frame--tilt-right">
-        <img src="images/breeds/rottweiler-480.webp" alt="Rottweiler — Dog Unpacked" width="480" height="480" loading="lazy" decoding="async">
-        <figcaption class="breed-caption">Rottweiler</figcaption>
-      </figure>
-    </aside>
-
-    <aside class="side-rail side-rail--right" aria-label="More breed photos">
-      <!-- Pit Bull sits above the Doberman so it clears the bottom-right paw watermark -->
-      <figure class="breed-frame breed-frame--square breed-frame--tilt-left">
-        <img src="images/breeds/pit-bull-480.webp" alt="Pit Bull — Dog Unpacked" width="480" height="480" loading="lazy" decoding="async">
-        <figcaption class="breed-caption">Pit Bull</figcaption>
-      </figure>
-
-      <svg class="breed-sil breed-sil--bully" viewBox="0 0 150 110" fill="currentColor" aria-hidden="true">
-        <!-- Broad-head bully/pit silhouette -->
-        <path d="M16 72c2-14 8-24 18-32 6-14 18-26 34-28 6-1 10 3 10 8v8c10-2 20 2 28 10 6 6 10 14 11 22l1 10c8 4 14 12 14 20 0 6-4 10-10 10H26c-8 0-12-6-11-12 1-10 1-18 1-26z"/>
-        <ellipse cx="78" cy="58" rx="3.2" ry="2.4" fill="#F5EDDC" opacity="0.3"/>
-      </svg>
-      <figure class="breed-frame breed-frame--tall breed-frame--tilt-right">
-        <img src="images/breeds/doberman-480.webp" alt="Doberman — Dog Unpacked" width="480" height="600" loading="lazy" decoding="async">
-        <figcaption class="breed-caption">Doberman</figcaption>
-      </figure>
-    </aside>
-  </div>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#main">
+        <picture>
+          <source type="image/webp" srcset="images/logo-256.webp">
+          <img src="images/logo-256.png" width="40" height="40" alt="" decoding="async" fetchpriority="high">
+        </picture>
+        <span class="brand-word">Dog Unpacked</span>
+      </a>
+      <nav class="site-nav" aria-label="Page">
+        <a class="nav-cta" href="#subscribe" aria-label="Get The Sniff Test">
+          <span class="nav-cta-long">The Sniff Test</span>
+          <span class="nav-cta-short">Subscribe</span>
+        </a>
+        <a class="nav-desktop" href="#breed-dial">Breeds</a>
+        <a class="nav-desktop" href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
   <main id="main">
-    <!-- 1. Hero -->
-    <header class="hero">
-      <!-- Brand logo (circular badge). Sources: images/logo-*.{webp,png}; regenerate with scripts/build_logo_assets.py -->
-      <picture class="hero-logo-wrap">
-        <source type="image/webp" srcset="images/logo-256.webp 256w, images/logo-512.webp 512w" sizes="(min-width: 640px) 168px, 144px">
-        <img
-          class="hero-logo"
-          src="images/logo-256.png"
-          srcset="images/logo-256.png 256w, images/logo-512.png 512w"
-          sizes="(min-width: 640px) 168px, 144px"
-          alt="Dog Unpacked"
-          width="168"
-          height="168"
-          decoding="async"
-          fetchpriority="high"
-        >
-      </picture>
-      <p class="brand-kicker">Every breed, one at a time</p>
-      <h1 class="brand-name">Dog Unpacked</h1>
-      <p class="tagline">He&#39;s not broken. He&#39;s bred that way.</p>
-      <p class="about-blurb">Your dog&#39;s odd habits, explained by the job his breed was built for. One behavior at a time, backed by real research — not myths, not <span class="nowrap">fear-mongering,</span> not training gimmicks.</p>
-      <p class="proof-row">Every claim traces back to breed standards, temperament testing, or a published study — and we show you which.</p>
+    <div class="wrap">
+      <div class="hero-band">
+        <div class="hero-copy">
+          <p class="kicker" id="hero-kicker">Every breed, one at a time</p>
+          <h1>He's not broken. He's bred that way.</h1>
+          <p class="dek">Why your dog does that, explained by the job his breed was bred for.</p>
 
-      <!-- Mobile breed strip (<960px). Same photos as the desktop side rails. -->
-      <ul class="breed-strip" aria-label="Breed photos">
-        <li class="breed-strip-item">
-          <img src="images/breeds/german-shepherd-240.webp" alt="German Shepherd — Dog Unpacked" width="240" height="240" loading="lazy" decoding="async">
-          <span>German Shepherd</span>
-        </li>
-        <li class="breed-strip-item">
-          <img src="images/breeds/pit-bull-240.webp" alt="Pit Bull — Dog Unpacked" width="240" height="240" loading="lazy" decoding="async">
-          <span>Pit Bull</span>
-        </li>
-        <li class="breed-strip-item">
-          <img src="images/breeds/rottweiler-240.webp" alt="Rottweiler — Dog Unpacked" width="240" height="240" loading="lazy" decoding="async">
-          <span>Rottweiler</span>
-        </li>
-        <li class="breed-strip-item">
-          <img src="images/breeds/doberman-240.webp" alt="Doberman — Dog Unpacked" width="240" height="240" loading="lazy" decoding="async">
-          <span>Doberman</span>
-        </li>
-      </ul>
-    </header>
+          <!-- The Sniff Test. Kit form 10011711. IDs and field names are read by script.js. -->
+          <section class="newsletter" id="subscribe" aria-labelledby="newsletter-heading">
+            <h2 id="newsletter-heading">The Sniff Test<span class="breed-for" id="breed-for"></span></h2>
+            <p class="newsletter-blurb">One behavior, one job, one study, and what to do tonight.</p>
+            <p class="newsletter-when">Every Sunday. About a two-minute read.</p>
+            <form
+              class="newsletter-form"
+              action="https://app.kit.com/forms/10011711/subscriptions"
+              method="post"
+              id="newsletter-form"
+              data-sv-form="10011711"
+              data-uid="ae44e15ea4"
+            >
+              <div class="field">
+                <label for="email">Your email</label>
+                <input type="email" id="email" name="email_address" required autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false">
+              </div>
+              <div class="field">
+                <label for="breed">Your dog's breed <span class="label-optional">(optional)</span></label>
+                <input type="text" id="breed" name="fields[breed]" list="breed-list" autocomplete="off" autocapitalize="words" spellcheck="false" maxlength="60">
+                <datalist id="breed-list">
+                  <option value="German Shepherd"></option>
+                  <option value="American Pit Bull Terrier"></option>
+                  <option value="Rottweiler"></option>
+                  <option value="Doberman"></option>
+                  <option value="Cane Corso"></option>
+                  <option value="Husky"></option>
+                  <option value="Golden Retriever"></option>
+                  <option value="Labrador"></option>
+                  <option value="Beagle"></option>
+                  <option value="Corgi"></option>
+                  <option value="Chihuahua"></option>
+                  <option value="French Bulldog"></option>
+                  <option value="Dachshund"></option>
+                  <option value="Belgian Malinois"></option>
+                  <option value="Australian Shepherd"></option>
+                  <option value="Border Collie"></option>
+                  <option value="Boxer"></option>
+                  <option value="Great Dane"></option>
+                  <option value="Mixed breed"></option>
+                </datalist>
+              </div>
+              <input type="hidden" name="tags[]" value="24362096">
+              <button type="submit" class="btn btn--primary">Get The Sniff Test</button>
+            </form>
+            <p class="form-privacy">Free. Unsubscribe anytime.</p>
+            <p class="form-note" id="form-status" role="status" aria-live="polite"></p>
+          </section>
+        </div>
 
-    <!-- 2. Platform buttons (order + platform colors fixed). data-track = GoatCounter event name. -->
-    <section class="social" aria-labelledby="social-heading">
-      <h2 id="social-heading" class="visually-hidden">Follow Dog Unpacked</h2>
-      <ul class="social-list">
-        <li>
-          <a class="social-btn social-btn--youtube" href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank" data-track="youtube">
-            <span class="social-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.8 15.5v-7l6.3 3.5-6.3 3.5z"/></svg>
-            </span>
-            <span class="social-label">YouTube</span>
-          </a>
-        </li>
-        <li>
-          <a class="social-btn social-btn--instagram" href="https://www.instagram.com/dogunpacked" rel="noopener noreferrer" target="_blank" data-track="instagram">
-            <span class="social-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.9.2 2.3.4.6.2 1 .5 1.5 1 .4.4.7.9 1 1.5.2.4.4 1.1.4 2.3.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.9-.4 2.3-.2.6-.5 1-1 1.5-.4.4-.9.7-1.5 1-.4.2-1.1.4-2.3.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.9-.2-2.3-.4a4.1 4.1 0 0 1-1.5-1 4.1 4.1 0 0 1-1-1.5c-.2-.4-.4-1.1-.4-2.3C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.9.4-2.3.2-.6.5-1 1-1.5.4-.4.9-.7 1.5-1 .4-.2 1.1-.4 2.3-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.2 0-3.5 0-4.8.1-1.1 0-1.7.2-2.1.4-.5.2-.8.4-1.1.8-.3.3-.6.6-.8 1.1-.2.4-.3 1-.4 2.1 0 1.2-.1 1.6-.1 4.8s0 3.5.1 4.8c0 1.1.2 1.7.4 2.1.2.5.4.8.8 1.1.3.3.6.6 1.1.8.4.2 1 .3 2.1.4 1.2 0 1.6.1 4.8.1s3.5 0 4.8-.1c1.1 0 1.7-.2 2.1-.4.5-.2.8-.4 1.1-.8.3-.3.6-.6.8-1.1.2-.4.3-1 .4-2.1 0-1.2.1-1.6.1-4.8s0-3.5-.1-4.8c0-1.1-.2-1.7-.4-2.1a2.9 2.9 0 0 0-.8-1.1 2.9 2.9 0 0 0-1.1-.8c-.4-.2-1-.3-2.1-.4-1.3-.1-1.6-.1-4.8-.1zm0 3.1a5 5 0 1 1 0 9.9 5 5 0 0 1 0-9.9zm0 1.8a3.2 3.2 0 1 0 0 6.3 3.2 3.2 0 0 0 0-6.3zm6.4-2.1a1.2 1.2 0 1 1 0 2.3 1.2 1.2 0 0 1 0-2.3z"/></svg>
-            </span>
-            <span class="social-label">Instagram</span>
-          </a>
-        </li>
-        <li>
-          <a class="social-btn social-btn--tiktok" href="https://www.tiktok.com/@dogsunpacked" rel="noopener noreferrer" target="_blank" data-track="tiktok">
-            <span class="social-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19.6 6.7a5.6 5.6 0 0 1-3.3-1V15a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v2.7a2.8 2.8 0 1 0 2 2.7V2.5h2.6a5.6 5.6 0 0 0 3.3 3.5v.7z"/></svg>
-            </span>
-            <span class="social-label">TikTok</span>
-          </a>
-        </li>
-      </ul>
-    </section>
+        <section class="social" aria-labelledby="social-heading">
+          <h2 id="social-heading" class="visually-hidden">Watch and follow</h2>
+          <ul class="social-list">
+            <li>
+              <a class="social-btn social-btn--youtube" href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank" data-track="youtube">
+                <span class="social-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.8 15.5v-7l6.3 3.5-6.3 3.5z"/></svg>
+                </span>
+                <span class="social-text">
+                  <span class="social-label">YouTube</span>
+                  <span class="social-action">Subscribe</span>
+                </span>
+                <span class="visually-hidden"> (opens in a new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a class="social-btn social-btn--instagram" href="https://www.instagram.com/dogunpacked" rel="noopener noreferrer" target="_blank" data-track="instagram">
+                <span class="social-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.9.2 2.3.4.6.2 1 .5 1.5 1 .4.4.7.9 1 1.5.2.4.4 1.1.4 2.3.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.9-.4 2.3-.2.6-.5 1-1 1.5-.4.4-.9.7-1.5 1-.4.2-1.1.4-2.3.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.9-.2-2.3-.4a4.1 4.1 0 0 1-1.5-1 4.1 4.1 0 0 1-1-1.5c-.2-.4-.4-1.1-.4-2.3C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.9.4-2.3.2-.6.5-1 1-1.5.4-.4.9-.7 1.5-1 .4-.2 1.1-.4 2.3-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.2 0-3.5 0-4.8.1-1.1 0-1.7.2-2.1.4-.5.2-.8.4-1.1.8-.3.3-.6.6-.8 1.1-.2.4-.3 1-.4 2.1 0 1.2-.1 1.6-.1 4.8s0 3.5.1 4.8c0 1.1.2 1.7.4 2.1.2.5.4.8.8 1.1.3.3.6.6 1.1.8.4.2 1 .3 2.1.4 1.2 0 1.6.1 4.8.1s3.5 0 4.8-.1c1.1 0 1.7-.2 2.1-.4.5-.2.8-.4 1.1-.8.3-.3.6-.6.8-1.1.2-.4.3-1 .4-2.1 0-1.2.1-1.6.1-4.8s0-3.5-.1-4.8c0-1.1-.2-1.7-.4-2.1a2.9 2.9 0 0 0-.8-1.1 2.9 2.9 0 0 0-1.1-.8c-.4-.2-1-.3-2.1-.4-1.3-.1-1.6-.1-4.8-.1zm0 3.1a5 5 0 1 1 0 9.9 5 5 0 0 1 0-9.9zm0 1.8a3.2 3.2 0 1 0 0 6.3 3.2 3.2 0 0 0 0-6.3zm6.4-2.1a1.2 1.2 0 1 1 0 2.3 1.2 1.2 0 0 1 0-2.3z"/></svg>
+                </span>
+                <span class="social-text">
+                  <span class="social-label">Instagram</span>
+                  <span class="social-action">Follow</span>
+                </span>
+                <span class="visually-hidden"> (opens in a new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a class="social-btn social-btn--tiktok" href="https://www.tiktok.com/@dogsunpacked" rel="noopener noreferrer" target="_blank" data-track="tiktok">
+                <span class="social-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19.6 6.7a5.6 5.6 0 0 1-3.3-1V15a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v2.7a2.8 2.8 0 1 0 2 2.7V2.5h2.6a5.6 5.6 0 0 0 3.3 3.5v.7z"/></svg>
+                </span>
+                <span class="social-text">
+                  <span class="social-label">TikTok</span>
+                  <span class="social-action">Follow</span>
+                </span>
+                <span class="visually-hidden"> (opens in a new tab)</span>
+              </a>
+            </li>
+          </ul>
+        </section>
 
-    <!-- 3. Newsletter — The Sniff Test (Kit inline form, IDs in KIT.md) -->
-    <section class="newsletter" id="subscribe" aria-labelledby="newsletter-badge newsletter-heading">
-      <div class="newsletter-head">
-        <span class="section-mark" aria-hidden="true">
-          <svg viewBox="0 0 64 64" width="22" height="22" fill="currentColor"><ellipse cx="18" cy="18" rx="7" ry="9" transform="rotate(-18 18 18)"/><ellipse cx="32" cy="12" rx="7" ry="9"/><ellipse cx="46" cy="18" rx="7" ry="9" transform="rotate(18 46 18)"/><ellipse cx="12" cy="32" rx="6" ry="8" transform="rotate(-35 12 32)"/><path d="M32 28c-10 0-18 8-18 16 0 6 4 10 10 10 3 0 5-1 8-4 3 3 5 4 8 4 6 0 10-4 10-10 0-8-8-16-18-16z"/></svg>
-        </span>
-        <p class="newsletter-badge" id="newsletter-badge">Free weekly newsletter</p>
-        <h2 id="newsletter-heading">Join The Sniff Test<span class="breed-edition" id="breed-edition"></span></h2>
+        <div class="hero-visual" id="hero-visual">
+          <ul class="breed-grid" id="breed-grid">
+            <li>
+              <figure>
+                <img src="images/breeds/german-shepherd-240.webp" srcset="images/breeds/german-shepherd-240.webp 240w, images/breeds/german-shepherd-480.webp 480w" sizes="(min-width: 960px) 220px, 42vw" alt="" width="240" height="240" loading="lazy" decoding="async">
+                <figcaption>German Shepherd</figcaption>
+              </figure>
+            </li>
+            <li>
+              <figure>
+                <img src="images/breeds/pit-bull-240.webp" srcset="images/breeds/pit-bull-240.webp 240w, images/breeds/pit-bull-480.webp 480w" sizes="(min-width: 960px) 220px, 42vw" alt="" width="240" height="240" loading="lazy" decoding="async">
+                <figcaption>American Pit Bull Terrier</figcaption>
+              </figure>
+            </li>
+            <li>
+              <figure>
+                <img src="images/breeds/rottweiler-240.webp" srcset="images/breeds/rottweiler-240.webp 240w, images/breeds/rottweiler-480.webp 480w" sizes="(min-width: 960px) 220px, 42vw" alt="" width="240" height="240" loading="lazy" decoding="async">
+                <figcaption>Rottweiler</figcaption>
+              </figure>
+            </li>
+            <li>
+              <figure>
+                <img src="images/breeds/doberman-240.webp" srcset="images/breeds/doberman-240.webp 240w, images/breeds/doberman-480.webp 480w" sizes="(min-width: 960px) 220px, 42vw" alt="" width="240" height="240" loading="lazy" decoding="async">
+                <figcaption>Doberman</figcaption>
+              </figure>
+            </li>
+          </ul>
+          <figure class="breed-feature" id="breed-feature" hidden>
+            <img id="breed-feature-img" alt="" width="480" height="600" decoding="async">
+            <figcaption id="breed-feature-cap"></figcaption>
+          </figure>
+          <div class="breed-plate" id="breed-plate" hidden>
+            <p class="breed-plate-kicker">Every breed, one at a time</p>
+            <p class="breed-plate-name" id="breed-plate-name"></p>
+          </div>
+          <div class="breed-stat" id="breed-stat" hidden>
+            <p id="breed-stat-text"></p>
+            <p class="breed-stat-note">A pass rate is a number, not a verdict. You decide what it means.</p>
+          </div>
+          <p class="visual-caption" id="visual-caption">Four frames so far. Every breed, one at a time.</p>
+        </div>
       </div>
-      <p class="newsletter-blurb">The Dog Unpacked newsletter, in your inbox every Sunday. One behavior. One job. One study. 90 seconds to read.</p>
-      <!--
-        Plain signup for The Sniff Test newsletter: brand-styled HTML POST to Kit form 10011711 (double opt-in on in Kit).
-          email   -> email_address (required)
-          breed   -> fields[breed] (OPTIONAL; Kit custom field "breed", id 1388795). It is only saved on the
-                     subscriber's profile; it does not change the signup. Everyone gets the same newsletter.
-          tags[]  -> 24362096 = "source:landing" (backup; the reliable path is the form's "add tag" setting in Kit)
-        script.js Title-Cases the breed and leaves fields[breed] out when it is blank.
-      -->
-      <form
-        class="newsletter-form"
-        action="https://app.kit.com/forms/10011711/subscriptions"
-        method="post"
-        id="newsletter-form"
-        data-sv-form="10011711"
-        data-uid="ae44e15ea4"
-      >
-        <div class="field">
-          <label for="email">Your email</label>
-          <input type="email" id="email" name="email_address" placeholder="you@example.com" required autocomplete="email" inputmode="email">
-        </div>
-        <div class="field">
-          <label for="breed">Your dog&#39;s breed (optional)</label>
-          <input type="text" id="breed" name="fields[breed]" list="breed-list" placeholder="Start typing…" autocomplete="off" autocapitalize="words" spellcheck="false" maxlength="60">
-          <datalist id="breed-list">
-            <option value="German Shepherd"></option>
-            <option value="Pit Bull"></option>
-            <option value="Rottweiler"></option>
-            <option value="Doberman"></option>
-            <option value="Cane Corso"></option>
-            <option value="Husky"></option>
-            <option value="Golden Retriever"></option>
-            <option value="Labrador"></option>
-            <option value="Beagle"></option>
-            <option value="Corgi"></option>
-            <option value="Chihuahua"></option>
-            <option value="French Bulldog"></option>
-            <option value="Dachshund"></option>
-            <option value="Belgian Malinois"></option>
-            <option value="Australian Shepherd"></option>
-            <option value="Border Collie"></option>
-            <option value="Boxer"></option>
-            <option value="Great Dane"></option>
-            <option value="Mixed breed"></option>
-          </datalist>
-        </div>
-        <input type="hidden" name="tags[]" value="24362096">
-        <button type="submit" class="btn btn--primary">Get The Sniff Test</button>
-      </form>
-      <p class="form-privacy">Free. No spam. Unsubscribe anytime.</p>
-      <p class="form-note" id="form-status" role="status" aria-live="polite"></p>
-    </section>
+      <p class="proof">Breed explains about 9% of behavioral variation across 18,000+ dogs. <cite>Morrill et al., 2022, Science</cite></p>
+    </div>
 
-    <!-- 4. Latest — rendered by script.js from data/latest.json (newest first, up to 3 long-form videos).
-         Never edit this markup for a new video: run scripts/update_latest_video.py (or edit data/latest.json).
-         Empty / missing / unreadable JSON -> the section stays hidden. -->
-    <section class="latest" id="latest" aria-labelledby="latest-heading" hidden>
-      <h2 id="latest-heading">Latest</h2>
-      <div class="lite-yt" id="latest-video"></div>
-      <ul class="latest-more" id="latest-more" hidden></ul>
-      <p class="latest-caption">Full breed breakdowns live on YouTube.</p>
-    </section>
+      <section class="band band--navy" id="breed-dial" aria-labelledby="dial-heading">
+        <div class="wrap">
+          <div class="dial-intro">
+            <p class="eyebrow">Every breed, one at a time</p>
+            <h2 id="dial-heading">Pick his breed.</h2>
+            <p class="dial-lead">The angle stays the same. A figure shows up only when we have one.</p>
+          </div>
+          <div class="dial-picks" id="dial-picks" role="group" aria-label="Breeds">
+            <a class="dial-pick" href="?breed=german-shepherd" data-dial="german-shepherd">German Shepherd</a>
+            <a class="dial-pick" href="?breed=pit-bull" data-dial="pit-bull">American Pit Bull Terrier</a>
+            <a class="dial-pick" href="?breed=rottweiler" data-dial="rottweiler">Rottweiler</a>
+            <a class="dial-pick" href="?breed=doberman" data-dial="doberman">Doberman</a>
+            <a class="dial-pick" href="?breed=cane-corso" data-dial="cane-corso">Cane Corso</a>
+            <a class="dial-pick" href="?breed=husky" data-dial="husky">Husky</a>
+            <a class="dial-pick" href="?breed=golden-retriever" data-dial="golden-retriever">Golden Retriever</a>
+            <a class="dial-pick" href="?breed=labrador" data-dial="labrador">Labrador</a>
+            <a class="dial-pick" href="?breed=beagle" data-dial="beagle">Beagle</a>
+            <a class="dial-pick" href="?breed=corgi" data-dial="corgi">Corgi</a>
+            <a class="dial-pick" href="?breed=chihuahua" data-dial="chihuahua">Chihuahua</a>
+            <a class="dial-pick" href="?breed=french-bulldog" data-dial="french-bulldog">French Bulldog</a>
+            <a class="dial-pick" href="?breed=dachshund" data-dial="dachshund">Dachshund</a>
+            <a class="dial-pick" href="?breed=belgian-malinois" data-dial="belgian-malinois">Belgian Malinois</a>
+            <a class="dial-pick" href="?breed=australian-shepherd" data-dial="australian-shepherd">Australian Shepherd</a>
+            <a class="dial-pick" href="?breed=border-collie" data-dial="border-collie">Border Collie</a>
+            <a class="dial-pick" href="?breed=boxer" data-dial="boxer">Boxer</a>
+            <a class="dial-pick" href="?breed=great-dane" data-dial="great-dane">Great Dane</a>
+            <a class="dial-pick" href="?breed=mixed-breed" data-dial="mixed-breed">Mixed breed</a>
+          </div>
+          <div class="dial-stage" id="dial-stage">
+            <p class="dial-empty" id="dial-empty">Choose a breed above.</p>
+            <article class="dial-result" id="dial-result" hidden>
+              <figure class="dial-figure" id="dial-figure" hidden>
+                <img id="dial-photo" alt="" width="480" height="600" decoding="async" loading="lazy">
+                <figcaption id="dial-cap"></figcaption>
+              </figure>
+              <div class="dial-copy">
+                <h3 id="dial-name"></h3>
+                <p class="dial-tagline">He's not broken. He's bred that way.</p>
+                <p class="dial-angle">One thing he does, traced to the job he was built for. The study is named in the letter.</p>
+                <p class="dial-stat" id="dial-stat" hidden></p>
+                <p class="dial-note" id="dial-note"></p>
+              </div>
+            </article>
+          </div>
+          <div class="band-rule" aria-hidden="true"></div>
+        </div>
+      </section>
 
-    <!-- 5. Breed Files — text only until a guide is actually on sale (December plan: README-page.md). -->
-    <section class="breed-files" id="breed-files" aria-labelledby="breed-files-heading">
-      <h2 id="breed-files-heading">Breed Files</h2>
-      <p>The first Dog Unpacked guide — the German Shepherd File — lands in December. The breeds after that are chosen by what readers tell us in the form above.</p>
-    </section>
+      <!-- Latest: script.js renders data/latest.json. Empty or unreadable JSON keeps this hidden. -->
+      <section class="band band--latest latest" id="latest" aria-labelledby="latest-heading" hidden>
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">On YouTube</p>
+            <h2 id="latest-heading">Latest</h2>
+            <p class="section-lead">Nothing plays until you click.</p>
+          </div>
+          <div class="latest-layout">
+            <div class="latest-primary">
+              <div class="lite-yt" id="latest-video"></div>
+            </div>
+            <ul class="latest-more" id="latest-more" hidden></ul>
+          </div>
+          <p class="latest-caption">Full breed breakdowns live on YouTube.</p>
+        </div>
+      </section>
 
-    <!-- 6. Contact — Formspree via script.js (endpoint: FORMSPREE_ENDPOINT at the top of script.js; setup in README-page.md).
-         No action attribute on purpose: the form only sends through script.js (which also guards against a
-         placeholder endpoint: error message, no network call).
-         The destination inbox is configured in Formspree only; it never appears in this page. -->
-    <section class="contact" id="contact" aria-labelledby="contact-heading">
-      <h2 id="contact-heading">Contact</h2>
-      <p class="contact-blurb">Brands, partnerships, corrections, or a breed you want covered.</p>
-      <form class="contact-form" id="contact-form" method="post" novalidate>
-        <div class="contact-row">
-          <div class="field">
-            <label for="contact-name">Name</label>
-            <input type="text" id="contact-name" name="name" required autocomplete="name" maxlength="100" aria-describedby="contact-name-error">
-            <p class="field-error" id="contact-name-error" hidden></p>
+      <section class="band band--navy band--soon" id="guides" aria-labelledby="guides-heading">
+        <div class="wrap soon">
+          <p class="soon-label">Coming soon</p>
+          <h2 id="guides-heading">Breed Files</h2>
+          <p class="soon-line">In-depth breed guides are in the works, starting with the German Shepherd.</p>
+          <p class="soon-hear"><a href="#subscribe">The Sniff Test</a> is where that news goes.</p>
+        </div>
+      </section>
+
+      <section class="band band--contact contact" id="contact" aria-labelledby="contact-heading">
+        <div class="wrap contact-layout">
+          <div class="contact-intro">
+            <p class="eyebrow">Write in</p>
+            <h2 id="contact-heading">Contact</h2>
+            <p class="contact-blurb">Brands, partnerships, corrections, or a breed you want covered.</p>
           </div>
-          <div class="field">
-            <label for="contact-email">Email</label>
-            <input type="email" id="contact-email" name="email" required autocomplete="email" inputmode="email" maxlength="254" aria-describedby="contact-email-error">
-            <p class="field-error" id="contact-email-error" hidden></p>
+          <div class="contact-card">
+            <form class="contact-form" id="contact-form" method="post" novalidate>
+              <div class="contact-row">
+                <div class="field">
+                  <label for="contact-name">Name</label>
+                  <input type="text" id="contact-name" name="name" required autocomplete="name" maxlength="100" aria-describedby="contact-name-error">
+                  <p class="field-error" id="contact-name-error" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="contact-email">Email</label>
+                  <input type="email" id="contact-email" name="email" required autocomplete="email" inputmode="email" maxlength="254" aria-describedby="contact-email-error">
+                  <p class="field-error" id="contact-email-error" hidden></p>
+                </div>
+              </div>
+              <div class="field">
+                <label for="contact-topic">Topic</label>
+                <select id="contact-topic" name="topic" required aria-describedby="contact-topic-error">
+                  <option value="" selected disabled hidden>Choose a topic</option>
+                  <option value="brand-partnership">Brand / partnership</option>
+                  <option value="request-a-breed">Request a breed</option>
+                  <option value="correction">Correction</option>
+                  <option value="other">Other</option>
+                </select>
+                <p class="field-error" id="contact-topic-error" hidden></p>
+              </div>
+              <div class="field">
+                <label for="contact-message">Message</label>
+                <textarea id="contact-message" name="message" required maxlength="1000" rows="4" aria-describedby="contact-message-error contact-count"></textarea>
+                <div class="field-meta">
+                  <p class="field-error" id="contact-message-error" hidden></p>
+                  <p class="char-count" id="contact-count"><span id="contact-count-n">0</span> / 1000</p>
+                </div>
+              </div>
+              <div class="hp" aria-hidden="true">
+                <label for="contact-website">Website</label>
+                <input type="text" id="contact-website" name="website" tabindex="-1" autocomplete="off">
+              </div>
+              <button type="submit" class="btn btn--primary btn--compact" id="contact-submit" disabled>Send</button>
+              <noscript><p class="form-note">This form needs JavaScript. Reach us on any platform above.</p></noscript>
+            </form>
+            <p class="form-note" id="contact-status" role="status" aria-live="polite"></p>
           </div>
         </div>
-        <div class="field">
-          <label for="contact-topic">Topic</label>
-          <select id="contact-topic" name="topic" required aria-describedby="contact-topic-error">
-            <option value="" selected disabled hidden>Choose a topic</option>
-            <option value="brand-partnership">Brand / partnership</option>
-            <option value="request-a-breed">Request a breed</option>
-            <option value="correction">Correction</option>
-            <option value="other">Other</option>
-          </select>
-          <p class="field-error" id="contact-topic-error" hidden></p>
-        </div>
-        <div class="field">
-          <label for="contact-message">Message</label>
-          <textarea id="contact-message" name="message" required maxlength="1000" rows="4" aria-describedby="contact-message-error contact-count"></textarea>
-          <div class="field-meta">
-            <p class="field-error" id="contact-message-error" hidden></p>
-            <p class="char-count" id="contact-count"><span id="contact-count-n">0</span> / 1000</p>
-          </div>
-        </div>
-        <!-- Honeypot: humans never see or reach this. Filled in = bot: script.js shows success without sending,
-             and sends the value as Formspree's _gotcha so Formspree also discards it. -->
-        <div class="hp" aria-hidden="true">
-          <label for="contact-website">Website</label>
-          <input type="text" id="contact-website" name="website" tabindex="-1" autocomplete="off">
-        </div>
-        <button type="submit" class="btn btn--primary btn--compact" id="contact-submit" disabled>Send</button>
-        <noscript><p class="form-note">This form needs JavaScript. Reach us on any platform above.</p></noscript>
-      </form>
-      <p class="form-note" id="contact-status" role="status" aria-live="polite"></p>
-    </section>
+      </section>
   </main>
 
-  <!-- 7. Footer -->
-  <footer class="footer">
-    <span class="footer-paw" aria-hidden="true">
-      <svg viewBox="0 0 64 64" width="14" height="14" fill="currentColor"><ellipse cx="18" cy="18" rx="7" ry="9" transform="rotate(-18 18 18)"/><ellipse cx="32" cy="12" rx="7" ry="9"/><ellipse cx="46" cy="18" rx="7" ry="9" transform="rotate(18 46 18)"/><ellipse cx="12" cy="32" rx="6" ry="8" transform="rotate(-35 12 32)"/><path d="M32 28c-10 0-18 8-18 16 0 6 4 10 10 10 3 0 5-1 8-4 3 3 5 4 8 4 6 0 10-4 10-10 0-8-8-16-18-16z"/></svg>
-    </span>
-    <p class="footer-tag">He&#39;s not broken. He&#39;s bred that way.<br>Every breed, one at a time.</p>
-    <p>&copy; Dog Unpacked 2026</p>
-    <p class="footer-disclaimer">Educational content only — not veterinary or training advice.</p>
-    <p class="footer-privacy">Privacy: we store your email with Kit to send the newsletter, and contact messages are delivered by Formspree. Unsubscribe anytime.</p>
+  <footer class="footer" id="footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand-block">
+          <p class="footer-brand">Dog Unpacked</p>
+          <p class="footer-tag">He's not broken. He's bred that way.</p>
+          <p class="footer-scope">Every breed, one at a time.</p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="#subscribe">The Sniff Test</a>
+          <a href="#breed-dial">Breeds</a>
+          <a href="#contact">Contact</a>
+          <a href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank" data-track="youtube">YouTube<span class="visually-hidden"> (opens in a new tab)</span></a>
+          <a href="https://www.instagram.com/dogunpacked" rel="noopener noreferrer" target="_blank" data-track="instagram">Instagram<span class="visually-hidden"> (opens in a new tab)</span></a>
+          <a href="https://www.tiktok.com/@dogsunpacked" rel="noopener noreferrer" target="_blank" data-track="tiktok">TikTok<span class="visually-hidden"> (opens in a new tab)</span></a>
+        </nav>
+      </div>
+      <div class="footer-legal">
+        <p>&copy; Dog Unpacked 2026</p>
+        <p class="footer-disclaimer">Educational content only — not veterinary or training advice.</p>
+        <p class="footer-privacy">Privacy: we store your email with Kit to send the newsletter, and contact messages are delivered by Formspree. Unsubscribe anytime.</p>
+      </div>
+    </div>
   </footer>
+
+  <div class="sticky-cta" id="sticky-cta" hidden>
+    <a class="btn btn--primary" href="#subscribe">Get The Sniff Test</a>
+  </div>
 
   <script src="script.js" defer></script>
 </body>

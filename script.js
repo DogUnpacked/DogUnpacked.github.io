@@ -2,12 +2,14 @@
  * Dog Unpacked — hub page enhancements (plain JS, no framework, no cookies).
  *
  *  1. Cookie-free analytics (GoatCounter): page view, platform clicks, signup, Latest clicks
- *  2. Breed-aware page via ?breed=<slug>
+ *  2. Breed-aware page via ?breed=<slug> (kicker, photo or type plate, verified ATTS line)
  *  3. Newsletter (The Sniff Test): Title-Case the optional breed, submit to Kit in the background
  *     and show an inline success message (falls back to a normal form POST)
  *  4. Latest: renders data/latest.json (up to 3 long-form videos); click-to-load embed
  *  5. Contact form: validation, honeypot, background POST to Formspree, inline success/error
  *  6. Confirmed landing: ?confirmed=1 (Kit double opt-in redirect) -> "You're in." in the newsletter section
+ *  7. Breed dial: pick a known breed, show the verified angle, keep ?breed= and utm_* in the URL
+ *  8. Sticky mobile signup bar once the hero form leaves the screen
  *
  * The page works without this file: the Kit form still posts (Kit's hosted page confirms) and links work.
  */
@@ -30,7 +32,7 @@
   // ?breed= shortcuts. Anything else: hyphens -> spaces, Title Case.
   var BREED_OVERRIDES = {
     gsd: "German Shepherd",
-    pitbull: "Pit Bull",
+    pitbull: "American Pit Bull Terrier",
     corso: "Cane Corso",
     dobie: "Doberman"
   };
@@ -62,6 +64,94 @@
 
   function slugify(name) {
     return String(name).toLowerCase().trim().replace(/[^a-z]+/g, "-").replace(/^-+|-+$/g, "");
+  }
+
+  // The 87.6% sample is American Pit Bull Terrier, so that name is the label.
+  // Photos and the stat still key off pit-bull. The query slug stays pit-bull.
+  var CONTENT_SLUGS = {
+    "american-pit-bull-terrier": "pit-bull"
+  };
+
+  function contentSlug(name) {
+    var slug = slugify(name);
+    return CONTENT_SLUGS[slug] || slug;
+  }
+
+  // Same Sunday letter for every dog. The line names his breed. It is not a separate issue.
+  function breedLine(name) {
+    return "\u00a0— for your " + name;
+  }
+
+  // Photos that exist in images/breeds/. Src is never built from the query string.
+  var BREED_PHOTOS = {
+    "german-shepherd": { src: "images/breeds/german-shepherd-480.webp", w: 480, h: 600 },
+    "pit-bull": { src: "images/breeds/pit-bull-480.webp", w: 480, h: 480 },
+    "rottweiler": { src: "images/breeds/rottweiler-480.webp", w: 480, h: 480 },
+    "doberman": { src: "images/breeds/doberman-480.webp", w: 480, h: 600 }
+  };
+
+  // Verified ATTS pass rates from the brand brief. A breed missing here gets no number.
+  // The 87.6% line is the American Pit Bull Terrier sample, not every pit-type dog.
+  // Husky has a rate and no sample size.
+  var BREED_STATS = {
+    "german-shepherd": "American Temperament Test Society. German Shepherds: 85.7% pass rate, 3,500 dogs.",
+    "rottweiler": "American Temperament Test Society. Rottweilers: 85.0% pass rate, 6,216 dogs.",
+    "doberman": "American Temperament Test Society. Dobermans: 80.1% pass rate, 1,870 dogs.",
+    "pit-bull": "American Temperament Test Society. American Pit Bull Terrier: 87.6% pass rate, 960 dogs.",
+    "golden-retriever": "American Temperament Test Society. Golden Retrievers: 85.9% pass rate, 836 dogs.",
+    "husky": "American Temperament Test Society. Huskies: 86.7% pass rate."
+  };
+
+  function personalizeBreed(name) {
+    var slug = contentSlug(name);
+    document.documentElement.setAttribute("data-breed", slug);
+
+    var kicker = document.getElementById("hero-kicker");
+    if (kicker) kicker.textContent = name;
+
+    var grid = document.getElementById("breed-grid");
+    var caption = document.getElementById("visual-caption");
+    var photo = BREED_PHOTOS[slug];
+    var fig = document.getElementById("breed-feature");
+    var plate = document.getElementById("breed-plate");
+    if (photo) {
+      var img = document.getElementById("breed-feature-img");
+      var cap = document.getElementById("breed-feature-cap");
+      if (fig && img) {
+        img.width = photo.w;
+        img.height = photo.h;
+        img.alt = "";
+        img.decoding = "async";
+        img.loading = window.matchMedia && window.matchMedia("(min-width: 960px)").matches ? "eager" : "lazy";
+        img.src = photo.src;
+        if (cap) cap.textContent = name;
+        fig.hidden = false;
+      }
+      if (plate) plate.hidden = true;
+      if (grid) grid.hidden = true;
+      if (caption) caption.hidden = true;
+    } else {
+      var plateName = document.getElementById("breed-plate-name");
+      if (plate && plateName) {
+        plateName.textContent = name;
+        plate.hidden = false;
+      }
+      if (fig) fig.hidden = true;
+      if (grid) grid.hidden = true;
+      if (caption) caption.hidden = true;
+    }
+
+    var stat = BREED_STATS[slug];
+    var statWrap = document.getElementById("breed-stat");
+    var statText = document.getElementById("breed-stat-text");
+    if (stat && statWrap && statText) {
+      statText.textContent = stat;
+      statWrap.hidden = false;
+    } else if (statWrap) {
+      if (statText) statText.textContent = "";
+      statWrap.hidden = true;
+    }
+
   }
 
   var SUCCESS_MESSAGE = "Check your inbox — one click to confirm and you're in.";
@@ -140,18 +230,22 @@
     if (!/^[a-z]+(-[a-z]+)*$/.test(slug) || slug.length > 40) return;
 
     var name = breedName(slug);
-    // Only known breeds (the #breed-list datalist + aliases above) get an edition heading, so a
+    // Only known breeds (the #breed-list datalist + aliases above) get a heading line, so a
     // crafted link can't put arbitrary words on the page. Unknown slug -> default page.
     var known = {};
     var opts = document.querySelectorAll("#breed-list option");
-    for (var i = 0; i < opts.length; i++) known[slugify(opts[i].value)] = true;
-    if (!known[slugify(name)]) return;
+    for (var i = 0; i < opts.length; i++) {
+      var listed = slugify(opts[i].value);
+      known[listed] = true;
+      if (CONTENT_SLUGS[listed]) known[CONTENT_SLUGS[listed]] = true;
+    }
+    if (!known[slugify(name)] && !known[contentSlug(name)]) return;
 
     if (breedInput && !breedInput.value) breedInput.value = name;
 
-    var edition = document.getElementById("breed-edition");
-    // Non-breaking spaces keep "— Pit Bull edition" together so it wraps as one unit.
-    if (edition) edition.textContent = "\u00a0— " + name.replace(/ /g, "\u00a0") + "\u00a0edition";
+    var breedFor = document.getElementById("breed-for");
+    if (breedFor) breedFor.textContent = breedLine(name);
+    personalizeBreed(name);
   })();
 
   /* ------------------------------------------------------------------
@@ -196,7 +290,7 @@
         breedInput.value = breed;
         breedInput.disabled = !breed; // blank breed: leave fields[breed] out of the post
       }
-      track(breed ? "subscribe-" + slugify(breed) : "subscribe-none", "The Sniff Test signup: " + (breed || "none"));
+      track(breed ? "subscribe-" + contentSlug(breed) : "subscribe-none", "The Sniff Test signup: " + (breed || "none"));
 
       if (!window.fetch || !window.FormData) {
         return; // old browser: let the normal POST happen
@@ -311,6 +405,26 @@
   var PLAY_SVG =
     '<svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#b3261e"/><path d="M27 34V14l18 10z" fill="#fff"/></svg>';
   var VIDEO_ID = /^[A-Za-z0-9_-]{11}$/;
+  var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  function formatPublished(value) {
+    if (typeof value !== "string") return "";
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if (!m) return "";
+    var month = MONTHS[Number(m[2]) - 1];
+    if (!month) return "";
+    return month + " " + Number(m[3]) + ", " + m[1];
+  }
+
+  function appendDate(parent, published) {
+    var label = formatPublished(published);
+    if (!label) return;
+    var time = document.createElement("time");
+    time.className = "latest-date";
+    time.dateTime = published;
+    time.textContent = label;
+    parent.appendChild(time);
+  }
 
   function thumb(id, w, h, lazy) {
     var img = document.createElement("img");
@@ -359,6 +473,15 @@
     });
     lite.appendChild(btn);
 
+    var meta = document.createElement("div");
+    meta.className = "latest-meta";
+    var heading = document.createElement("h3");
+    heading.className = "latest-title";
+    heading.textContent = title;
+    meta.appendChild(heading);
+    appendDate(meta, first.published);
+    lite.insertAdjacentElement("afterend", meta);
+
     // Previous two: small cards
     if (more && videos.length > 1) {
       videos.slice(1).forEach(function (v) {
@@ -377,6 +500,11 @@
         span.className = "latest-card-title";
         span.textContent = vTitle;
         a.appendChild(span);
+        appendDate(a, v.published);
+        var tab = document.createElement("span");
+        tab.className = "visually-hidden";
+        tab.textContent = " (opens in a new tab)";
+        a.appendChild(tab);
         li.appendChild(a);
         more.appendChild(li);
       });
@@ -531,4 +659,149 @@
         .catch(contactFail);
     });
   }
+
+  /* ------------------------------------------------------------------
+   * 7. Breed dial. Same known breeds as the form. A figure only when BREED_STATS has one.
+   *    Photo src only from BREED_PHOTOS. Click updates the hero, the form, and the URL
+   *    without dropping utm_*. No-JS visitors follow the real ?breed= links.
+   * ------------------------------------------------------------------ */
+  (function breedDial() {
+    var picks = document.getElementById("dial-picks");
+    var stage = document.getElementById("dial-stage");
+    if (!picks || !stage) return;
+
+    var empty = document.getElementById("dial-empty");
+    var result = document.getElementById("dial-result");
+    var figure = document.getElementById("dial-figure");
+    var photo = document.getElementById("dial-photo");
+    var cap = document.getElementById("dial-cap");
+    var nameEl = document.getElementById("dial-name");
+    var statEl = document.getElementById("dial-stat");
+    var noteEl = document.getElementById("dial-note");
+    var breedFor = document.getElementById("breed-for");
+    var NO_STAT = "No verified figure for this breed on this page. The letter still starts from him: one behavior, one job, one study.";
+    var STAT_NOTE = "A pass rate is a number, not a verdict. You decide what it means.";
+
+    function paint(slug, name, animate) {
+      var apply = function () {
+        if (empty) empty.hidden = true;
+        if (result) result.hidden = false;
+        if (nameEl) nameEl.textContent = name;
+        var shot = BREED_PHOTOS[slug];
+        if (shot && figure && photo) {
+          photo.width = shot.w;
+          photo.height = shot.h;
+          photo.alt = "";
+          photo.src = shot.src;
+          if (cap) cap.textContent = name;
+          figure.hidden = false;
+        } else if (figure) {
+          figure.hidden = true;
+          if (photo) photo.removeAttribute("src");
+        }
+        var stat = BREED_STATS[slug];
+        if (stat && statEl) {
+          statEl.textContent = stat;
+          statEl.hidden = false;
+          if (noteEl) noteEl.textContent = STAT_NOTE;
+        } else {
+          if (statEl) {
+            statEl.textContent = "";
+            statEl.hidden = true;
+          }
+          if (noteEl) noteEl.textContent = NO_STAT;
+        }
+      };
+
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (animate && !reduce && typeof document.startViewTransition === "function") {
+        document.startViewTransition(apply);
+      } else {
+        apply();
+      }
+    }
+
+    function findPick(slug) {
+      var buttons = picks.querySelectorAll(".dial-pick");
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i].getAttribute("data-dial") === slug) return buttons[i];
+      }
+      return null;
+    }
+
+    function selectDial(slug, fromUrl) {
+      var link = findPick(slug);
+      if (!link) return;
+      var name = link.textContent.replace(/\s+/g, " ").trim();
+      var buttons = picks.querySelectorAll(".dial-pick");
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i] === link) buttons[i].setAttribute("aria-current", "true");
+        else buttons[i].removeAttribute("aria-current");
+      }
+      if (breedInput) breedInput.value = name;
+      if (breedFor) breedFor.textContent = breedLine(name);
+      personalizeBreed(name);
+      paint(slug, name, !fromUrl);
+      if (fromUrl) return;
+      try {
+        var params = new URLSearchParams(window.location.search);
+        params.set("breed", slug);
+        params.delete("confirmed");
+        var qs = params.toString();
+        window.history.replaceState(window.history.state, "", window.location.pathname + (qs ? "?" + qs : "") + window.location.hash);
+      } catch (e) {
+        /* the panel still updated */
+      }
+    }
+
+    picks.addEventListener("click", function (e) {
+      var link = e.target.closest ? e.target.closest("a.dial-pick") : null;
+      if (!link || !picks.contains(link)) return;
+      e.preventDefault();
+      selectDial(link.getAttribute("data-dial"), false);
+    });
+
+    var current = document.documentElement.getAttribute("data-breed");
+    if (current) selectDial(current, true);
+  })();
+
+  /* ------------------------------------------------------------------
+   * 8. Sticky signup on small screens, only after the hero form has scrolled away,
+   *    and never over the contact form, the footer, or a finished signup.
+   * ------------------------------------------------------------------ */
+  (function stickySignup() {
+    var bar = document.getElementById("sticky-cta");
+    var subscribe = document.getElementById("subscribe");
+    if (!bar || !subscribe || !("IntersectionObserver" in window)) return;
+
+    var contact = document.getElementById("contact");
+    var footer = document.getElementById("footer");
+    var subscribeIn = true;
+    var blocking = {};
+
+    function sync() {
+      var formHidden = !!(form && form.hidden);
+      var blocked = !!(blocking.contact || blocking.footer);
+      bar.hidden = subscribeIn || blocked || formHidden;
+    }
+
+    new IntersectionObserver(function (entries) {
+      subscribeIn = entries[0].isIntersecting;
+      sync();
+    }).observe(subscribe);
+
+    if (contact || footer) {
+      var blockObs = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) blocking[entries[i].target.id] = entries[i].isIntersecting;
+        sync();
+      }, { rootMargin: "0px 0px 88px 0px" });
+      if (contact) blockObs.observe(contact);
+      if (footer) blockObs.observe(footer);
+    }
+
+    if (form && window.MutationObserver) {
+      new MutationObserver(sync).observe(form, { attributes: true, attributeFilter: ["hidden"] });
+    }
+    sync();
+  })();
 })();

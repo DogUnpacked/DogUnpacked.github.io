@@ -12,9 +12,10 @@ The newsletter is **The Sniff Test** (weekly, Sunday). See **`README-newsletter.
 
 | File | Purpose |
 |------|---------|
-| `index.html` | Hub page (hero, platform buttons, newsletter, latest video, Breed Files note, footer) |
-| `styles.css` | Navy / cream / amber mobile-first styles + desktop side art |
+| `index.html` | Hub page (header, hero with The Sniff Test, platforms, breed frames, latest video, a short Coming soon note, contact, footer) |
+| `styles.css` | Navy / cream / amber mobile-first styles |
 | `script.js` | GoatCounter events, `?breed=` personalization, breed Title-Case, lite YouTube embed |
+| `fonts/` | Self-hosted Nunito and Fraunces (OFL) |
 | `data/latest.json` | Latest section data: up to 3 newest long-form videos `{id, title, published}`, newest first |
 | `scripts/update_latest_video.py` | Refreshes `data/latest.json` from the channel feed (skips Shorts); prints "Latest: no change" when current |
 | `README-page.md` | Page notes: placeholders, bio/breed URLs, events |
@@ -52,12 +53,7 @@ The signup form posts to Kit form `10011711` (`https://app.kit.com/forms/1001171
 `email_address` and an optional `fields[breed]`. Double opt-in stays on in Kit. IDs, the `breed` custom field, the
 `source:landing` tag and the remaining Kit dashboard steps are in **`KIT.md`**. No Formspree.
 
-### 4. Breed Files (guides)
-
-No guide is on sale yet, so the page shows a short "Breed Files" text block only (no cards, badges or buy
-buttons). The December plan for the first product card is in `README-page.md`.
-
-### 5. Logo, favicons & share image — done
+### 4. Logo, favicons & share image — done
 
 The brand logo is live in the hero (circular badge above the "Dog Unpacked" wordmark, 144px on phones / 168px on wider screens).
 
@@ -67,11 +63,11 @@ The brand logo is live in the hero (circular badge above the "Dog Unpacked" word
 | `images/logo-256.{png,webp}`, `images/logo-512.{png,webp}` | Hero logo (`<picture>` + `srcset`) |
 | `favicon.ico` (16/32/48), `favicon-32.png` | Browser tab icons |
 | `apple-touch-icon.png` (180×180) | iOS home-screen icon |
-| `images/og-image.png` (1200×630) | Old logo share card; not linked while the OG image is omitted (see `README-page.md`) |
+| `images/og-image.png` (1200×630) | Share card, linked from Open Graph and Twitter meta |
 
 Regenerate everything from the master with `python3 scripts/build_logo_assets.py` (needs Pillow).
 
-**OG image:** omitted until the Unpacked box photo (`{{OG_IMAGE}}`) is supplied. Add it with an absolute URL plus `og:url` — see the comment in `<head>`.
+**OG image:** `images/og-image.png` is linked with an absolute `https://dogunpacked.com/` URL. Replace the file when a box photo is ready.
 
 ---
 
@@ -132,8 +128,8 @@ python3 -m http.server 8080
 - **Mobile-first** link-in-bio layout; large tap targets.
 - **Palette (official):** Navy `#1B2A4A`, Cream `#F5EDDC`, Amber `#D89B3D` (accent only).
 - **Motifs:** refined SVG paw mark (hero, watermarks, footer) — not emoji/cartoon.
-- **Desktop side art (≥960px):** left/right rails with navy/cream/amber photo frames (GSD, Rottweiler, Pit Bull, Doberman) plus subtle SVG breed silhouettes (no text labels). On mobile the same four photos show as a strip under the hero.
-- **Fonts:** Fraunces (headings) + Nunito (body/buttons) via Google Fonts (`display=swap`, non-blocking), with metric-matched local fallbacks.
+- **Desktop (≥960px):** the breed frames sit beside the tagline and the signup. On a phone they sit under the platform row, so the signup stays in the first screen.
+- **Fonts:** Fraunces (headings) + Nunito (body/buttons), self-hosted Latin subsets, `font-display: swap`, with metric-matched local fallbacks.
 - No frameworks or build step — plain HTML/CSS/JS.
 
 ### Breed photos
