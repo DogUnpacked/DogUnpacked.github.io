@@ -17,22 +17,24 @@ PORT = 0  # 0 = any free port
 
 CHECK_JS = """() => {
   const r = el => el && el.getBoundingClientRect();
-  const overlap = (a, b) => a && b && !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom);
-  const pit = document.querySelector('img[src*="pit-bull-480"]');
-  const paw = document.querySelector('.paw-watermark--br');
-  const small = [...document.querySelectorAll('a.social-btn, button, a.btn, input')]
-    .filter(e => e.offsetParent && r(e).height < 44).map(e => e.outerHTML.slice(0, 60));
+  const submit = document.querySelector('#newsletter-form button[type="submit"]');
+  const box = submit && r(submit);
+  const small = [...document.querySelectorAll('a.social-btn, button, a.btn, a.nav-cta, input, select')]
+    .filter(e => e.offsetParent && e.id !== 'contact-website' && r(e).height < 44)
+    .map(e => e.outerHTML.slice(0, 60));
   return {
     scrollWidth: document.documentElement.scrollWidth,
     innerWidth: window.innerWidth,
-    pitOverlapsPaw: overlap(pit && pit.offsetParent ? r(pit.closest('figure')) : null, r(paw)),
+    submitBottom: box && Math.round(box.bottom),
     heading: document.getElementById('newsletter-heading').textContent,
+    kicker: document.getElementById('hero-kicker').textContent,
     breedValue: document.getElementById('breed').value,
+    stat: document.getElementById('breed-stat-text').textContent,
     latestVisible: !document.getElementById('latest').hidden,
     latestEmbed: !!document.querySelector('#latest-video .lite-yt-btn img'),
     latestCards: document.querySelectorAll('#latest-more a').length,
     footerTag: document.querySelector('.footer-tag').innerText,
-    gmail: /gmail/i.test(document.documentElement.innerHTML),
+    emailInHtml: /[A-Z0-9._%+\\-]+@[A-Z0-9.\\-]+\\.[A-Z]{2,}/i.test(document.documentElement.innerHTML),
     under44: small,
   };
 }"""

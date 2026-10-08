@@ -2,7 +2,7 @@
  * Dog Unpacked — hub page enhancements (plain JS, no framework, no cookies).
  *
  *  1. Cookie-free analytics (GoatCounter): page view, platform clicks, signup, Latest clicks
- *  2. Breed-aware page via ?breed=<slug>
+ *  2. Breed-aware page via ?breed=<slug> (edition, photo or type plate, verified ATTS line)
  *  3. Newsletter (The Sniff Test): Title-Case the optional breed, submit to Kit in the background
  *     and show an inline success message (falls back to a normal form POST)
  *  4. Latest: renders data/latest.json (up to 3 long-form videos); click-to-load embed
@@ -62,6 +62,81 @@
 
   function slugify(name) {
     return String(name).toLowerCase().trim().replace(/[^a-z]+/g, "-").replace(/^-+|-+$/g, "");
+  }
+
+  // Photos that exist in images/breeds/. Src is never built from the query string.
+  var BREED_PHOTOS = {
+    "german-shepherd": { src: "images/breeds/german-shepherd-480.webp", w: 480, h: 600 },
+    "pit-bull": { src: "images/breeds/pit-bull-480.webp", w: 480, h: 480 },
+    "rottweiler": { src: "images/breeds/rottweiler-480.webp", w: 480, h: 480 },
+    "doberman": { src: "images/breeds/doberman-480.webp", w: 480, h: 600 }
+  };
+
+  // Verified ATTS pass rates from the brand brief. A breed missing here gets no number.
+  // Pit Bull uses the American Pit Bull Terrier sample. Husky has a rate and no sample size.
+  var BREED_STATS = {
+    "german-shepherd": "American Temperament Test Society. German Shepherds: 85.7% pass rate, 3,500 dogs.",
+    "rottweiler": "American Temperament Test Society. Rottweilers: 85.0% pass rate, 6,216 dogs.",
+    "doberman": "American Temperament Test Society. Dobermans: 80.1% pass rate, 1,870 dogs.",
+    "pit-bull": "American Temperament Test Society. American Pit Bull Terriers: 87.6% pass rate, 960 dogs.",
+    "golden-retriever": "American Temperament Test Society. Golden Retrievers: 85.9% pass rate, 836 dogs.",
+    "husky": "American Temperament Test Society. Huskies: 86.7% pass rate."
+  };
+
+  function personalizeBreed(name) {
+    var slug = slugify(name);
+    document.documentElement.setAttribute("data-breed", slug);
+
+    var kicker = document.getElementById("hero-kicker");
+    if (kicker) kicker.textContent = name;
+
+    var grid = document.getElementById("breed-grid");
+    var caption = document.getElementById("visual-caption");
+    var photo = BREED_PHOTOS[slug];
+    if (photo) {
+      var fig = document.getElementById("breed-feature");
+      var img = document.getElementById("breed-feature-img");
+      var cap = document.getElementById("breed-feature-cap");
+      if (fig && img) {
+        img.width = photo.w;
+        img.height = photo.h;
+        img.alt = "";
+        img.decoding = "async";
+        img.loading = window.matchMedia && window.matchMedia("(min-width: 960px)").matches ? "eager" : "lazy";
+        img.src = photo.src;
+        if (cap) cap.textContent = name;
+        fig.hidden = false;
+      }
+      if (grid) grid.hidden = true;
+      if (caption) caption.hidden = true;
+    } else {
+      var plate = document.getElementById("breed-plate");
+      var plateName = document.getElementById("breed-plate-name");
+      if (plate && plateName) {
+        plateName.textContent = name;
+        plate.hidden = false;
+      }
+      if (grid) grid.hidden = true;
+      if (caption) caption.hidden = true;
+    }
+
+    var stat = BREED_STATS[slug];
+    var statWrap = document.getElementById("breed-stat");
+    var statText = document.getElementById("breed-stat-text");
+    if (stat && statWrap && statText) {
+      statText.textContent = stat;
+      statWrap.hidden = false;
+    }
+
+    var filesNote = document.getElementById("files-breed-note");
+    if (filesNote) {
+      filesNote.textContent = slug === "german-shepherd"
+        ? "This one is for your German Shepherd."
+        : slug === "mixed-breed"
+          ? "The next File is chosen from what readers ask for. That includes mixed breeds."
+          : "The next File is chosen from what readers ask for. That includes your " + name + ".";
+      filesNote.hidden = false;
+    }
   }
 
   var SUCCESS_MESSAGE = "Check your inbox — one click to confirm and you're in.";
@@ -152,6 +227,7 @@
     var edition = document.getElementById("breed-edition");
     // Non-breaking spaces keep "— Pit Bull edition" together so it wraps as one unit.
     if (edition) edition.textContent = "\u00a0— " + name.replace(/ /g, "\u00a0") + "\u00a0edition";
+    personalizeBreed(name);
   })();
 
   /* ------------------------------------------------------------------
@@ -311,6 +387,26 @@
   var PLAY_SVG =
     '<svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#b3261e"/><path d="M27 34V14l18 10z" fill="#fff"/></svg>';
   var VIDEO_ID = /^[A-Za-z0-9_-]{11}$/;
+  var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  function formatPublished(value) {
+    if (typeof value !== "string") return "";
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if (!m) return "";
+    var month = MONTHS[Number(m[2]) - 1];
+    if (!month) return "";
+    return month + " " + Number(m[3]) + ", " + m[1];
+  }
+
+  function appendDate(parent, published) {
+    var label = formatPublished(published);
+    if (!label) return;
+    var time = document.createElement("time");
+    time.className = "latest-date";
+    time.dateTime = published;
+    time.textContent = label;
+    parent.appendChild(time);
+  }
 
   function thumb(id, w, h, lazy) {
     var img = document.createElement("img");
@@ -359,6 +455,15 @@
     });
     lite.appendChild(btn);
 
+    var meta = document.createElement("div");
+    meta.className = "latest-meta";
+    var heading = document.createElement("h3");
+    heading.className = "latest-title";
+    heading.textContent = title;
+    meta.appendChild(heading);
+    appendDate(meta, first.published);
+    lite.insertAdjacentElement("afterend", meta);
+
     // Previous two: small cards
     if (more && videos.length > 1) {
       videos.slice(1).forEach(function (v) {
@@ -377,6 +482,11 @@
         span.className = "latest-card-title";
         span.textContent = vTitle;
         a.appendChild(span);
+        appendDate(a, v.published);
+        var tab = document.createElement("span");
+        tab.className = "visually-hidden";
+        tab.textContent = " (opens in a new tab)";
+        a.appendChild(tab);
         li.appendChild(a);
         more.appendChild(li);
       });
