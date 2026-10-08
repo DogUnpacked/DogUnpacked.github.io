@@ -98,7 +98,6 @@
           <span class="nav-cta-short">Subscribe</span>
         </a>
         <a class="nav-desktop" href="#breed-dial">Breeds</a>
-        <a class="nav-desktop" href="#breed-files">Breed Files</a>
         <a class="nav-desktop" href="#contact">Contact</a>
       </nav>
     </div>
@@ -114,9 +113,9 @@
 
           <!-- The Sniff Test. Kit form 10011711. IDs and field names are read by script.js. -->
           <section class="newsletter" id="subscribe" aria-labelledby="newsletter-heading">
-            <p class="newsletter-badge" id="newsletter-badge">Free weekly newsletter</p>
-            <h2 id="newsletter-heading">The Sniff Test<span class="breed-edition" id="breed-edition"></span></h2>
-            <p class="newsletter-blurb">One behavior, one job, one study, and what to do tonight. Every Sunday. About a two-minute read.</p>
+            <h2 id="newsletter-heading">The Sniff Test<span class="breed-for" id="breed-for"></span></h2>
+            <p class="newsletter-blurb">One behavior, one job, one study, and what to do tonight.</p>
+            <p class="newsletter-when">Every Sunday. About a two-minute read.</p>
             <form
               class="newsletter-form"
               action="https://app.kit.com/forms/10011711/subscriptions"
@@ -157,7 +156,7 @@
               <input type="hidden" name="tags[]" value="24362096">
               <button type="submit" class="btn btn--primary">Get The Sniff Test</button>
             </form>
-            <p class="form-privacy">Free. No spam. Unsubscribe anytime.</p>
+            <p class="form-privacy">Free. Unsubscribe anytime.</p>
             <p class="form-note" id="form-status" role="status" aria-live="polite"></p>
           </section>
         </div>
@@ -246,69 +245,8 @@
           <p class="visual-caption" id="visual-caption">Four frames so far. Every breed, one at a time.</p>
         </div>
       </div>
-
+      <p class="proof">Breed explains about 9% of behavioral variation across 18,000+ dogs. <cite>Morrill et al., 2022, Science</cite></p>
     </div>
-
-      <section class="band band--navy" id="standard" aria-labelledby="standard-heading">
-        <div class="wrap">
-          <div class="standard-grid">
-            <div>
-              <p class="eyebrow">The standard</p>
-              <h2 id="standard-heading">One behavior.<br>One job.<br>One study.</h2>
-            </div>
-            <blockquote class="pull">
-              <p>Breed explains about 9% of behavioral variation across 18,000+ dogs.</p>
-              <footer>Morrill et al., 2022, Science</footer>
-            </blockquote>
-          </div>
-          <p class="standard-dek">The Sniff Test takes one thing your dog does and traces it to the job his breed was built for. The source is named each time: breed standards and histories, the American Temperament Test Society, and peer-reviewed papers.</p>
-          <div class="band-rule" aria-hidden="true"></div>
-        </div>
-      </section>
-
-      <section class="band band--issue" id="issue" aria-labelledby="issue-heading">
-        <div class="wrap issue-layout">
-          <div class="issue-copy">
-            <p class="eyebrow">Every Sunday</p>
-            <h2 id="issue-heading">What the letter looks like</h2>
-            <p>Same order every week. One behavior, the job it comes from, one study, what to do tonight, the video, and one reply question. The card is the frame, not a past issue.</p>
-            <a class="btn btn--primary btn--inline" href="#subscribe">Get The Sniff Test</a>
-          </div>
-          <article class="letter" aria-label="The frame of every Sniff Test issue">
-            <header class="letter-top">
-              <p>Dog Unpacked · The Sniff Test</p>
-              <p>Sunday</p>
-            </header>
-            <ol class="letter-parts">
-              <li>
-                <span class="letter-label">One behavior</span>
-                <span>The thing he does.</span>
-              </li>
-              <li>
-                <span class="letter-label">The job</span>
-                <span>Where that behavior comes from.</span>
-              </li>
-              <li>
-                <span class="letter-label">One study</span>
-                <span>The source, named.</span>
-              </li>
-              <li>
-                <span class="letter-label">Tonight</span>
-                <span>What to do with the reason.</span>
-              </li>
-              <li>
-                <span class="letter-label">The video</span>
-                <span>Linked.</span>
-              </li>
-              <li>
-                <span class="letter-label">One reply question</span>
-                <span>A question for you to answer.</span>
-              </li>
-            </ol>
-            <footer class="letter-close">He's not broken. He's bred that way.</footer>
-          </article>
-        </div>
-      </section>
 
       <section class="band band--navy" id="breed-dial" aria-labelledby="dial-heading">
         <div class="wrap">
@@ -376,22 +314,12 @@
         </div>
       </section>
 
-      <section class="band band--navy band--file" id="breed-files" aria-labelledby="breed-files-heading">
-        <div class="wrap file-layout">
-          <div class="dossier" aria-hidden="true">
-            <p class="dossier-series">Breed File</p>
-            <p class="dossier-name">German Shepherd File</p>
-            <p class="dossier-meta">Owner guide</p>
-            <p class="dossier-price">$15 <span>PDF</span></p>
-            <p class="dossier-when">On sale in December</p>
-          </div>
-          <div class="files-copy">
-            <p class="eyebrow">The first File</p>
-            <h2 id="breed-files-heading">German Shepherd File</h2>
-            <p class="files-lede">A paid owner guide. $15 PDF. On sale in December.</p>
-            <p>Nothing is for sale until that file is real. The breeds after it are chosen by the breeds readers tell us when they sign up. A request in the contact form counts too.</p>
-            <p id="files-breed-note" hidden></p>
-          </div>
+      <section class="band band--navy band--soon" id="guides" aria-labelledby="guides-heading">
+        <div class="wrap soon">
+          <p class="soon-label">Coming soon</p>
+          <h2 id="guides-heading">Breed Files</h2>
+          <p class="soon-line">In-depth breed guides are in the works, starting with the German Shepherd.</p>
+          <p class="soon-hear"><a href="#subscribe">The Sniff Test</a> is where that news goes.</p>
         </div>
       </section>
 
@@ -459,7 +387,6 @@
         <nav class="footer-nav" aria-label="Footer">
           <a href="#subscribe">The Sniff Test</a>
           <a href="#breed-dial">Breeds</a>
-          <a href="#breed-files">Breed Files</a>
           <a href="#contact">Contact</a>
           <a href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank" data-track="youtube">YouTube<span class="visually-hidden"> (opens in a new tab)</span></a>
           <a href="https://www.instagram.com/dogunpacked" rel="noopener noreferrer" target="_blank" data-track="instagram">Instagram<span class="visually-hidden"> (opens in a new tab)</span></a>

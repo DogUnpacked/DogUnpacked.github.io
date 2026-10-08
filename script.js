@@ -2,7 +2,7 @@
  * Dog Unpacked — hub page enhancements (plain JS, no framework, no cookies).
  *
  *  1. Cookie-free analytics (GoatCounter): page view, platform clicks, signup, Latest clicks
- *  2. Breed-aware page via ?breed=<slug> (edition, photo or type plate, verified ATTS line)
+ *  2. Breed-aware page via ?breed=<slug> (kicker, photo or type plate, verified ATTS line)
  *  3. Newsletter (The Sniff Test): Title-Case the optional breed, submit to Kit in the background
  *     and show an inline success message (falls back to a normal form POST)
  *  4. Latest: renders data/latest.json (up to 3 long-form videos); click-to-load embed
@@ -77,8 +77,9 @@
     return CONTENT_SLUGS[slug] || slug;
   }
 
-  function editionText(name) {
-    return "\u00a0— " + name + "\u00a0edition";
+  // Same Sunday letter for every dog. The line names his breed. It is not a separate issue.
+  function breedLine(name) {
+    return "\u00a0— for your " + name;
   }
 
   // Photos that exist in images/breeds/. Src is never built from the query string.
@@ -151,15 +152,6 @@
       statWrap.hidden = true;
     }
 
-    var filesNote = document.getElementById("files-breed-note");
-    if (filesNote) {
-      filesNote.textContent = slug === "german-shepherd"
-        ? "This one is for your German Shepherd."
-        : slug === "mixed-breed"
-          ? "The next File is chosen from the breeds readers name when they sign up. That includes mixed breeds."
-          : "The next File is chosen from the breeds readers name when they sign up. That includes your " + name + ".";
-      filesNote.hidden = false;
-    }
   }
 
   var SUCCESS_MESSAGE = "Check your inbox — one click to confirm and you're in.";
@@ -238,7 +230,7 @@
     if (!/^[a-z]+(-[a-z]+)*$/.test(slug) || slug.length > 40) return;
 
     var name = breedName(slug);
-    // Only known breeds (the #breed-list datalist + aliases above) get an edition heading, so a
+    // Only known breeds (the #breed-list datalist + aliases above) get a heading line, so a
     // crafted link can't put arbitrary words on the page. Unknown slug -> default page.
     var known = {};
     var opts = document.querySelectorAll("#breed-list option");
@@ -251,8 +243,8 @@
 
     if (breedInput && !breedInput.value) breedInput.value = name;
 
-    var edition = document.getElementById("breed-edition");
-    if (edition) edition.textContent = editionText(name);
+    var breedFor = document.getElementById("breed-for");
+    if (breedFor) breedFor.textContent = breedLine(name);
     personalizeBreed(name);
   })();
 
@@ -686,7 +678,7 @@
     var nameEl = document.getElementById("dial-name");
     var statEl = document.getElementById("dial-stat");
     var noteEl = document.getElementById("dial-note");
-    var edition = document.getElementById("breed-edition");
+    var breedFor = document.getElementById("breed-for");
     var NO_STAT = "No verified figure for this breed on this page. The letter still starts from him: one behavior, one job, one study.";
     var STAT_NOTE = "A pass rate is a number, not a verdict. You decide what it means.";
 
@@ -747,7 +739,7 @@
         else buttons[i].removeAttribute("aria-current");
       }
       if (breedInput) breedInput.value = name;
-      if (edition) edition.textContent = editionText(name);
+      if (breedFor) breedFor.textContent = breedLine(name);
       personalizeBreed(name);
       paint(slug, name, !fromUrl);
       if (fromUrl) return;

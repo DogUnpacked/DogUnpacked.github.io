@@ -12,7 +12,7 @@ The newsletter is **The Sniff Test** (weekly, Sunday). See **`README-newsletter.
 
 | File | Purpose |
 |------|---------|
-| `index.html` | Hub page (header, hero with The Sniff Test, platforms, breed frames, latest video, Breed Files teaser, contact, footer) |
+| `index.html` | Hub page (header, hero with The Sniff Test, platforms, breed frames, latest video, a short Coming soon note, contact, footer) |
 | `styles.css` | Navy / cream / amber mobile-first styles |
 | `script.js` | GoatCounter events, `?breed=` personalization, breed Title-Case, lite YouTube embed |
 | `fonts/` | Self-hosted Nunito and Fraunces (OFL) |
@@ -53,12 +53,7 @@ The signup form posts to Kit form `10011711` (`https://app.kit.com/forms/1001171
 `email_address` and an optional `fields[breed]`. Double opt-in stays on in Kit. IDs, the `breed` custom field, the
 `source:landing` tag and the remaining Kit dashboard steps are in **`KIT.md`**. No Formspree.
 
-### 4. Breed Files (guides)
-
-No guide is on sale yet, so the page shows a short "Breed Files" text block only (no cards, badges or buy
-buttons). The December plan for the first product card is in `README-page.md`.
-
-### 5. Logo, favicons & share image — done
+### 4. Logo, favicons & share image — done
 
 The brand logo is live in the hero (circular badge above the "Dog Unpacked" wordmark, 144px on phones / 168px on wider screens).
 

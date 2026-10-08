@@ -6,13 +6,13 @@ Live address: https://dogunpacked.com/ (custom domain on GitHub Pages, repo `Dog
 
 ## Section order
 
-Sticky header (logo, wordmark, jump to The Sniff Test; Breeds, Breed Files, and Contact from 840px) → hero (kicker, tagline as the H1, one-line promise, and the signup card) → platform row (YouTube, Instagram, TikTok — Facebook is not used) → breed frames (beside the hero from 960px, under the platform row on a phone) → the standard (`#standard`) → the letter frame (`#issue`, the parts of every Sniff Test, not a past issue) → breed dial (`#breed-dial`) → Latest (`#latest`, only when `data/latest.json` lists a video) → Breed Files teaser (`#breed-files`) → Contact (`#contact`, Formspree form) → footer. On a phone, once the signup card scrolls out of view, a bar with "Get The Sniff Test" sticks to the bottom until the contact section or the footer is on screen, and it stays hidden after a signup.
+Sticky header (logo, wordmark, jump to The Sniff Test; Breeds and Contact from 840px) → hero (kicker, tagline as the H1, one-line promise, and the signup card) → platform row (YouTube, Instagram, TikTok — Facebook is not used) → breed frames (beside the hero from 960px, under the platform row on a phone) → one proof line (Morrill et al. 2022) → breed dial (`#breed-dial`) → Latest (`#latest`, only when `data/latest.json` lists a video) → a short Coming soon note for Breed Files (`#guides`, no nav link) → Contact (`#contact`, Formspree form) → footer. On a phone, once the signup card scrolls out of view, a bar with "Get The Sniff Test" sticks to the bottom until the contact section or the footer is on screen, and it stays hidden after a signup.
 
 On a 390×844 phone the email field, breed field, and "Get The Sniff Test" button sit in the first screen, with the three platform buttons still in that screen. A `?breed=` visit keeps that order and swaps the frames for that breed.
 
 ## Newsletter signup (Kit)
 
-Copy: badge "Free weekly newsletter" → heading "The Sniff Test" → "One behavior, one job, one study, and what to do tonight. Every Sunday. About a two-minute read." → button "Get The Sniff Test" → "Free. No spam. Unsubscribe anytime." The document title is "Everything Dog Unpacked — He's not broken. He's bred that way." Issues run 250 to 400 words, so the page does not say "90 seconds."
+Copy: heading "The Sniff Test" → "One behavior, one job, one study, and what to do tonight." → "Every Sunday. About a two-minute read." → button "Get The Sniff Test" → "Free. Unsubscribe anytime." No badge and no "No spam." The document title is "Everything Dog Unpacked — He's not broken. He's bred that way." Issues run 250 to 400 words, so the page does not say "90 seconds."
 
 Plain newsletter signup. Email is required. Breed is optional: it's saved to the subscriber's Kit custom field
 `breed` and does **not** change the signup. Everyone gets the same Sunday issue of The Sniff Test.
@@ -147,13 +147,12 @@ referrer, so bio and pin traffic shows up per platform in its Referrers view.
 
 ## Breed-aware URLs (`?breed=`)
 
-`?breed=<lowercase-hyphenated-slug>` pre-fills "Your dog's breed (optional)" and changes the heading to
-"The Sniff Test — [Breed] edition". The visitor can clear or edit the field. The signup is still the same Sunday letter for every breed.
+`?breed=<lowercase-hyphenated-slug>` pre-fills "Your dog's breed (optional)" and adds "— for your [Breed]" after "The Sniff Test". That line names his dog. It is the same Sunday letter for every breed, not a separate issue. The visitor can clear or edit the field.
 
 Display name = hyphens become spaces, then Title Case. Shortcuts: `gsd` → German Shepherd, `pitbull` → American Pit Bull Terrier,
 `corso` → Cane Corso, `dobie` → Doberman (`BREED_OVERRIDES` in `script.js`). Anything that isn't letters and
 hyphens (or is over 40 characters) is ignored and the default page shows, with no error. Values are written with
-`textContent` only. Image `src` values come from a fixed map, never from the query string. No cookies, no storage. Only known breeds get an edition: the 19 names in the
+`textContent` only. Image `src` values come from a fixed map, never from the query string. No cookies, no storage. Only known breeds get the "for your" line: the 19 names in the
 form's `#breed-list` datalist plus the aliases in `BREED_OVERRIDES` (`gsd`, `pitbull`, `corso`, `dobie`). An unknown
 slug such as `?breed=xyz` shows the default page, so nobody can craft a link that puts arbitrary words in the
 heading. To add a breed (e.g. `shiba-inu`), add an `<option value="Shiba Inu">` to the datalist in `index.html`.
@@ -162,8 +161,7 @@ For a known breed, `script.js` also:
 
 - Sets the hero kicker to the breed name (default kicker: "Every breed, one at a time").
 - Shows that breed's photo when one exists in `images/breeds/` (German Shepherd, American Pit Bull Terrier, Rottweiler, Doberman). Other breeds get a type plate with the name, not a stand-in photo.
-- Shows one verified American Temperament Test Society pass rate, and only for breeds that have one in the brand brief. The line under it is "A pass rate is a number, not a verdict. You decide what it means." The 87.6% line is labeled American Pit Bull Terrier (960 dogs), including the hero kicker, the edition, the photo caption, and the breed picker. `?breed=pit-bull` and `?breed=pitbull` both use that name. Husky is 86.7% with no sample size, so none is shown. Cane Corso and the other datalist breeds get no number.
-- Adds one line in Breed Files. German Shepherd: "This one is for your German Shepherd." Mixed breed: the next File is chosen from the breeds readers name when they sign up, including mixed breeds. Any other known breed: the next File is chosen from the breeds readers name when they sign up, and names that breed. It does not say subscribers get a File first.
+- Shows one verified American Temperament Test Society pass rate, and only for breeds that have one in the brand brief. The line under it is "A pass rate is a number, not a verdict. You decide what it means." The 87.6% line is labeled American Pit Bull Terrier (960 dogs), including the hero kicker, the "for your" line, the photo caption, and the breed picker. `?breed=pit-bull` and `?breed=pitbull` both use that name. Husky is 86.7% with no sample size, so none is shown. Cane Corso and the other datalist breeds get no number.
 - Marks that breed on the dial (`#breed-dial`) and fills the panel: the tagline, the method ("one thing he does, traced to the job he was built for"), and a verified ATTS line only when `BREED_STATS` has one. Breeds with no figure get "No verified figure for this breed on this page." Photos in the panel come from the same fixed map as the hero. Picking a breed updates `?breed=` with `history.replaceState` and keeps `utm_*`. Without JavaScript the breed names are ordinary `?breed=` links.
 
 Verified lines in `BREED_STATS` (`script.js`): German Shepherd 85.7% (3,500), Rottweiler 85.0% (6,216), Doberman 80.1% (1,870), American Pit Bull Terrier 87.6% (960), Golden Retriever 85.9% (836), Husky 86.7%. Do not add a figure that is not in the brief.
@@ -207,33 +205,11 @@ with `PLATFORM` to replace (`tiktok`, `youtube` or `instagram`).
 
 All calls go through `track()` in `script.js`, which does nothing if GoatCounter is blocked or missing.
 
-## Breed Files teaser (until a guide is on sale)
+## Coming soon (`#guides`)
 
-The section is a teaser, not a checkout. A cream dossier (decorative, `aria-hidden`) sits beside the copy and repeats only the facts already in the text: German Shepherd File, owner guide, $15 PDF, on sale in December. There is no buy button, no second breed, no $29 price, and no crossed-out temperament line. Later Files are chosen by the breeds readers name in the newsletter signup. A breed request in the contact form is a second route. The page does not say newsletter subscribers get the File first.
+A short navy band, not a product card and not in the nav. Label "Coming soon", heading "Breed Files", then: in-depth breed guides are in the works, starting with the German Shepherd. The Sniff Test link is where that news goes. No price, no date, no buy or preorder button, and no line that subscribers hear about it first.
 
-The letter frame (`#issue`) lists the real issue order and no sample facts: one behavior, the job it comes from, one study, what to do tonight, the video, and one reply question. It does not use hook, unpack, or breed-note labels. The signup pitch stays "One behavior, one job, one study, and what to do tonight."
-
-## December: when the German Shepherd File is on sale
-
-Replace the teaser with **one product card**, only for a guide that actually exists:
-
-- Keep the live facts: owner guide, $15 PDF, on sale in December. Do not bring back a crossed-out temperament line.
-- Title "German Shepherd File", a two-line description of what the real file contains, the price, and a real Buy button
-  (Kit Commerce, which works on the Free plan, or Gumroad).
-- Add a second card only when a second guide exists. No "coming soon" cards.
-
-Component sketch (not on the live page; add it when a buy URL exists):
-
-```html
-<article class="product-card">
-  <h3>German Shepherd File</h3>
-  <p>[two-line description of the real file]</p>
-  <p class="price">$15 PDF</p>
-  <a class="btn btn--primary" href="[Kit Commerce / Gumroad URL]">Buy the German Shepherd File</a>
-</article>
-```
-
-The earlier stencil label and the four-card version are in git history (commit 3bf7784). Do not put that label back on the page.
+The signup pitch stays "One behavior, one job, one study, and what to do tonight." The page does not show a sample letter or a second explanation of that order.
 
 ## GitHub Pages readiness
 
