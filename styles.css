@@ -184,6 +184,7 @@ svg {
 .brand-word {
   font-size: 1rem;
   line-height: 1.1;
+  white-space: nowrap;
 }
 
 .site-nav {
@@ -220,6 +221,11 @@ svg {
 
 .nav-cta:hover {
   background: var(--navy-ink);
+}
+
+.nav-cta-long,
+.nav-cta-short {
+  white-space: nowrap;
 }
 
 .nav-cta-short {
@@ -308,6 +314,27 @@ h1 {
   height: 3px;
   background: var(--amber);
   border-radius: 0 0 3px 3px;
+}
+
+.newsletter-eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--navy);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.newsletter-eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-right: 0.4rem;
+  border-radius: 1px;
+  background: var(--amber);
+  transform: translateY(-1px);
 }
 
 .newsletter-badge {
@@ -1229,18 +1256,79 @@ h1 {
   right: 0;
   bottom: 0;
   z-index: 40;
-  padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom));
-  background: rgba(245, 237, 220, 0.96);
+  padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom));
+  background: rgba(245, 237, 220, 0.98);
   border-top: 1px solid var(--border);
+  box-shadow: 0 -8px 24px rgba(27, 42, 74, 0.08);
+}
+
+.sticky-cta:not([hidden]) {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.sticky-cta .newsletter-eyebrow {
+  margin: 0;
+}
+
+.sticky-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--navy);
+}
+
+.sticky-line,
+.sticky-note {
+  margin: 0;
+  color: var(--navy-soft);
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.sticky-note {
+  font-size: 0.8rem;
 }
 
 .sticky-cta .btn {
   width: 100%;
+  margin-top: 0.35rem;
 }
 
 @media (min-width: 840px) {
-  .sticky-cta {
+  .sticky-cta,
+  .sticky-cta:not([hidden]) {
     display: none;
+  }
+}
+
+@media (max-width: 440px) {
+  .header-inner {
+    gap: 0.35rem;
+  }
+
+  .brand {
+    gap: 0.35rem;
+  }
+
+  .brand-word {
+    font-size: 0.92rem;
+  }
+
+  .site-nav {
+    gap: 0;
+  }
+
+  .site-nav a {
+    padding: 0.35rem 0.45rem;
+    font-size: 0.82rem;
+  }
+
+  .site-nav a.nav-cta {
+    padding-inline: 0.6rem;
   }
 }
 
@@ -1844,6 +1932,11 @@ h1 {
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+}
+
+.breed-signup .newsletter-eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--navy);
 }
 
 .breed-signup .btn {
