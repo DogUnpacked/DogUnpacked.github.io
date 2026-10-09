@@ -1721,6 +1721,11 @@ h1 {
   gap: 0.75rem;
 }
 
+.breed-directory .breed-card:nth-child(n + 5) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 240px;
+}
+
 .breed-card {
   display: flex;
   flex-direction: column;

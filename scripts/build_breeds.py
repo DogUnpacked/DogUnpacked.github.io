@@ -279,7 +279,7 @@ def json_ld(crumbs, videos=None):
     return json.dumps(payload, ensure_ascii=False, indent=2)
 
 
-def head(title, description, canonical, image, image_w, image_h, image_alt, crumbs, videos=None):
+def head(title, description, canonical, image, image_w, image_h, image_alt, crumbs, videos=None, extra_head=""):
     image_meta = ""
     if image:
         image_meta = f"""
@@ -303,7 +303,7 @@ def head(title, description, canonical, image, image_w, image_h, image_alt, crum
   <meta name="description" content="{esc(description)}">
   <meta name="theme-color" content="#F5EDDC">
   <meta name="color-scheme" content="light">
-  <link rel="canonical" href="{esc(canonical)}">
+  <link rel="canonical" href="{esc(canonical)}">{extra_head}
   <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/styles.css">
@@ -567,7 +567,7 @@ def index_page(breeds):
             media = f'<span class="breed-card-fallback" aria-hidden="true">{esc(breed["name"][:1])}</span>'
         else:
             # The first row is on screen at every breakpoint (2, 3, or 4 columns).
-            # The first thumb is the LCP image: eager, high priority, decoded immediately.
+            # The first thumb is the LCP image, so it is eager and high priority.
             if index == 0:
                 extra = ' fetchpriority="high" decoding="sync"'
             elif index < 4:
@@ -581,7 +581,13 @@ def index_page(breeds):
         cards.append(
             f'<a class="breed-card" href="/breeds/{esc(breed["slug"])}/" data-group="{esc(breed["group"])}" data-name="{esc(search)}">{media}<span>{esc(breed["name"])}</span></a>'
         )
-    page = f"""{head(title, description, canonical, f"{SITE}/images/og-image.png", 1200, 630, "Dog Unpacked logo", crumbs)}
+    first_thumb = ""
+    for breed in breeds:
+        photo = breed["photo"]
+        if not photo.get("placeholder"):
+            first_thumb = f'\n  <link rel="preload" as="image" href="/{esc(photo["thumb"])}" type="image/webp" fetchpriority="high">'
+            break
+    page = f"""{head(title, description, canonical, f"{SITE}/images/og-image.png", 1200, 630, "Dog Unpacked logo", crumbs, extra_head=first_thumb)}
 {header("breeds")}
   <main id="main">
     <div class="wrap breed-index">
