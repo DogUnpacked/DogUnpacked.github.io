@@ -3542,7 +3542,7 @@
         "license": "CC BY 2.0",
         "license_url": "https://creativecommons.org/licenses/by/2.0",
         "source_url": "https://commons.wikimedia.org/wiki/File:Doberman_(9480257356).jpg",
-        "focal_x": 0.331,
+        "focal_x": 0.667,
         "focal_y": 0.5
       }
     },
@@ -5554,17 +5554,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/labrador.webp",
         "thumb": "images/breeds/directory/labrador-thumb.webp",
-        "width": 800,
-        "height": 534,
+        "width": 1200,
+        "height": 800,
         "thumb_width": 360,
         "thumb_height": 360,
         "alt": "Labrador Retriever",
-        "author": "SixtyWeb",
-        "license": "CC BY-SA 3.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
-        "source_url": "https://commons.wikimedia.org/wiki/File%3AYellow_Labrador_Retriever_2.jpg",
-        "focal_x": 0.656,
-        "focal_y": 0.5
+        "author": "NowIsntItTime",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Harmony_-_Labrador_Retriever.jpg",
+        "focal_x": 0.433,
+        "focal_y": 0.4
       }
     },
     {
