@@ -24,9 +24,9 @@
   // no network call. The destination inbox is set in the Formspree dashboard, never in this repo.
   var FORMSPREE_ENDPOINT = "https://formspree.io/f/xeaeaajd";
 
-  // GoatCounter site code: https://<code>.goatcounter.com (create the account first).
-  // Set to "" to disable analytics entirely.
-  var GOATCOUNTER_SITE = "dogunpacked";
+  // Fallback only. Every page already includes the dogunpackedcom counter tag.
+  // Set to "" to disable that fallback. Do not point this at a second site.
+  var GOATCOUNTER_SITE = "dogunpackedcom";
 
   // ?breed= shortcuts. Anything else: hyphens -> spaces, Title Case.
   var BREED_OVERRIDES = {
@@ -115,18 +115,31 @@
   }
 
   /* ------------------------------------------------------------------
-   * 1. GoatCounter (cookie-free). Page view is counted automatically by count.js.
+   * 1. GoatCounter (cookie-free). Page views and data-goatcounter-click events
+   *    come from the script tag in the HTML. This only flushes track() events
+   *    once that script is ready, and does not load a second counter.
    * ------------------------------------------------------------------ */
+  function flushTrackQueue() {
+    while (trackQueue.length) {
+      var ev = trackQueue.shift();
+      track(ev[0], ev[1]);
+    }
+  }
+
   function loadAnalytics() {
+    var existing = document.querySelector("script[data-goatcounter]");
+    if (existing) {
+      if (window.goatcounter && typeof window.goatcounter.count === "function") {
+        flushTrackQueue();
+      } else {
+        existing.addEventListener("load", flushTrackQueue);
+      }
+      return;
+    }
     if (!GOATCOUNTER_SITE) return;
     var s = document.createElement("script");
     s.async = true;
-    s.onload = function () {
-      while (trackQueue.length) {
-        var ev = trackQueue.shift();
-        track(ev[0], ev[1]);
-      }
-    };
+    s.onload = flushTrackQueue;
     s.src = "https://gc.zgo.at/count.js";
     s.setAttribute("data-goatcounter", "https://" + GOATCOUNTER_SITE + ".goatcounter.com/count");
     document.body.appendChild(s);

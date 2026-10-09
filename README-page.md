@@ -12,7 +12,7 @@ On a 390×844 phone the email field, breed field, and "Get the free newsletter" 
 
 ## Newsletter signup (Kit)
 
-Copy: eyebrow "Free weekly email" → heading "The Sniff Test" → "A free email every Sunday: one behavior, one job, one study, and what to do tonight." → "About a two-minute read." → button "Get the free newsletter" → "Free. Unsubscribe anytime." No badge and no "No spam." The document title is "Everything Dog Unpacked — He's not broken. He's bred that way." Issues run 250 to 400 words, so the page does not say "90 seconds."
+Copy: eyebrow "Free weekly email" → heading "The Sniff Test" → "A free email every Sunday: one behavior, one job, one study, and what to do tonight." → "About a two-minute read." → button "Get the free newsletter" → "Free. Unsubscribe anytime." No badge and no "No spam." The document title is "Dog Unpacked | Breed job, origin and size." Issues run 250 to 400 words, so the page does not say "90 seconds."
 
 Plain newsletter signup. Email is required. Breed is optional: it's saved to the subscriber's Kit custom field
 `breed` and does **not** change the signup. Everyone gets the same Sunday issue of The Sniff Test.
@@ -42,7 +42,7 @@ Plain newsletter signup. Email is required. Breed is optional: it's saved to the
 |---|---|
 | Share image | Live: `images/og-image.png` (1200×630 logo card, absolute URL, `summary_large_image`). Replace that file when a box photo is ready and keep the same meta tags. |
 | Kit success message | Kit's own form setting still says "…we'll send the File when it's ready." It only shows when JS is off or the background submit fails. Change it in the Kit dashboard (see `KIT.md`). |
-| GoatCounter account | Create the free account with site code `dogunpacked` (or change `GOATCOUNTER_SITE` at the top of `script.js`). Until then nothing is recorded. |
+| GoatCounter account | Live site code `dogunpackedcom` (`https://dogunpackedcom.goatcounter.com/count`). The counter tag sits just before `</body>` on every page. It uses no cookies. |
 
 ## Contact form (Formspree)
 
@@ -187,16 +187,28 @@ with `PLATFORM` to replace (`tiktok`, `youtube` or `instagram`).
 
 ## Measurement (GoatCounter, cookie-free)
 
+The site counts page views with GoatCounter, which uses no cookies. The same script tag is on the home page, `/breeds/`, and every breed page:
+
+```html
+<script data-goatcounter="https://dogunpackedcom.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+```
+
+`script.js` does not add a second copy of that script, so the home page is counted once. Signup and video clicks on the list below use `data-goatcounter-click` and `data-goatcounter-title` on the link or button. Those attributes do not add JavaScript, and they do not change the Kit form post.
+
 | Event | GoatCounter path | When |
 |---|---|---|
 | Page view | (automatic, count.js) | every load |
+| Home signup click | `signup-home` | click on the home signup button |
+| Sticky bar click | `signup-sticky` | click on the sticky signup link |
+| Breed page signup | `signup-from-breed-<slug>` (e.g. `signup-from-breed-german-shepherd`) | click on that breed page's signup link |
+| Breed video card | `video-from-breed-<slug>` | click on a video card on that breed page |
 | Platform click | `outbound-youtube`, `outbound-instagram`, `outbound-tiktok` | platform button click |
 | Newsletter (The Sniff Test) submit | `subscribe-<breed-slug>` (e.g. `subscribe-german-shepherd`), or `subscribe-none` when breed is blank | valid submit, just before posting to Kit |
 | Latest click | `latest_click-<video-id>` (e.g. `latest_click-tyUgyQCYGGA`) | play on the embed, or a click on a small card |
 | Newsletter confirmed | `subscribe_confirmed` | page opened with `?confirmed=1` (Kit's double opt-in redirect) |
 | Contact submit | `contact_submit-<topic>`: `contact_submit-brand-partnership`, `-request-a-breed`, `-correction`, `-other` | valid contact submit (not honeypot), just before posting to Formspree |
 
-All calls go through `track()` in `script.js`, which does nothing if GoatCounter is blocked or missing.
+The last five events go through `track()` in `script.js`, which does nothing if GoatCounter is blocked or missing. The four click paths above do not.
 
 ## Coming soon (`#guides`)
 
