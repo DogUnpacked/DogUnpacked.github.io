@@ -168,41 +168,118 @@ def videos_for(breed):
             raise SystemExit(f"video url does not match type for {breed['slug']}: {url}")
         if not title.strip():
             raise SystemExit(f"missing video title for {breed['slug']}")
-        found.append({"id": vid, "title": title, "type": kind, "url": url})
+        published = item.get("published") or ""
+        if published and not DATE_RE.fullmatch(published):
+            raise SystemExit(f"bad video date for {breed['slug']}: {published}")
+        found.append({"id": vid, "title": title, "type": kind, "url": url, "published": published})
     return found
 
 
+def clip_sentence(text, room):
+    text = text.strip()
+    if len(text) <= room:
+        return text
+    cut = text[:room].rsplit(" ", 1)[0].rstrip(" ,;:")
+    if len(cut) < 40:
+        cut = text[:room].rstrip(" ,;:")
+    if cut and not cut.endswith("."):
+        cut += "."
+    return cut
+
+
 def meta_description(breed):
-    text = breed["job"]["text"].strip()
-    prefix = breed["name"] + ": "
-    room = 155 - len(prefix)
-    if len(text) > room:
-        cut = text[: room - 1].rsplit(" ", 1)[0].rstrip(" ,;:")
-        text = cut + "."
-    desc = prefix + text
-    if "!" in desc:
-        raise SystemExit("exclamation in description for " + breed["slug"])
+    """About 150 characters, using only this breed's job line and facts."""
+    parts = [breed["job"]["text"].strip()] + [fact["text"].strip() for fact in breed["facts"]]
+    desc = ""
+    for part in parts:
+        candidate = part if not desc else desc + " " + part
+        if len(candidate) <= 155:
+            desc = candidate
+            continue
+        if len(desc) < 130:
+            room = 155 - (len(desc) + (1 if desc else 0))
+            trimmed = clip_sentence(part, room)
+            if trimmed:
+                desc = (desc + " " + trimmed).strip()
+        break
+    if not desc:
+        desc = clip_sentence(parts[0], 155)
+    if "!" in desc or "@" in desc:
+        raise SystemExit("bad character in description for " + breed["slug"])
     return desc
 
 
-def breadcrumb_ld(items):
-    payload = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
+def page_title(name):
+    """Search-style title. Shorten the shared ending so the result stays near 60 characters."""
+    options = [
+        f"{name}: Original Job, Origin and Size | Dog Unpacked",
+        f"{name}: Job, Origin and Size | Dog Unpacked",
+        f"{name}: Job, Origin, Size | Dog Unpacked",
+        f"{name}: Job, Origin | Dog Unpacked",
+        f"{name}: Origin | Dog Unpacked",
+    ]
+    for option in options:
+        if len(option) <= 60:
+            return option
+    return min(options, key=len)
+
+
+def related_breeds(breed, breeds):
+    """Alphabetical neighbors in the same AKC group, wrapping at the ends. Up to four."""
+    group = sorted(
+        (item for item in breeds if item["group"] == breed["group"]),
+        key=lambda item: item["name"].casefold(),
+    )
+    count = len(group)
+    if count < 2:
+        return []
+    index = next(i for i, item in enumerate(group) if item["slug"] == breed["slug"])
+    picked = []
+    for step in range(1, count):
+        for offset in (step, -step):
+            picked.append(group[(index + offset) % count])
+            if len(picked) == 4 or len(picked) == count - 1:
+                return sorted(picked, key=lambda item: item["name"].casefold())
+    return sorted(picked, key=lambda item: item["name"].casefold())
+
+
+DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def json_ld(crumbs, videos=None):
+    graph = [
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": index,
+                    "name": name,
+                    "item": url,
+                }
+                for index, (name, url) in enumerate(crumbs, start=1)
+            ],
+        }
+    ]
+    for vid in videos or []:
+        published = vid.get("published") or ""
+        if not DATE_RE.fullmatch(published):
+            continue
+        graph.append(
             {
-                "@type": "ListItem",
-                "position": index,
-                "name": name,
-                "item": url,
+                "@type": "VideoObject",
+                "name": vid["title"],
+                "thumbnailUrl": "https://i.ytimg.com/vi/" + vid["id"] + "/hqdefault.jpg",
+                "uploadDate": published,
+                "embedUrl": "https://www.youtube.com/embed/" + vid["id"],
+                "contentUrl": vid["url"],
             }
-            for index, (name, url) in enumerate(items, start=1)
-        ],
-    }
+        )
+    payload = {"@context": "https://schema.org", "@graph": graph}
     return json.dumps(payload, ensure_ascii=False, indent=2)
 
 
-def head(title, description, canonical, image, image_w, image_h, image_alt, crumbs):
+def head(title, description, canonical, image, image_w, image_h, image_alt, crumbs, videos=None):
     image_meta = ""
     if image:
         image_meta = f"""
@@ -241,7 +318,7 @@ def head(title, description, canonical, image, image_w, image_h, image_alt, crum
   <meta name="twitter:title" content="{esc(title)}">
   <meta name="twitter:description" content="{esc(description)}">{image_meta}
   <script type="application/ld+json">
-{breadcrumb_ld(crumbs)}
+{json_ld(crumbs, videos)}
   </script>
 </head>
 """
@@ -374,11 +451,29 @@ def video_block(breed):
     return f'<section class="breed-video" aria-label="{label}">{"".join(links)}</section>'
 
 
-def breed_page(breed):
+def related_block(breed, breeds):
+    picks = related_breeds(breed, breeds)
+    items = "".join(
+        f'<li><a href="/breeds/{esc(item["slug"])}/">{esc(item["name"])}</a></li>'
+        for item in picks
+    )
+    nav = ""
+    if items:
+        nav = f"""<nav class="related-breeds" aria-label="Related breeds">
+        <h2>Related breeds</h2>
+        <ul>
+          {items}
+        </ul>
+      </nav>"""
+    return nav + """
+      <p class="breed-back"><a href="/breeds/">Breeds</a></p>"""
+
+
+def breed_page(breed, breeds):
     slug = breed["slug"]
     canonical = f"{SITE}/breeds/{slug}/"
     description = meta_description(breed)
-    title = f"{breed['name']} — Dog Unpacked"
+    title = page_title(breed["name"])
     photo = breed["photo"]
     if photo.get("placeholder"):
         image = f"{SITE}/images/og-image.png"
@@ -404,6 +499,7 @@ def breed_page(breed):
     atts = ""
     if breed.get("atts"):
         atts = f"""<p class="breed-atts">{esc(breed["atts"]["text"])}</p>"""
+    vids = videos_for(breed)
     video_html = video_block(breed)
     label = breed.get("group_label") or ""
     fact_blob = " ".join(fact["text"] for fact in breed["facts"]).lower()
@@ -411,7 +507,7 @@ def breed_page(breed):
     if label and label.lower() not in {"other", "mixed breed"} and label.lower() not in fact_blob:
         tag = f'<p class="group-tag">{esc(label)}</p>'
     invite = not video_html
-    page = f"""{head(title, description, canonical, image, image_w, image_h, image_alt, crumbs)}
+    page = f"""{head(title, description, canonical, image, image_w, image_h, image_alt, crumbs, vids)}
 {header("breeds")}
   <main id="main">
     <article class="wrap breed-article">
@@ -434,6 +530,7 @@ def breed_page(breed):
       {atts}
       {signup_block(breed, False) if video_html else ""}
       {credit_line(breed)}
+      {related_block(breed, breeds)}
     </article>
   </main>
 {footer()}
@@ -445,9 +542,10 @@ def breed_page(breed):
 
 def index_page(breeds):
     canonical = f"{SITE}/breeds/"
-    title = "Dog breeds — Dog Unpacked"
+    title = "Dog breeds: job, origin and size | Dog Unpacked"
     description = (
-        "Every breed the American Kennel Club recognizes, plus the American Pit Bull Terrier and mixed breeds."
+        "Every breed the American Kennel Club recognizes, plus the American Pit Bull Terrier and mixed breeds. "
+        "Each page lists the original job, origin and size."
     )
     crumbs = [("Dog Unpacked", f"{SITE}/"), ("Breeds", canonical)]
     buttons = ['<button type="button" class="group-filter" data-group="" aria-pressed="true">All</button>']
@@ -478,7 +576,7 @@ def index_page(breeds):
                 extra = ' loading="lazy" decoding="async"'
             media = (
                 f'<img src="/{esc(photo["thumb"])}" width="{int(photo["thumb_width"])}" height="{int(photo["thumb_height"])}" '
-                f'alt=""{extra}>'
+                f'alt="{esc(photo.get("alt") or breed["name"])}"{extra}>'
             )
         cards.append(
             f'<a class="breed-card" href="/breeds/{esc(breed["slug"])}/" data-group="{esc(breed["group"])}" data-name="{esc(search)}">{media}<span>{esc(breed["name"])}</span></a>'
@@ -512,15 +610,19 @@ def index_page(breeds):
     return page
 
 
+def sitemap_url(loc):
+    return f"  <url><loc>{loc}</loc><lastmod>2026-10-09</lastmod></url>"
+
+
 def write_sitemap(breeds):
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        "  <url><loc>https://dogunpacked.com/</loc></url>",
-        "  <url><loc>https://dogunpacked.com/breeds/</loc></url>",
+        sitemap_url("https://dogunpacked.com/"),
+        sitemap_url("https://dogunpacked.com/breeds/"),
     ]
     for breed in breeds:
-        lines.append(f"  <url><loc>https://dogunpacked.com/breeds/{breed['slug']}/</loc></url>")
+        lines.append(sitemap_url(f"https://dogunpacked.com/breeds/{breed['slug']}/"))
     lines.append("</urlset>")
     SITEMAP.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -601,7 +703,7 @@ def main():
     for breed in breeds:
         folder = BREEDS_DIR / breed["slug"]
         folder.mkdir(parents=True, exist_ok=True)
-        (folder / "index.html").write_text(breed_page(breed), encoding="utf-8")
+        (folder / "index.html").write_text(breed_page(breed, breeds), encoding="utf-8")
     write_sitemap(breeds)
     write_csv(breeds)
     write_credits(breeds)
