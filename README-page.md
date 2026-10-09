@@ -12,7 +12,7 @@ On a 390×844 phone the email field, breed field, and "Get the free newsletter" 
 
 ## Newsletter signup (Kit)
 
-Copy: eyebrow "Free weekly email" → heading "The Sniff Test" → "A free email every Sunday: one behavior, one job, one study, and what to do tonight." → "About a two-minute read." → button "Get the free newsletter" → "Free. Unsubscribe anytime." No badge and no "No spam." The document title is "Everything Dog Unpacked — He's not broken. He's bred that way." Issues run 250 to 400 words, so the page does not say "90 seconds."
+Copy: eyebrow "Free weekly email" → heading "The Sniff Test" → "A free email every Sunday: one behavior, one job, one study, and what to do tonight." → "About a two-minute read." → button "Get the free newsletter" → "Free. Unsubscribe anytime." No badge and no "No spam." The document title is "Dog Unpacked | Breed job, origin and size." Issues run 250 to 400 words, so the page does not say "90 seconds."
 
 Plain newsletter signup. Email is required. Breed is optional: it's saved to the subscriber's Kit custom field
 `breed` and does **not** change the signup. Everyone gets the same Sunday issue of The Sniff Test.
