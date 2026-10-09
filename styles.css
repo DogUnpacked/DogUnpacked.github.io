@@ -184,6 +184,7 @@ svg {
 .brand-word {
   font-size: 1rem;
   line-height: 1.1;
+  white-space: nowrap;
 }
 
 .site-nav {
@@ -220,6 +221,11 @@ svg {
 
 .nav-cta:hover {
   background: var(--navy-ink);
+}
+
+.nav-cta-long,
+.nav-cta-short {
+  white-space: nowrap;
 }
 
 .nav-cta-short {
@@ -1296,6 +1302,33 @@ h1 {
   .sticky-cta,
   .sticky-cta:not([hidden]) {
     display: none;
+  }
+}
+
+@media (max-width: 440px) {
+  .header-inner {
+    gap: 0.35rem;
+  }
+
+  .brand {
+    gap: 0.35rem;
+  }
+
+  .brand-word {
+    font-size: 0.92rem;
+  }
+
+  .site-nav {
+    gap: 0;
+  }
+
+  .site-nav a {
+    padding: 0.35rem 0.45rem;
+    font-size: 0.82rem;
+  }
+
+  .site-nav a.nav-cta {
+    padding-inline: 0.6rem;
   }
 }
 
