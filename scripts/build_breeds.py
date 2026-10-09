@@ -339,8 +339,8 @@ def header(current):
         <span class="brand-word">Dog Unpacked</span>
       </a>
       <nav class="site-nav" aria-label="Site">
-        <a class="nav-cta" href="/#subscribe">
-          <span class="nav-cta-long">The Sniff Test</span>
+        <a class="nav-cta" href="/#subscribe" aria-label="Free newsletter">
+          <span class="nav-cta-long">Free newsletter</span>
           <span class="nav-cta-short">Subscribe</span>
         </a>
         <a class="nav-breeds" href="/breeds/"{breeds_current}>Breeds</a>
@@ -361,7 +361,7 @@ def footer():
           <p class="footer-scope">Every breed, one at a time.</p>
         </div>
         <nav class="footer-nav" aria-label="Footer">
-          <a href="/#subscribe">The Sniff Test</a>
+          <a href="/#subscribe">The Sniff Test, the free newsletter</a>
           <a href="/breeds/">Breeds</a>
           <a href="/#contact">Contact</a>
           <a href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank">YouTube<span class="visually-hidden"> (opens in a new tab)</span></a>
@@ -423,11 +423,12 @@ def signup_block(breed, invite):
     if invite:
         invite_html = '<p class="signup-invite">If you want this breed covered, put the name in the breed field.</p>'
     return f"""<section class="breed-signup" aria-labelledby="sniff-heading">
+        <p class="newsletter-eyebrow">Free weekly email</p>
         <h2 id="sniff-heading">The Sniff Test</h2>
         {invite_html}
-        <p>One behavior, one job, one study, and what to do tonight.</p>
-        <p class="signup-when">Every Sunday. About a two-minute read.</p>
-        <a class="btn btn--primary" href="/?breed={esc(signup)}#subscribe" data-goatcounter-click="signup-from-breed-{esc(breed["slug"])}" data-goatcounter-title="{esc("Signup from " + breed["name"])}">Get The Sniff Test</a>
+        <p>A free email every Sunday: one behavior, one job, one study, and what to do tonight.</p>
+        <p class="signup-when">About a two-minute read.</p>
+        <a class="btn btn--primary" href="/?breed={esc(signup)}#subscribe" data-goatcounter-click="signup-from-breed-{esc(breed["slug"])}" data-goatcounter-title="{esc("Signup from " + breed["name"])}">Get the free newsletter</a>
         <p class="signup-free">Free. Unsubscribe anytime.</p>
       </section>"""
 

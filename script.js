@@ -634,7 +634,7 @@
       var blockObs = new IntersectionObserver(function (entries) {
         for (var i = 0; i < entries.length; i++) blocking[entries[i].target.id] = entries[i].isIntersecting;
         sync();
-      }, { rootMargin: "0px 0px 88px 0px" });
+      }, { rootMargin: "0px 0px 220px 0px" });
       if (contact) blockObs.observe(contact);
       if (footer) blockObs.observe(footer);
     }
