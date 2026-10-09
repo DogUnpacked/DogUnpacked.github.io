@@ -25,6 +25,11 @@ on:
         required: true
         type: boolean
         default: true
+      list_templates:
+        description: "Read-only: only list Kit email templates (ids for KIT_SNIFF_TEMPLATE_ID); no send"
+        required: false
+        type: boolean
+        default: false
 
 # Never let two send runs overlap (extra safety against duplicate broadcasts).
 concurrency:
@@ -89,10 +94,19 @@ jobs:
           echo "dry_run=${DRY}" >> "$GITHUB_OUTPUT"
           echo "dry_run=${DRY}"
 
-      - name: Send (or dry-run) today's issue
-        if: steps.guard.outputs.proceed == 'true'
+      - name: List Kit email templates (read-only)
+        if: steps.guard.outputs.proceed == 'true' && github.event_name == 'workflow_dispatch' && inputs.list_templates
         env:
           KIT_API_KEY: ${{ secrets.KIT_API_KEY }}
+        run: python3 scripts/send.py --list-templates
+
+      - name: Send (or dry-run) today's issue
+        if: steps.guard.outputs.proceed == 'true' && !(github.event_name == 'workflow_dispatch' && inputs.list_templates)
+        env:
+          KIT_API_KEY: ${{ secrets.KIT_API_KEY }}
+          # Optional repo variable: id of the "The Sniff Test" Kit template (kit/sniff-test-template.html).
+          # Unset → Kit's account default template wraps the branded content.
+          KIT_SNIFF_TEMPLATE_ID: ${{ vars.KIT_SNIFF_TEMPLATE_ID }}
         run: |
           set -euo pipefail
           if [ "${{ steps.flags.outputs.dry_run }}" = "true" ]; then
