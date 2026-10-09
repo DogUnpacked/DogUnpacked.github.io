@@ -1357,9 +1357,15 @@ h1 {
 @media (min-width: 960px) {
   .hero-band {
     max-width: 36rem;
+    margin-inline: auto;
     row-gap: 1.25rem;
     align-items: start;
     padding-top: 1.75rem;
+  }
+
+  .proof {
+    max-width: 36rem;
+    margin-inline: auto;
   }
 
   h1 {
