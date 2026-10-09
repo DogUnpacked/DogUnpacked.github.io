@@ -24,6 +24,10 @@ CSV_PATH = ROOT / "docs" / "breed-facts-review.csv"
 CREDITS = ROOT / "assets" / "CREDITS.md"
 BREEDS_DIR = ROOT / "breeds"
 SITE = "https://dogunpacked.com"
+GOATCOUNTER_SNIPPET = (
+    '<script data-goatcounter="https://dogunpackedcom.goatcounter.com/count" '
+    'async src="//gc.zgo.at/count.js"></script>'
+)
 CREDIT_START = "<!-- BREED-DIRECTORY-CREDITS:START -->"
 CREDIT_END = "<!-- BREED-DIRECTORY-CREDITS:END -->"
 
@@ -368,7 +372,7 @@ def footer():
       <div class="footer-legal">
         <p>&copy; Dog Unpacked 2026</p>
         <p class="footer-disclaimer">Educational content only — not veterinary or training advice.</p>
-        <p class="footer-privacy">Privacy: we store your email with Kit to send the newsletter, and contact messages are delivered by Formspree. Unsubscribe anytime.</p>
+        <p class="footer-privacy">Privacy: we store your email with Kit to send the newsletter, and contact messages are delivered by Formspree. Unsubscribe anytime. Page views are counted with GoatCounter, which uses no cookies.</p>
       </div>
     </div>
   </footer>
@@ -423,7 +427,7 @@ def signup_block(breed, invite):
         {invite_html}
         <p>One behavior, one job, one study, and what to do tonight.</p>
         <p class="signup-when">Every Sunday. About a two-minute read.</p>
-        <a class="btn btn--primary" href="/?breed={esc(signup)}#subscribe">Get The Sniff Test</a>
+        <a class="btn btn--primary" href="/?breed={esc(signup)}#subscribe" data-goatcounter-click="signup-from-breed-{esc(breed["slug"])}" data-goatcounter-title="{esc("Signup from " + breed["name"])}">Get The Sniff Test</a>
         <p class="signup-free">Free. Unsubscribe anytime.</p>
       </section>"""
 
@@ -437,7 +441,7 @@ def video_block(breed):
         kind = '<span class="breed-video-type">Short</span>' if vid["type"] == "short" else ""
         thumb = "https://i.ytimg.com/vi/" + vid["id"] + "/hqdefault.jpg"
         links.append(
-            f'<a class="breed-video-link" href="{esc(vid["url"])}" rel="noopener noreferrer" target="_blank">'
+            f'<a class="breed-video-link" href="{esc(vid["url"])}" rel="noopener noreferrer" target="_blank" data-goatcounter-click="video-from-breed-{esc(breed["slug"])}" data-goatcounter-title="{esc("Video from " + breed["name"])}">'
             f'<span class="breed-video-thumb">'
             f'<img src="{esc(thumb)}" width="480" height="360" alt="" loading="lazy" decoding="async" fetchpriority="low" referrerpolicy="no-referrer">'
             f'</span>'
@@ -534,6 +538,7 @@ def breed_page(breed, breeds):
     </article>
   </main>
 {footer()}
+  {GOATCOUNTER_SNIPPET}
 </body>
 </html>
 """
@@ -610,6 +615,7 @@ def index_page(breeds):
   </main>
 {footer()}
   <script src="/breeds/filter.js" defer></script>
+  {GOATCOUNTER_SNIPPET}
 </body>
 </html>
 """
