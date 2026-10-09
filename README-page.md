@@ -6,9 +6,9 @@ Live address: https://dogunpacked.com/ (custom domain on GitHub Pages, repo `Dog
 
 ## Section order
 
-Sticky header (logo, wordmark, jump to The Sniff Test; Breeds and Contact from 840px) → hero (kicker, tagline as the H1, one-line promise, and the signup card) → platform row (YouTube, Instagram, TikTok — Facebook is not used) → breed frames (beside the hero from 960px, under the platform row on a phone) → one proof line (Morrill et al. 2022) → breed dial (`#breed-dial`) → Latest (`#latest`, only when `data/latest.json` lists a video) → a short Coming soon note for Breed Files (`#guides`, no nav link) → Contact (`#contact`, Formspree form) → footer. On a phone, once the signup card scrolls out of view, a bar with "Get The Sniff Test" sticks to the bottom until the contact section or the footer is on screen, and it stays hidden after a signup.
+Sticky header (logo, wordmark, jump to The Sniff Test; Breeds and Contact from 840px) → hero (kicker, tagline as the H1, one-line promise, and the signup card) → platform row (YouTube, Instagram, TikTok — Facebook is not used) → one proof line (Morrill et al. 2022) → Find your breed (`#find-breed`: photo cards for breeds with a Dog Unpacked video or Short, then "See all 208 breeds" to `/breeds/`) → Latest (`#latest`, only when `data/latest.json` lists a video) → a short Coming soon note for Breed Files (`#guides`, no nav link) → Contact (`#contact`, Formspree form) → footer. On a phone, once the signup card scrolls out of view, a bar with "Get The Sniff Test" sticks to the bottom until the contact section or the footer is on screen, and it stays hidden after a signup.
 
-On a 390×844 phone the email field, breed field, and "Get The Sniff Test" button sit in the first screen, with the three platform buttons still in that screen. A `?breed=` visit keeps that order and swaps the frames for that breed.
+On a 390×844 phone the email field, breed field, and "Get The Sniff Test" button sit in the first screen, with the three platform buttons still in that screen. A `?breed=` visit keeps that order. It fills the breed field and the kicker. It does not swap photos.
 
 ## Newsletter signup (Kit)
 
@@ -152,19 +152,12 @@ referrer, so bio and pin traffic shows up per platform in its Referrers view.
 Display name = hyphens become spaces, then Title Case. Shortcuts: `gsd` → German Shepherd, `pitbull` → American Pit Bull Terrier,
 `corso` → Cane Corso, `dobie` → Doberman (`BREED_OVERRIDES` in `script.js`). Anything that isn't letters and
 hyphens (or is over 40 characters) is ignored and the default page shows, with no error. Values are written with
-`textContent` only. Image `src` values come from a fixed map, never from the query string. No cookies, no storage. Only known breeds get the "for your" line: the 19 names in the
+`textContent` only. The query does not change any image `src`. No cookies, no storage. Only known breeds get the "for your" line: the 19 names in the
 form's `#breed-list` datalist plus the aliases in `BREED_OVERRIDES` (`gsd`, `pitbull`, `corso`, `dobie`). An unknown
 slug such as `?breed=xyz` shows the default page, so nobody can craft a link that puts arbitrary words in the
 heading. To add a breed (e.g. `shiba-inu`), add an `<option value="Shiba Inu">` to the datalist in `index.html`.
 
-For a known breed, `script.js` also:
-
-- Sets the hero kicker to the breed name (default kicker: "Every breed, one at a time").
-- Shows that breed's photo when one exists in `images/breeds/` (German Shepherd, American Pit Bull Terrier, Rottweiler, Doberman). Other breeds get a type plate with the name, not a stand-in photo.
-- Shows one verified American Temperament Test Society pass rate, and only for breeds that have one in the brand brief. The line under it is "A pass rate is a number, not a verdict. You decide what it means." The 87.6% line is labeled American Pit Bull Terrier (960 dogs), including the hero kicker, the "for your" line, the photo caption, and the breed picker. `?breed=pit-bull` and `?breed=pitbull` both use that name. Husky is 86.7% with no sample size, so none is shown. Cane Corso and the other datalist breeds get no number.
-- Marks that breed on the dial (`#breed-dial`) and fills the panel: the tagline, the method ("one thing he does, traced to the job he was built for"), and a verified ATTS line only when `BREED_STATS` has one. Breeds with no figure get "No verified figure for this breed on this page." Photos in the panel come from the same fixed map as the hero. Each dial name links to that breed's page under `/breeds/<slug>/`. Arriving here with `?breed=` still fills the signup and the panel, and the panel links to the breed page. Without JavaScript the dial names are ordinary links to those pages.
-
-Verified lines in `BREED_STATS` (`script.js`): German Shepherd 85.7% (3,500), Rottweiler 85.0% (6,216), Doberman 80.1% (1,870), American Pit Bull Terrier 87.6% (960), Golden Retriever 85.9% (836), Husky 86.7%. Do not add a figure that is not in the brief.
+For a known breed, `script.js` also sets the hero kicker to the breed name (default kicker: "Every breed, one at a time"). `?breed=pit-bull` and `?breed=pitbull` both use the name American Pit Bull Terrier. The Find your breed cards are ordinary links to `/breeds/<slug>/` and do not depend on the query. Pass rates live on the breed pages, not on this hub.
 
 Pinned comments: add `&utm_source=<platform>&utm_medium=pin` to any breed URL below, e.g.
 `https://dogunpacked.com/?breed=pit-bull&utm_source=tiktok&utm_medium=pin`. The right-hand column is the ready-made pin link
