@@ -8,6 +8,7 @@
 
 index.html is never edited for a new video. script.js reads data/latest.json:
   [{"id": "<11-char id>", "title": "<exact YouTube title>", "published": "YYYY-MM-DD"}, ...]  newest first, max 3.
+  published is the America/New_York calendar date, not the UTC day.
   First entry = click-to-load embed; the others = small cards. Empty list -> section hidden.
 
 How it works
@@ -20,6 +21,7 @@ How it works
      the Shorts check alone decides).
   4. Merges the long-form videos found with the entries already in data/latest.json (so a long-form video
      that has scrolled out of the 15-entry feed behind newer Shorts is kept), newest first, keeps 3.
+     Each published timestamp is converted to America/New_York before the YYYY-MM-DD date is stored.
 
 Prints "Latest: no change" when the result equals the current file.
 Exit codes: 0 = updated or no change; 1 = network/parse error (file untouched). Standard library only.
@@ -32,6 +34,8 @@ import sys
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # Resolved once on 2026-10-07 from https://www.youtube.com/@DogUnpacked
 # (page HTML: "externalId":"UC_2f25vzJLiV799CfoHfDHA", canonical /channel/UC_2f25vzJLiV799CfoHfDHA).
@@ -47,6 +51,8 @@ NS = {
     "yt": "http://www.youtube.com/xml/schemas/2015",
 }
 VIDEO_ID = re.compile(r"^[A-Za-z0-9_-]{11}$")
+DATE_ONLY = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+NEW_YORK = ZoneInfo("America/New_York")
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -101,6 +107,25 @@ def feed_entries(channel_id):
         })
     out.sort(key=lambda x: x["published"], reverse=True)
     return out
+
+
+def eastern_date(published):
+    """YYYY-MM-DD in America/New_York.
+
+    The channel feed publishes an absolute timestamp (UTC). Keeping the first
+    ten characters would store the UTC day, so a video that goes live in the
+    evening Eastern time would be dated the next day. A value that is already
+    YYYY-MM-DD is returned unchanged.
+    """
+    text = str(published or "").strip()
+    if not text or DATE_ONLY.fullmatch(text):
+        return text
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
+    moment = datetime.fromisoformat(text)
+    if moment.tzinfo is None:
+        moment = moment.replace(tzinfo=ZoneInfo("UTC"))
+    return moment.astimezone(NEW_YORK).date().isoformat()
 
 
 def read_current():
@@ -166,9 +191,9 @@ def main():
 
     merged = {}
     for v in ([] if args.rebuild else current):
-        merged[v["id"]] = v
+        merged[v["id"]] = {"id": v["id"], "title": v["title"], "published": eastern_date(v["published"])}
     for v in found:
-        merged[v["id"]] = {"id": v["id"], "title": v["title"], "published": v["published"][:10]}
+        merged[v["id"]] = {"id": v["id"], "title": v["title"], "published": eastern_date(v["published"])}
     new = sorted(merged.values(), key=lambda x: x["published"], reverse=True)[:KEEP]
 
     for i, v in enumerate(new):
