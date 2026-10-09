@@ -12,7 +12,7 @@ The newsletter is **The Sniff Test** (weekly, Sunday). See **`README-newsletter.
 
 | File | Purpose |
 |------|---------|
-| `index.html` | Hub page (header, hero with The Sniff Test, platforms, breed frames, latest video, a short Coming soon note, contact, footer) |
+| `index.html` | Hub page (header, hero with The Sniff Test, platforms, Find your breed, latest video, a short Coming soon note, contact, footer) |
 | `styles.css` | Navy / cream / amber mobile-first styles |
 | `script.js` | GoatCounter events, `?breed=` personalization, breed Title-Case, lite YouTube embed |
 | `fonts/` | Self-hosted Nunito and Fraunces (OFL) |
@@ -163,7 +163,7 @@ python3 -m http.server 8080
 - **Mobile-first** link-in-bio layout; large tap targets.
 - **Palette (official):** Navy `#1B2A4A`, Cream `#F5EDDC`, Amber `#D89B3D` (accent only).
 - **Motifs:** refined SVG paw mark (hero, watermarks, footer) — not emoji/cartoon.
-- **Desktop (≥960px):** the breed frames sit beside the tagline and the signup. On a phone they sit under the platform row, so the signup stays in the first screen.
+- **Desktop (≥960px):** the signup card stays about 36rem wide. Find your breed is a wrapping row of the breeds that have a video or Short, under the Morrill line. On a phone that row scrolls sideways so the signup stays in the first screen.
 - **Fonts:** Fraunces (headings) + Nunito (body/buttons), self-hosted Latin subsets, `font-display: swap`, with metric-matched local fallbacks.
 - No frameworks or build step — plain HTML/CSS/JS.
 
