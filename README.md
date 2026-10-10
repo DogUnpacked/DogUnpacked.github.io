@@ -17,9 +17,9 @@ The newsletter is **The Sniff Test** (weekly, Sunday). See **`README-newsletter.
 | `script.js` | GoatCounter events, `?breed=` personalization, breed Title-Case, lite YouTube embed |
 | `fonts/` | Self-hosted Nunito and Fraunces (OFL) |
 | `data/breeds.json` | Breed directory: one entry per breed. Pages are generated from this file. |
-| `data/latest.json` | Latest section data: up to 3 newest long-form videos `{id, title, published}`, newest first |
+| `data/latest.json` | Latest section data: up to 3 newest long-form videos `{id, title, published, upload_datetime, description}`, newest first |
 | `scripts/build_breeds.py` | Writes `/breeds/` pages, `sitemap.xml`, `docs/breed-facts-review.csv`, and the breed table in `assets/CREDITS.md` |
-| `scripts/update_latest_video.py` | Refreshes `data/latest.json` from the channel feed (skips Shorts); prints "Latest: no change" when current |
+| `scripts/update_latest_video.py` | Refreshes `data/latest.json` from the channel feed (skips Shorts) and the home page VideoObject block; prints "Latest: no change" when current |
 | `README-page.md` | Page notes: placeholders, bio/breed URLs, events |
 | `KIT.md` | Kit form/field/tag IDs + remaining dashboard steps |
 | `assets/CREDITS.md` | Photo sources and licenses |
@@ -39,7 +39,7 @@ To add a breed later:
 2. Add a WebP at the `photo.file` path and a square thumbnail at `photo.thumb`, or set `photo.placeholder` to `true`. `photo.focal_x` and `photo.focal_y` (0 to 1) record the point the thumbnail was cropped around, so a later crop can keep the dog's head in frame.
 3. Run `python3 scripts/build_breeds.py` and commit `data/breeds.json`, the image, and the generated files.
 
-Breed pages do not read `data/latest.json`. That file only feeds the latest-video strip on the home page, and the updater skips Shorts. A breed page shows one card per item in that breed's `videos` array. Each item is `{id, title, type, url}`:
+Breed pages do not read `data/latest.json`. That file only feeds the latest-video strip on the home page, and the updater skips Shorts. A breed page shows one card per item in that breed's `videos` array. Each item is `{id, title, type, url, published, upload_datetime, description}`:
 
 | Field | What to put |
 |---|---|
@@ -47,6 +47,9 @@ Breed pages do not read `data/latest.json`. That file only feeds the latest-vide
 | `title` | The title as it appears on YouTube |
 | `type` | `video` for a long video, `short` for a YouTube Short |
 | `url` | `https://www.youtube.com/watch?v/<id>` for a long video, `https://www.youtube.com/shorts/<id>` for a Short |
+| `published` | The America/New_York calendar date, `YYYY-MM-DD` |
+| `upload_datetime` | That same publish instant as a full ISO 8601 timestamp with the Eastern offset, for example `2026-10-07T21:00:20-04:00`. Leave it off if the time cannot be verified. The page then shows the card and omits the VideoObject. |
+| `description` | One plain sentence. No exclamation marks, emoji, or hashtags. |
 
 Put every `video` ahead of every `short`. The card is a link with a lazy-loaded thumbnail from `i.ytimg.com`. It does not embed a player. Breeds with at least one card use that card as the call to action under the job line. A generic video that is not about one breed stays off the breed pages.
 
