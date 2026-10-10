@@ -94,13 +94,21 @@ network call.
 
 ## Latest video (`data/latest.json`)
 
-`index.html` is never edited for a new video. `script.js` reads `data/latest.json`:
+`script.js` reads `data/latest.json` for the visible Latest section. The script also rewrites only the VideoObject JSON-LD block in `index.html` (between the `LATEST-VIDEOS-JSONLD` markers). The rest of `index.html` is left alone.
 
 ```json
 [
-  { "id": "tyUgyQCYGGA", "title": "Exact YouTube title", "published": "2026-09-22" }
+  {
+    "id": "tyUgyQCYGGA",
+    "title": "Exact YouTube title",
+    "published": "2026-09-22",
+    "upload_datetime": "2026-09-22T16:20:05-04:00",
+    "description": "Exact YouTube title. A Dog Unpacked YouTube video."
+  }
 ]
 ```
+
+`published` is the America/New_York calendar date shown on the page. `upload_datetime` is that same instant with the Eastern offset, and it is what VideoObject `uploadDate` uses. A date with no verified time is not turned into a timestamp, and that video is left out of the JSON-LD block.
 
 Up to 3 long-form videos, newest first. The first shows as a click-to-load 16:9 thumbnail (no YouTube iframe
 until the visitor clicks; the embed uses youtube-nocookie.com), with the title and `published` date under it.
@@ -111,8 +119,8 @@ cards. Empty list, missing file or broken JSON = the section stays hidden. Short
 
 ```bash
 python3 scripts/update_latest_video.py --dry-run  # see what would change
-python3 scripts/update_latest_video.py            # writes data/latest.json, or prints "Latest: no change"
-git add data/latest.json && git commit -m "Latest: <video title>" && git push   # once hosting is connected
+python3 scripts/update_latest_video.py            # writes data/latest.json and the home VideoObject block, or prints "Latest: no change"
+git add data/latest.json index.html && git commit -m "Latest: <video title>" && git push   # once hosting is connected
 ```
 
 The script reads the channel RSS feed (channel id `UC_2f25vzJLiV799CfoHfDHA` = @DogUnpacked), skips Shorts
@@ -121,7 +129,7 @@ The script reads the channel RSS feed (channel id `UC_2f25vzJLiV799CfoHfDHA` = @
 the current file and keeps the 3 newest. Merging matters because the feed only holds the last ~15 uploads, so a
 long-form video can drop out of it behind newer Shorts; it stays listed until 3 newer long-form videos exist.
 `--rebuild` ignores the current file. It never commits. To change the list by hand, edit `data/latest.json`
-directly (exact title, `YYYY-MM-DD` date).
+directly (exact title, `YYYY-MM-DD` date, and `upload_datetime` when the time of day is known), then run the script so the home page JSON-LD matches.
 
 ## Bio links (UTM)
 

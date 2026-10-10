@@ -14,7 +14,9 @@ import csv
 import html
 import json
 import re
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data" / "breeds.json"
@@ -175,7 +177,30 @@ def videos_for(breed):
         published = item.get("published") or ""
         if published and not DATE_RE.fullmatch(published):
             raise SystemExit(f"bad video date for {breed['slug']}: {published}")
-        found.append({"id": vid, "title": title, "type": kind, "url": url, "published": published})
+        upload = item.get("upload_datetime") or ""
+        if upload and not upload_ok(upload):
+            raise SystemExit(f"bad upload_datetime for {breed['slug']}: {upload}")
+        if upload and published and eastern_day(upload) != published:
+            raise SystemExit(
+                f"upload_datetime is not the Eastern date in published for {breed['slug']}: {vid}"
+            )
+        description = (item.get("description") or "").strip()
+        if not description and title.strip():
+            label = "Short" if kind == "short" else "video"
+            description = f"{title}. A Dog Unpacked YouTube {label} about the {breed['name']}."
+        if description and not description_ok(description):
+            raise SystemExit(f"bad video description for {breed['slug']}: {vid}")
+        found.append(
+            {
+                "id": vid,
+                "title": title,
+                "type": kind,
+                "url": url,
+                "published": published,
+                "upload_datetime": upload,
+                "description": description,
+            }
+        )
     return found
 
 
@@ -248,6 +273,39 @@ def related_breeds(breed, breeds):
 
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+UPLOAD_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$")
+NEW_YORK = ZoneInfo("America/New_York")
+
+
+def upload_ok(value):
+    """Full ISO 8601 datetime with a numeric offset. A date alone is not enough."""
+    if not isinstance(value, str) or not UPLOAD_RE.fullmatch(value):
+        return False
+    try:
+        moment = datetime.fromisoformat(value)
+    except ValueError:
+        return False
+    return moment.tzinfo is not None
+
+
+def eastern_day(value):
+    moment = datetime.fromisoformat(value)
+    if moment.tzinfo is None:
+        return ""
+    return moment.astimezone(NEW_YORK).date().isoformat()
+
+
+def description_ok(text):
+    """Plain factual sentence: no exclamation marks, emoji, or hashtags."""
+    if not text or not isinstance(text, str):
+        return False
+    if "!" in text or "#" in text:
+        return False
+    for ch in text:
+        code = ord(ch)
+        if code > 0xFFFF or 0x1F000 <= code <= 0x1FAFF or 0x2600 <= code <= 0x27BF:
+            return False
+    return True
 
 
 def json_ld(crumbs, videos=None):
@@ -266,15 +324,18 @@ def json_ld(crumbs, videos=None):
         }
     ]
     for vid in videos or []:
-        published = vid.get("published") or ""
-        if not DATE_RE.fullmatch(published):
+        # No verified timestamp: leave the VideoObject out. The card can still render.
+        upload = vid.get("upload_datetime") or ""
+        description = (vid.get("description") or "").strip()
+        if not upload_ok(upload) or not description_ok(description):
             continue
         graph.append(
             {
                 "@type": "VideoObject",
                 "name": vid["title"],
+                "description": description,
                 "thumbnailUrl": "https://i.ytimg.com/vi/" + vid["id"] + "/hqdefault.jpg",
-                "uploadDate": published,
+                "uploadDate": upload,
                 "embedUrl": "https://www.youtube.com/embed/" + vid["id"],
                 "contentUrl": vid["url"],
             }
