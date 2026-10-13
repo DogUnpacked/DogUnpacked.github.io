@@ -88,12 +88,28 @@ def load():
             if any(mark in author for mark in ("!", "@")) or "http" in author.lower() or "www." in author.lower():
                 raise SystemExit(f"messy photo credit for {breed['slug']}: {author}")
         videos_for(breed)
-    ids = []
+    # A comparison video can sit on each breed it covers. The recording itself
+    # (id, title, type, url, timestamps) must match. The description may name
+    # the breed whose page it is on.
+    seen = {}
     for breed in breeds:
         for item in breed.get("videos") or []:
-            ids.append(item["id"])
-    if len(ids) != len(set(ids)):
-        raise SystemExit("same YouTube id is listed on more than one breed")
+            vid = item.get("id") or ""
+            signature = (
+                item.get("title") or "",
+                item.get("type") or "",
+                item.get("url") or "",
+                item.get("published") or "",
+                item.get("upload_datetime") or "",
+            )
+            prior = seen.get(vid)
+            if prior is None:
+                seen[vid] = signature
+                continue
+            if prior != signature:
+                raise SystemExit(
+                    f"same YouTube id is listed differently on more than one breed: {vid}"
+                )
     return breeds
 
 
