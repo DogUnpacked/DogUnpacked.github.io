@@ -203,11 +203,8 @@ def videos_for(breed):
     return found
 
 
-# A range is one unit, whether written "8-12" or "20 - 30". Cutting inside it,
-# or adding an ellipsis there, leaves a fragment such as "8-1." or "20 -".
-RANGE_RE = re.compile(r"\d+(?:\.\d+)?(?:\s*-\s*\d+(?:\.\d+)?)+")
 ABBREV = {"dr", "mr", "mrs", "ms", "st", "jr", "sr", "etc", "vs", "no", "fig"}
-DESC_LIMIT = 155
+DESC_LIMIT = 160
 
 
 def is_sentence_end(text, index):
@@ -229,90 +226,56 @@ def is_sentence_end(text, index):
     return True
 
 
-def inside_range(text, end):
-    """Start index of a numeric range that `end` falls inside, or None."""
-    for match in RANGE_RE.finditer(text):
-        if match.start() < end < match.end():
-            return match.start()
-    return None
-
-
-def ends_mid_token(text, cut):
-    """True when `cut` stops inside a word or a number."""
-    if not cut or not text.startswith(cut) or len(cut) >= len(text):
-        return False
-    nxt = text[len(cut)]
-    if nxt.isspace() or nxt in ",;:.!?":
-        return False
-    prev = cut[-1]
-    if prev.isalpha() and nxt.isalpha():
-        return True
-    number = set("0123456789.,-")
-    if prev in number and nxt in number and (prev.isdigit() or nxt.isdigit()):
-        return True
-    return False
-
-
-def clip_sentence(text, room):
-    """Shorten text to at most `room` characters.
-
-    Prefer the longest prefix that ends on a sentence. Otherwise stop at the
-    last word boundary. Never cut inside a word, a number, or a range, and
-    never insert an ellipsis.
-    """
+def split_sentences(text):
+    """Complete sentences only. A trailing fragment is dropped."""
     text = " ".join(text.split())
-    if room < 1:
-        return ""
-    if len(text) <= room:
-        return text
-    best = ""
-    limit = min(room, len(text))
-    for index in range(limit):
+    found = []
+    start = 0
+    for index in range(len(text)):
         if is_sentence_end(text, index):
-            best = text[: index + 1]
-    if best:
-        return best
-    cut = text[:limit]
-    if limit < len(text) and not text[limit].isspace():
-        space = cut.rfind(" ")
-        cut = cut[:space] if space > 0 else ""
-    while cut:
-        cut = cut.rstrip(" ,;:")
-        start = inside_range(text, len(cut))
-        if start is not None:
-            cut = text[:start].rstrip(" ,;:")
-            continue
-        if ends_mid_token(text, cut):
-            space = cut.rfind(" ")
-            cut = cut[:space].rstrip(" ,;:") if space > 0 else ""
-            continue
-        break
-    return cut.strip()
+            sentence = text[start : index + 1].strip()
+            if sentence:
+                found.append(sentence)
+            start = index + 1
+    return found
+
+
+def fallback_description(breed):
+    """One short sentence when the breed's first sentence does not fit."""
+    return f"{breed['name']}: the job it was bred for, where it comes from, and its size."
 
 
 def meta_description(breed):
-    """About 155 characters, using only this breed's job line and facts."""
+    """Complete sentences from the job line and facts, at or under 160 characters.
+
+    A sentence that does not fit is left off, so the description never ends
+    mid-sentence. If the first sentence alone is over that limit, use one
+    shorter generated sentence instead.
+    """
     parts = [breed["job"]["text"].strip()] + [fact["text"].strip() for fact in breed["facts"]]
-    desc = ""
+    sentences = []
     for part in parts:
-        candidate = part if not desc else desc + " " + part
-        if len(candidate) <= DESC_LIMIT:
-            desc = candidate
-            continue
-        # Under 130 characters, add the next part up to a sentence, or a word
-        # boundary when no sentence fits in the remaining room.
-        if len(desc) < 130:
-            room = DESC_LIMIT - (len(desc) + (1 if desc else 0))
-            trimmed = clip_sentence(part, room)
-            if trimmed:
-                desc = (desc + " " + trimmed).strip()
-        break
-    if not desc:
-        desc = clip_sentence(parts[0], DESC_LIMIT)
-    if len(desc) > DESC_LIMIT:
-        desc = clip_sentence(desc, DESC_LIMIT)
-    if "!" in desc or "@" in desc or "..." in desc:
-        raise SystemExit("bad character in description for " + breed["slug"])
+        sentences.extend(split_sentences(part))
+    if not sentences or len(sentences[0]) > DESC_LIMIT:
+        desc = fallback_description(breed)
+    else:
+        desc = ""
+        for sentence in sentences:
+            candidate = sentence if not desc else desc + " " + sentence
+            if len(candidate) <= DESC_LIMIT:
+                desc = candidate
+            else:
+                break
+        if not desc.endswith("."):
+            desc = fallback_description(breed)
+    if (
+        not desc.endswith(".")
+        or len(desc) > DESC_LIMIT
+        or "!" in desc
+        or "@" in desc
+        or "..." in desc
+    ):
+        raise SystemExit("bad description for " + breed["slug"])
     return desc
 
 
