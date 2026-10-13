@@ -6,7 +6,7 @@ Live address: https://dogunpacked.com/ (custom domain on GitHub Pages, repo `Dog
 
 ## Section order
 
-Sticky header (logo, wordmark, "Free newsletter" jump; Breeds and Contact from 840px) → hero (kicker, tagline as the H1, one-line promise, and the signup card) → platform row (YouTube, Instagram, TikTok — Facebook is not used) → one proof line (Morrill et al. 2022) → Find your breed (`#find-breed`: photo cards for breeds with a Dog Unpacked video or Short, then "See all 208 breeds" to `/breeds/`) → Latest (`#latest`, only when `data/latest.json` lists a video) → a short Coming soon note for Breed Files (`#guides`, no nav link) → Contact (`#contact`, Formspree form) → footer. On a phone, once the signup card scrolls out of view, a bar sticks to the bottom until the contact section or the footer is on screen, and it stays hidden after a signup. The bar names The Sniff Test as the free weekly email and its button says "Get the free newsletter".
+Sticky header (logo, wordmark, "Free newsletter" jump; Breeds and Contact from 840px) → hero (kicker, tagline as the H1, one-line promise, and the signup card) → platform row (YouTube, Instagram, TikTok — Facebook is not used) → one proof line (Morrill et al. 2022) → Find your breed (`#find-breed`: photo cards for breeds with a Dog Unpacked video or Short, then "See all 208 breeds" to `/breeds/`) → Latest (`#latest`, only when `data/latest.json` lists a video) → Contact (`#contact`, Formspree form) → footer. On a phone, once the signup card scrolls out of view, a bar sticks to the bottom until the contact section or the footer is on screen, and it stays hidden after a signup. The bar names The Sniff Test as the free weekly email and its button says "Get the free newsletter".
 
 On a 390×844 phone the email field, breed field, and "Get the free newsletter" button sit in the first screen, with the three platform buttons still in that screen. A `?breed=` visit keeps that order. It fills the breed field and the kicker. It does not swap photos.
 
@@ -217,10 +217,6 @@ The site counts page views with GoatCounter, which uses no cookies. The same scr
 | Contact submit | `contact_submit-<topic>`: `contact_submit-brand-partnership`, `-request-a-breed`, `-correction`, `-other` | valid contact submit (not honeypot), just before posting to Formspree |
 
 The last five events go through `track()` in `script.js`, which does nothing if GoatCounter is blocked or missing. The four click paths above do not.
-
-## Coming soon (`#guides`)
-
-A short navy band, not a product card and not in the nav. Label "Coming soon", heading "Breed Files", then: in-depth breed guides are in the works, starting with the German Shepherd. The line is "The Sniff Test, our free newsletter, is where that news goes." No price, no date, no buy or preorder button, and no line that subscribers hear about it first.
 
 The signup pitch stays "One behavior, one job, one study, and what to do tonight." The page does not show a sample letter or a second explanation of that order.
 
