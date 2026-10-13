@@ -459,7 +459,7 @@
   }
 
   if (window.fetch) {
-    fetch("data/latest.json", { cache: "no-cache" })
+    fetch("/data/latest.json", { cache: "no-cache" })
       .then(function (res) {
         if (!res.ok) throw new Error("HTTP " + res.status);
         return res.json();

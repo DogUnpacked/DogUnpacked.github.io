@@ -2010,3 +2010,75 @@ h1 {
     padding-inline: 0.5rem;
   }
 }
+
+/* Behavior articles. Reuses the breed page column, crumbs, and signup card. */
+.behavior-article {
+  padding: 1.25rem 0 3.5rem;
+}
+
+.behavior-article h1 {
+  max-width: 18em;
+  font-size: clamp(1.9rem, 4.8vw, 2.7rem);
+  line-height: 1.12;
+}
+
+.behavior-copy,
+.behavior-article .newsletter,
+.behavior-article .breed-back {
+  max-width: 40rem;
+}
+
+.behavior-copy h2 {
+  margin: 1.8rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--navy);
+}
+
+.behavior-copy p,
+.behavior-copy li {
+  margin: 0.75rem 0 0;
+}
+
+.behavior-copy h2 + p,
+.behavior-copy h2 + ul,
+.behavior-copy h2 + ol {
+  margin-top: 0.5rem;
+}
+
+.behavior-copy ul,
+.behavior-copy ol {
+  margin: 0.55rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.behavior-copy li {
+  padding-left: 0.15rem;
+}
+
+.behavior-copy strong {
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.behavior-copy a {
+  color: var(--navy);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.behavior-copy a:hover {
+  text-decoration-color: var(--amber);
+  text-underline-offset: 3px;
+}
+
+.behavior-article .newsletter {
+  margin-top: 1.85rem;
+}
+
+.behavior-article .breed-back {
+  margin-top: 1rem;
+}

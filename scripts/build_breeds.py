@@ -535,6 +535,21 @@ def related_block(breed, breeds):
       <p class="breed-back"><a href="/breeds/">Breeds</a></p>"""
 
 
+def behavior_article(breed):
+    """Optional one-line link from a breed page to a behavior article.
+
+    Missing on every breed that has no article. href is a site path.
+    """
+    article = breed.get("article") or {}
+    if not isinstance(article, dict):
+        return None
+    href = str(article.get("href") or "").strip()
+    text = str(article.get("text") or "").strip()
+    if not href.startswith("/") or not text:
+        return None
+    return href, text
+
+
 def breed_page(breed, breeds):
     slug = breed["slug"]
     canonical = f"{SITE}/breeds/{slug}/"
@@ -573,6 +588,14 @@ def breed_page(breed, breeds):
     if label and label.lower() not in {"other", "mixed breed"} and label.lower() not in fact_blob:
         tag = f'<p class="group-tag">{esc(label)}</p>'
     invite = not video_html
+    job_html = f"""<section class="breed-block" aria-labelledby="job-heading">
+        <h2 id="job-heading">The job</h2>
+        <p>{esc(breed["job"]["text"])}</p>
+      </section>"""
+    article = behavior_article(breed)
+    if article:
+        href, text = article
+        job_html += f'\n      <p class="breed-back"><a href="{esc(href)}">{esc(text)}</a></p>'
     page = f"""{head(title, description, canonical, image, image_w, image_h, image_alt, crumbs, vids)}
 {header("breeds")}
   <main id="main">
@@ -587,10 +610,7 @@ def breed_page(breed, breeds):
       {tag}
       <h1>{esc(breed["name"])}</h1>
       {photo_block(breed)}
-      <section class="breed-block" aria-labelledby="job-heading">
-        <h2 id="job-heading">The job</h2>
-        <p>{esc(breed["job"]["text"])}</p>
-      </section>
+      {job_html}
       {video_html if video_html else signup_block(breed, True)}
       {fact_html}
       {atts}
@@ -697,6 +717,16 @@ def write_sitemap(breeds):
     ]
     for breed in breeds:
         lines.append(sitemap_url(f"https://dogunpacked.com/breeds/{breed['slug']}/"))
+    seen = set()
+    for breed in breeds:
+        article = behavior_article(breed)
+        if not article:
+            continue
+        loc = SITE + article[0]
+        if loc in seen:
+            continue
+        seen.add(loc)
+        lines.append(sitemap_url(loc))
     lines.append("</urlset>")
     SITEMAP.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
