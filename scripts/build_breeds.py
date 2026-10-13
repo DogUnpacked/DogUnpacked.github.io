@@ -21,7 +21,6 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data" / "breeds.json"
 LATEST = ROOT / "data" / "latest.json"
-SITEMAP = ROOT / "sitemap.xml"
 CSV_PATH = ROOT / "docs" / "breed-facts-review.csv"
 CREDITS = ROOT / "assets" / "CREDITS.md"
 BREEDS_DIR = ROOT / "breeds"
@@ -204,36 +203,115 @@ def videos_for(breed):
     return found
 
 
+# A range is one unit, whether written "8-12" or "20 - 30". Cutting inside it,
+# or adding an ellipsis there, leaves a fragment such as "8-1." or "20 -".
+RANGE_RE = re.compile(r"\d+(?:\.\d+)?(?:\s*-\s*\d+(?:\.\d+)?)+")
+ABBREV = {"dr", "mr", "mrs", "ms", "st", "jr", "sr", "etc", "vs", "no", "fig"}
+DESC_LIMIT = 155
+
+
+def is_sentence_end(text, index):
+    """A period that ends a sentence, not a decimal or a title like Dr."""
+    if text[index] != ".":
+        return False
+    if index + 1 < len(text) and not text[index + 1].isspace():
+        return False
+    start = index - 1
+    while start >= 0 and not text[start].isspace():
+        start -= 1
+    word = text[start + 1 : index]
+    if not word or word.lower() in ABBREV:
+        return False
+    if "." in word and re.fullmatch(r"(?:[A-Za-z]\.)*[A-Za-z]", word):
+        return False
+    if re.fullmatch(r"[A-Za-z]", word):
+        return False
+    return True
+
+
+def inside_range(text, end):
+    """Start index of a numeric range that `end` falls inside, or None."""
+    for match in RANGE_RE.finditer(text):
+        if match.start() < end < match.end():
+            return match.start()
+    return None
+
+
+def ends_mid_token(text, cut):
+    """True when `cut` stops inside a word or a number."""
+    if not cut or not text.startswith(cut) or len(cut) >= len(text):
+        return False
+    nxt = text[len(cut)]
+    if nxt.isspace() or nxt in ",;:.!?":
+        return False
+    prev = cut[-1]
+    if prev.isalpha() and nxt.isalpha():
+        return True
+    number = set("0123456789.,-")
+    if prev in number and nxt in number and (prev.isdigit() or nxt.isdigit()):
+        return True
+    return False
+
+
 def clip_sentence(text, room):
-    text = text.strip()
+    """Shorten text to at most `room` characters.
+
+    Prefer the longest prefix that ends on a sentence. Otherwise stop at the
+    last word boundary. Never cut inside a word, a number, or a range, and
+    never insert an ellipsis.
+    """
+    text = " ".join(text.split())
+    if room < 1:
+        return ""
     if len(text) <= room:
         return text
-    cut = text[:room].rsplit(" ", 1)[0].rstrip(" ,;:")
-    if len(cut) < 40:
-        cut = text[:room].rstrip(" ,;:")
-    if cut and not cut.endswith("."):
-        cut += "."
-    return cut
+    best = ""
+    limit = min(room, len(text))
+    for index in range(limit):
+        if is_sentence_end(text, index):
+            best = text[: index + 1]
+    if best:
+        return best
+    cut = text[:limit]
+    if limit < len(text) and not text[limit].isspace():
+        space = cut.rfind(" ")
+        cut = cut[:space] if space > 0 else ""
+    while cut:
+        cut = cut.rstrip(" ,;:")
+        start = inside_range(text, len(cut))
+        if start is not None:
+            cut = text[:start].rstrip(" ,;:")
+            continue
+        if ends_mid_token(text, cut):
+            space = cut.rfind(" ")
+            cut = cut[:space].rstrip(" ,;:") if space > 0 else ""
+            continue
+        break
+    return cut.strip()
 
 
 def meta_description(breed):
-    """About 150 characters, using only this breed's job line and facts."""
+    """About 155 characters, using only this breed's job line and facts."""
     parts = [breed["job"]["text"].strip()] + [fact["text"].strip() for fact in breed["facts"]]
     desc = ""
     for part in parts:
         candidate = part if not desc else desc + " " + part
-        if len(candidate) <= 155:
+        if len(candidate) <= DESC_LIMIT:
             desc = candidate
             continue
+        # Under 130 characters, add the next part up to a sentence, or a word
+        # boundary when no sentence fits in the remaining room.
         if len(desc) < 130:
-            room = 155 - (len(desc) + (1 if desc else 0))
+            room = DESC_LIMIT - (len(desc) + (1 if desc else 0))
             trimmed = clip_sentence(part, room)
             if trimmed:
                 desc = (desc + " " + trimmed).strip()
         break
     if not desc:
-        desc = clip_sentence(parts[0], 155)
-    if "!" in desc or "@" in desc:
+        desc = clip_sentence(parts[0], DESC_LIMIT)
+    if len(desc) > DESC_LIMIT:
+        desc = clip_sentence(desc, DESC_LIMIT)
+    if "!" in desc or "@" in desc or "..." in desc:
         raise SystemExit("bad character in description for " + breed["slug"])
     return desc
 
@@ -684,21 +762,10 @@ def index_page(breeds):
     return page
 
 
-def sitemap_url(loc):
-    return f"  <url><loc>{loc}</loc><lastmod>2026-10-09</lastmod></url>"
-
-
 def write_sitemap(breeds):
-    lines = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        sitemap_url("https://dogunpacked.com/"),
-        sitemap_url("https://dogunpacked.com/breeds/"),
-    ]
-    for breed in breeds:
-        lines.append(sitemap_url(f"https://dogunpacked.com/breeds/{breed['slug']}/"))
-    lines.append("</urlset>")
-    SITEMAP.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    import build_sitemap
+
+    build_sitemap.write(breeds)
 
 
 def write_csv(breeds):
