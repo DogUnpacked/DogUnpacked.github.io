@@ -12,14 +12,15 @@ The newsletter is **The Sniff Test** (weekly, Sunday). See **`README-newsletter.
 
 | File | Purpose |
 |------|---------|
-| `index.html` | Hub page (header, hero with The Sniff Test, platforms, Find your breed, latest video, a short Coming soon note, contact, footer) |
+| `index.html` | Hub page (header, hero with The Sniff Test, platforms, Find your breed, latest video, contact, footer) |
 | `styles.css` | Navy / cream / amber mobile-first styles |
 | `script.js` | GoatCounter events, `?breed=` personalization, breed Title-Case, lite YouTube embed |
 | `fonts/` | Self-hosted Nunito and Fraunces (OFL) |
 | `data/breeds.json` | Breed directory: one entry per breed. Pages are generated from this file. |
 | `data/latest.json` | Latest section data: up to 3 newest long-form videos `{id, title, published, upload_datetime, description}`, newest first |
-| `scripts/build_breeds.py` | Writes `/breeds/` pages, `sitemap.xml`, `docs/breed-facts-review.csv`, and the breed table in `assets/CREDITS.md` |
-| `scripts/update_latest_video.py` | Refreshes `data/latest.json` from the channel feed (skips Shorts) and the home page VideoObject block; prints "Latest: no change" when current |
+| `scripts/build_breeds.py` | Writes `/breeds/` pages, `docs/breed-facts-review.csv`, and the breed table in `assets/CREDITS.md`, then refreshes `sitemap.xml` |
+| `scripts/build_sitemap.py` | Rewrites `sitemap.xml` for the same 210 URLs. `lastmod` is that page file's last git commit date, in ISO 8601 |
+| `scripts/update_latest_video.py` | Refreshes `data/latest.json` from the channel feed (skips Shorts) and rewrites the home page VideoObject block from those same records; prints "Latest: no change" when current |
 | `README-page.md` | Page notes: placeholders, bio/breed URLs, events |
 | `KIT.md` | Kit form/field/tag IDs + remaining dashboard steps |
 | `assets/CREDITS.md` | Photo sources and licenses |
@@ -31,7 +32,7 @@ The newsletter is **The Sniff Test** (weekly, Sunday). See **`README-newsletter.
 
 The American Kennel Club breeds-by-year list names 205 breeds, with one entry called Fox Terrier. This directory gives Smooth Fox Terrier and Wire Fox Terrier each a page, because AKC publishes a separate standard for each. Toy Fox Terrier is already its own breed. Poodle is one page. The three varieties are Standard, Miniature, and Toy. American Pit Bull Terrier is here from the United Kennel Club. Mixed breed has a page of its own.
 
-All of the copy, sources, and photo credits live in **`data/breeds.json`**. `scripts/build_breeds.py` (Python standard library only) writes the HTML, updates `sitemap.xml`, writes `docs/breed-facts-review.csv`, and refreshes the breed table in `assets/CREDITS.md`. Commit the generated HTML. GitHub Pages does not build it.
+All of the copy, sources, and photo credits live in **`data/breeds.json`**. `scripts/build_breeds.py` (Python standard library only) writes the HTML, writes `docs/breed-facts-review.csv`, refreshes the breed table in `assets/CREDITS.md`, and calls `scripts/build_sitemap.py`. That sitemap script keeps the same 210 URLs and sets each `lastmod` from the page file's last git commit date. Commit the generated HTML. GitHub Pages does not build it.
 
 To add a breed later:
 

@@ -11,14 +11,17 @@ script.js reads data/latest.json for the visible Latest section:
   published is the America/New_York calendar date people see (YYYY-MM-DD), not the UTC day.
   upload_datetime is that same instant as a full ISO 8601 timestamp with the Eastern offset,
   for example 2026-10-07T21:00:20-04:00. A date with no time is never invented into a timestamp.
-  description is one plain sentence. The YouTube description is kept only when it is short and
+  description is one plain sentence. An entry that already has a description keeps it.
+  A new entry keeps the YouTube description only when it is short and
   has no exclamation marks, emoji, or hashtags. Otherwise it is
   "<title>. A Dog Unpacked YouTube video."
   First entry = click-to-load embed; the others = small cards. Empty list -> section hidden.
 
 The same records rewrite only the VideoObject JSON-LD block in index.html, between the
-LATEST-VIDEOS-JSONLD markers. uploadDate is upload_datetime. A video with no verified
-timestamp is left out of that block. The rest of index.html is not edited.
+LATEST-VIDEOS-JSONLD markers. The block lists the same videos, in the same order, as
+the file the home page shows. Each entry keeps that record's description and its
+Eastern upload_datetime as uploadDate. A video with no verified timestamp is left
+out of that block. The rest of index.html is not edited.
 
 How it works
   1. Reads the public channel RSS feed first (no API key):
@@ -28,7 +31,8 @@ How it works
      long-form video ids and titles. Each timestamp comes from that watch page's
      uploadDate or datePublished meta. The title comes from oEmbed when that call
      succeeds. The script prints which source it used. If every source fails, it
-     exits without writing data/latest.json.
+     leaves data/latest.json untouched and still rewrites the VideoObject block
+     from that file, so the block matches the videos the home page shows.
   2. Skips Shorts: GET https://www.youtube.com/shorts/<id> with redirects disabled.
      200 = Short; 30x redirect to /watch = long-form. If YouTube answers with a rate-limit or consent
      redirect instead, the feed entry's own link (/shorts/ vs /watch) decides.
@@ -40,7 +44,8 @@ How it works
      calendar date. upload_datetime stores the full timestamp with the Eastern offset.
 
 Prints "Latest: no change" when the result equals the current file.
-Exit codes: 0 = updated or no change; 1 = network/parse error (file untouched). Standard library only.
+Exit codes: 0 = updated or no change; 1 = network/parse error (data/latest.json untouched;
+the VideoObject block is still aligned to that file). Standard library only.
 """
 import argparse
 import html
@@ -417,13 +422,28 @@ def choose_description(title, youtube_description):
 
 
 def video_record(src, youtube_description=""):
+    """One latest.json record.
+
+    A description already stored on the entry is kept. A new entry uses a clean
+    one-sentence YouTube description when it has one, otherwise the plain
+    fallback. An Eastern upload_datetime already stored is kept as-is; a date
+    alone is never turned into a timestamp.
+    """
     title = str(src.get("title") or "")
-    upload = eastern_datetime(src.get("upload_datetime") or src.get("published") or "")
+    stored_upload = str(src.get("upload_datetime") or "")
+    if UPLOAD_RE.fullmatch(stored_upload) and parse_moment(stored_upload) is not None:
+        upload = stored_upload
+    else:
+        upload = eastern_datetime(src.get("published") or "")
     published = eastern_date(upload or src.get("published") or "")
     record = {"id": src["id"], "title": title, "published": published}
     if upload:
         record["upload_datetime"] = upload
-    record["description"] = choose_description(title, youtube_description)
+    stored_description = str(src.get("description") or "").strip()
+    if stored_description:
+        record["description"] = stored_description
+    else:
+        record["description"] = choose_description(title, youtube_description)
     return record
 
 
@@ -543,6 +563,9 @@ def main():
         entries, source = load_entries(args.channel_id)
     except Exception as e:
         print(f"Could not read the channel feed or the channel videos page: {e}", file=sys.stderr)
+        # The home page still shows data/latest.json. Keep VideoObject in step with it.
+        if current:
+            sync_home_jsonld(current, dry_run=args.dry_run)
         return 1
     print(f"Latest source: {source}")
 
@@ -562,7 +585,16 @@ def main():
     for v in ([] if args.rebuild else current):
         merged[v["id"]] = video_record(v)
     for v in found:
-        merged[v["id"]] = video_record(v, v.get("youtube_description") or "")
+        previous = merged.get(v["id"]) or {}
+        src = dict(v)
+        # Keep the description and Eastern upload time already stored for this id.
+        if previous.get("upload_datetime"):
+            src["upload_datetime"] = previous["upload_datetime"]
+        if previous.get("description"):
+            src["description"] = previous["description"]
+        if not src.get("title") and previous.get("title"):
+            src["title"] = previous["title"]
+        merged[src["id"]] = video_record(src, src.get("youtube_description") or "")
     new = sorted(merged.values(), key=lambda x: x["published"], reverse=True)[:KEEP]
 
     for i, v in enumerate(new):

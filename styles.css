@@ -742,25 +742,6 @@ h1 {
   transform-origin: left center;
 }
 
-.band--navy {
-  background:
-    radial-gradient(ellipse 60% 50% at 100% 0%, rgba(216, 155, 61, 0.2), transparent 58%),
-    var(--navy);
-  color: var(--cream);
-}
-
-.band--navy h2,
-.band--navy h3,
-.band--navy .standard-dek,
-.band--navy .pull p {
-  color: var(--cream);
-}
-
-.band--navy .eyebrow {
-  color: var(--amber);
-}
-
-.band--navy :focus-visible,
 .footer :focus-visible {
   outline-color: var(--cream);
 }
@@ -1054,39 +1035,6 @@ h1 {
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--navy-soft);
-}
-
-.band.band--soon {
-  padding: 2.35rem 0;
-}
-
-.band--soon h2 {
-  max-width: none;
-  font-size: clamp(1.65rem, 3vw, 2.1rem);
-}
-
-.soon-label {
-  margin: 0;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--amber);
-}
-
-.soon-line,
-.soon-hear {
-  margin: 0.55rem 0 0;
-  max-width: 38rem;
-  color: var(--cream);
-  font-size: 1.05rem;
-}
-
-.soon-hear a {
-  color: var(--cream);
-  font-weight: 800;
-  text-decoration-color: var(--amber);
-  text-underline-offset: 3px;
 }
 
 .band--contact {
@@ -1384,10 +1332,6 @@ h1 {
 @media (min-width: 900px) {
   .band {
     padding: 5.25rem 0;
-  }
-
-  .band.band--soon {
-    padding: 2.75rem 0;
   }
 
   .standard-grid,

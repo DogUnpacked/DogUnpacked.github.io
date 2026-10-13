@@ -21,7 +21,6 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data" / "breeds.json"
 LATEST = ROOT / "data" / "latest.json"
-SITEMAP = ROOT / "sitemap.xml"
 CSV_PATH = ROOT / "docs" / "breed-facts-review.csv"
 CREDITS = ROOT / "assets" / "CREDITS.md"
 BREEDS_DIR = ROOT / "breeds"
@@ -204,37 +203,79 @@ def videos_for(breed):
     return found
 
 
-def clip_sentence(text, room):
-    text = text.strip()
-    if len(text) <= room:
-        return text
-    cut = text[:room].rsplit(" ", 1)[0].rstrip(" ,;:")
-    if len(cut) < 40:
-        cut = text[:room].rstrip(" ,;:")
-    if cut and not cut.endswith("."):
-        cut += "."
-    return cut
+ABBREV = {"dr", "mr", "mrs", "ms", "st", "jr", "sr", "etc", "vs", "no", "fig"}
+DESC_LIMIT = 160
+
+
+def is_sentence_end(text, index):
+    """A period that ends a sentence, not a decimal or a title like Dr."""
+    if text[index] != ".":
+        return False
+    if index + 1 < len(text) and not text[index + 1].isspace():
+        return False
+    start = index - 1
+    while start >= 0 and not text[start].isspace():
+        start -= 1
+    word = text[start + 1 : index]
+    if not word or word.lower() in ABBREV:
+        return False
+    if "." in word and re.fullmatch(r"(?:[A-Za-z]\.)*[A-Za-z]", word):
+        return False
+    if re.fullmatch(r"[A-Za-z]", word):
+        return False
+    return True
+
+
+def split_sentences(text):
+    """Complete sentences only. A trailing fragment is dropped."""
+    text = " ".join(text.split())
+    found = []
+    start = 0
+    for index in range(len(text)):
+        if is_sentence_end(text, index):
+            sentence = text[start : index + 1].strip()
+            if sentence:
+                found.append(sentence)
+            start = index + 1
+    return found
+
+
+def fallback_description(breed):
+    """One short sentence when the breed's first sentence does not fit."""
+    return f"{breed['name']}: the job it was bred for, where it comes from, and its size."
 
 
 def meta_description(breed):
-    """About 150 characters, using only this breed's job line and facts."""
+    """Complete sentences from the job line and facts, at or under 160 characters.
+
+    A sentence that does not fit is left off, so the description never ends
+    mid-sentence. If the first sentence alone is over that limit, use one
+    shorter generated sentence instead.
+    """
     parts = [breed["job"]["text"].strip()] + [fact["text"].strip() for fact in breed["facts"]]
-    desc = ""
+    sentences = []
     for part in parts:
-        candidate = part if not desc else desc + " " + part
-        if len(candidate) <= 155:
-            desc = candidate
-            continue
-        if len(desc) < 130:
-            room = 155 - (len(desc) + (1 if desc else 0))
-            trimmed = clip_sentence(part, room)
-            if trimmed:
-                desc = (desc + " " + trimmed).strip()
-        break
-    if not desc:
-        desc = clip_sentence(parts[0], 155)
-    if "!" in desc or "@" in desc:
-        raise SystemExit("bad character in description for " + breed["slug"])
+        sentences.extend(split_sentences(part))
+    if not sentences or len(sentences[0]) > DESC_LIMIT:
+        desc = fallback_description(breed)
+    else:
+        desc = ""
+        for sentence in sentences:
+            candidate = sentence if not desc else desc + " " + sentence
+            if len(candidate) <= DESC_LIMIT:
+                desc = candidate
+            else:
+                break
+        if not desc.endswith("."):
+            desc = fallback_description(breed)
+    if (
+        not desc.endswith(".")
+        or len(desc) > DESC_LIMIT
+        or "!" in desc
+        or "@" in desc
+        or "..." in desc
+    ):
+        raise SystemExit("bad description for " + breed["slug"])
     return desc
 
 
@@ -684,21 +725,10 @@ def index_page(breeds):
     return page
 
 
-def sitemap_url(loc):
-    return f"  <url><loc>{loc}</loc><lastmod>2026-10-09</lastmod></url>"
-
-
 def write_sitemap(breeds):
-    lines = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        sitemap_url("https://dogunpacked.com/"),
-        sitemap_url("https://dogunpacked.com/breeds/"),
-    ]
-    for breed in breeds:
-        lines.append(sitemap_url(f"https://dogunpacked.com/breeds/{breed['slug']}/"))
-    lines.append("</urlset>")
-    SITEMAP.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    import build_sitemap
+
+    build_sitemap.write(breeds)
 
 
 def write_csv(breeds):
