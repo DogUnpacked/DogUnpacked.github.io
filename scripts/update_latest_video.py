@@ -328,11 +328,14 @@ def videos_page_entries(channel_id):
 def load_entries(channel_id):
     """RSS first. On failure, the channel videos page. Raises when both fail."""
     rss_url = f"https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
+    rss_error_text = ""
     try:
         return feed_entries(channel_id), f"channel RSS feed {rss_url}"
     except Exception as rss_error:
+        # The except target is cleared when this block ends, so keep the text.
+        rss_error_text = str(rss_error)
         print(
-            f"Channel RSS feed failed ({rss_error}); trying the channel videos page",
+            f"Channel RSS feed failed ({rss_error_text}); trying the channel videos page",
             file=sys.stderr,
         )
     page_url = videos_page_url(channel_id)
@@ -341,7 +344,7 @@ def load_entries(channel_id):
     except Exception as page_error:
         print(f"Channel videos page failed ({page_error})", file=sys.stderr)
         raise RuntimeError(
-            f"channel RSS feed failed ({rss_error}); channel videos page failed ({page_error})"
+            f"channel RSS feed failed ({rss_error_text}); channel videos page failed ({page_error})"
         ) from page_error
 
 
