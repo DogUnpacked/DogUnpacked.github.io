@@ -6,7 +6,7 @@ Live address: https://dogunpacked.com/ (custom domain on GitHub Pages, repo `Dog
 
 ## Section order
 
-Sticky header (logo, wordmark, "Free newsletter" jump; Breeds and Contact from 840px) → hero (kicker, tagline as the H1, one-line promise, and the signup card) → platform row (YouTube, Instagram, TikTok — Facebook is not used) → one proof line (Morrill et al. 2022) → Find your breed (`#find-breed`: photo cards for breeds with a Dog Unpacked video or Short, then "See all 208 breeds" to `/breeds/`) → Latest (`#latest`, only when `data/latest.json` lists a video) → a short Coming soon note for Breed Files (`#guides`, no nav link) → Contact (`#contact`, Formspree form) → footer. On a phone, once the signup card scrolls out of view, a bar sticks to the bottom until the contact section or the footer is on screen, and it stays hidden after a signup. The bar names The Sniff Test as the free weekly email and its button says "Get the free newsletter".
+Sticky header (logo, wordmark, "Free newsletter" jump; Breeds and Contact from 840px) → hero (kicker, tagline as the H1, one-line promise, and the signup card) → platform row (YouTube, Instagram, TikTok — Facebook is not used) → one proof line (Morrill et al. 2022) → Find your breed (`#find-breed`: photo cards for breeds with a Dog Unpacked video or Short, then "See all 208 breeds" to `/breeds/`) → Latest (`#latest`, only when `data/latest.json` lists a video) → a small in-progress card for Bred That Way (`#guides`, no nav link) → Contact (`#contact`, Formspree form) → footer. On a phone, once the signup card scrolls out of view, a bar sticks to the bottom until the contact section or the footer is on screen, and it stays hidden after a signup. The bar names The Sniff Test as the free weekly email and its button says "Get the free newsletter".
 
 On a 390×844 phone the email field, breed field, and "Get the free newsletter" button sit in the first screen, with the three platform buttons still in that screen. A `?breed=` visit keeps that order. It fills the breed field and the kicker. It does not swap photos.
 
@@ -19,6 +19,10 @@ Plain newsletter signup. Email is required. Breed is optional: it's saved to the
 
 - Posts to Kit form 10011711: `email_address`, `fields[breed]` (only when filled in, Title-Cased by
   `script.js`), `tags[]=24362096` (`source:landing`, backup for the form's own auto-tag setting).
+  A visit with `?breed=german-shepherd` (the `gsd` shortcut resolves the same way) also shows
+  "Get first notice when the German Shepherd guide is ready." on the form. That visit adds a second
+  `tags[]` for the Kit tag `waitlist-gsd` only when `WAITLIST_GSD_TAG_ID` in `script.js` is a numeric id.
+  Until the tag exists, that constant stays empty and the extra field is left out of the post.
 - How success works: `script.js` submits the form in the background the same way Kit's own embed script
   does (`fetch` POST of the form data with `Accept: application/json`; Kit allows this from any site and answers
   `{"status":"success"}`). On success the form is replaced by "Check your inbox — one click to confirm and you're
@@ -209,6 +213,8 @@ The site counts page views with GoatCounter, which uses no cookies. The same scr
 | Home signup click | `signup-home` | click on the home signup button |
 | Sticky bar click | `signup-sticky` | click on the sticky signup link |
 | Breed page signup | `signup-from-breed-<slug>` (e.g. `signup-from-breed-german-shepherd`) | click on that breed page's signup link |
+| German Shepherd guide, home | `waitlist-gsd-home` | click on the Bred That Way card button |
+| German Shepherd guide, breed page | `waitlist-gsd-breed` | click on the waitlist link on the German Shepherd page |
 | Breed video card | `video-from-breed-<slug>` | click on a video card on that breed page |
 | Platform click | `outbound-youtube`, `outbound-instagram`, `outbound-tiktok` | platform button click |
 | Newsletter (The Sniff Test) submit | `subscribe-<breed-slug>` (e.g. `subscribe-german-shepherd`), or `subscribe-none` when breed is blank | valid submit, just before posting to Kit |
@@ -216,11 +222,13 @@ The site counts page views with GoatCounter, which uses no cookies. The same scr
 | Newsletter confirmed | `subscribe_confirmed` | page opened with `?confirmed=1` (Kit's double opt-in redirect) |
 | Contact submit | `contact_submit-<topic>`: `contact_submit-brand-partnership`, `-request-a-breed`, `-correction`, `-other` | valid contact submit (not honeypot), just before posting to Formspree |
 
-The last five events go through `track()` in `script.js`, which does nothing if GoatCounter is blocked or missing. The four click paths above do not.
+Newsletter submit, Latest click, Newsletter confirmed, and Contact submit go through `track()` in `script.js`, which does nothing if GoatCounter is blocked or missing. Platform clicks do too (`data-track`). The `data-goatcounter-click` paths do not: home signup, the sticky bar, breed-page signup, both waitlist clicks, and breed video cards.
 
-## Coming soon (`#guides`)
+## Bred That Way (`#guides`)
 
-A short navy band, not a product card and not in the nav. Label "Coming soon", heading "Breed Files", then: in-depth breed guides are in the works, starting with the German Shepherd. The line is "The Sniff Test, our free newsletter, is where that news goes." No price, no date, no buy or preorder button, and no line that subscribers hear about it first.
+A small in-progress card, not in the nav. Label "In progress", heading "Bred That Way", then: "The German Shepherd guide is being written." The button reads "Get first notice" and links to `/?breed=german-shepherd#subscribe`. No price, no date, no buy button, and no promise of early access or a discount.
+
+The German Shepherd breed page adds one text link to that same URL. GoatCounter events: `waitlist-gsd-home` on the card button, `waitlist-gsd-breed` on the breed-page link.
 
 The signup pitch stays "One behavior, one job, one study, and what to do tonight." The page does not show a sample letter or a second explanation of that order.
 

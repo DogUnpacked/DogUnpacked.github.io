@@ -12,7 +12,7 @@ The newsletter is **The Sniff Test** (weekly, Sunday). See **`README-newsletter.
 
 | File | Purpose |
 |------|---------|
-| `index.html` | Hub page (header, hero with The Sniff Test, platforms, Find your breed, latest video, a short Coming soon note, contact, footer) |
+| `index.html` | Hub page (header, hero with The Sniff Test, platforms, Find your breed, latest video, a small Bred That Way card, contact, footer) |
 | `styles.css` | Navy / cream / amber mobile-first styles |
 | `script.js` | GoatCounter events, `?breed=` personalization, breed Title-Case, lite YouTube embed |
 | `fonts/` | Self-hosted Nunito and Fraunces (OFL) |

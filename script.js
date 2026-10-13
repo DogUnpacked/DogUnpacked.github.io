@@ -28,6 +28,11 @@
   // Set to "" to disable that fallback. Do not point this at a second site.
   var GOATCOUNTER_SITE = "dogunpackedcom";
 
+  // TODO(kit): create the Kit tag named waitlist-gsd, then paste its numeric id here.
+  // Leave this empty until that tag exists. A blank or non-numeric value is left
+  // out of the form post, and the signup still goes through.
+  var WAITLIST_GSD_TAG_ID = "";
+
   // ?breed= shortcuts. Anything else: hyphens -> spaces, Title Case.
   var BREED_OVERRIDES = {
     gsd: "German Shepherd",
@@ -162,6 +167,27 @@
    * 2. Breed-aware page: ?breed=<lowercase-hyphenated-slug> (known breeds only)
    * ------------------------------------------------------------------ */
   var breedInput = document.getElementById("breed");
+  var waitlistGsd = false;
+
+  // Same tags[] post as source:landing. Omitted while the Kit id above is empty.
+  function waitlistTagId() {
+    var id = String(WAITLIST_GSD_TAG_ID || "").trim();
+    return /^\d+$/.test(id) ? id : "";
+  }
+
+  function armWaitlistTag() {
+    var input = document.getElementById("waitlist-tag");
+    if (!input) return;
+    var id = waitlistGsd ? waitlistTagId() : "";
+    if (!id) {
+      input.value = "";
+      input.disabled = true;
+      return;
+    }
+    input.value = id;
+    input.disabled = false;
+  }
+
   (function breedAware() {
     var raw;
     try {
@@ -191,6 +217,13 @@
     var breedFor = document.getElementById("breed-for");
     if (breedFor) breedFor.textContent = breedLine(name);
     personalizeBreed(name);
+
+    if (contentSlug(name) === "german-shepherd") {
+      waitlistGsd = true;
+      var waitlistLine = document.getElementById("waitlist-line");
+      if (waitlistLine) waitlistLine.hidden = false;
+      armWaitlistTag();
+    }
   })();
 
   /* ------------------------------------------------------------------
@@ -235,6 +268,7 @@
         breedInput.value = breed;
         breedInput.disabled = !breed; // blank breed: leave fields[breed] out of the post
       }
+      armWaitlistTag();
       track(breed ? "subscribe-" + contentSlug(breed) : "subscribe-none", "The Sniff Test signup: " + (breed || "none"));
 
       if (!window.fetch || !window.FormData) {

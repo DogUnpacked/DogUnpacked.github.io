@@ -1056,37 +1056,43 @@ h1 {
   color: var(--navy-soft);
 }
 
-.band.band--soon {
-  padding: 2.35rem 0;
+.band.band--guides {
+  padding: 1.75rem 0 0.25rem;
 }
 
-.band--soon h2 {
+.guide-card {
+  max-width: 22.5rem;
+  padding: 1.05rem 1rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.guide-card h2 {
   max-width: none;
-  font-size: clamp(1.65rem, 3vw, 2.1rem);
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: clamp(1.45rem, 4vw, 1.85rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--navy);
 }
 
-.soon-label {
+.guide-card p {
+  margin: 0.5rem 0 0;
+  color: var(--navy-soft);
+}
+
+.guide-card .btn {
+  margin-top: 0.85rem;
+}
+
+.waitlist-line {
   margin: 0;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--amber);
-}
-
-.soon-line,
-.soon-hear {
-  margin: 0.55rem 0 0;
-  max-width: 38rem;
-  color: var(--cream);
-  font-size: 1.05rem;
-}
-
-.soon-hear a {
-  color: var(--cream);
-  font-weight: 800;
-  text-decoration-color: var(--amber);
-  text-underline-offset: 3px;
+  color: var(--navy);
+  font-size: 0.98rem;
+  font-weight: 700;
 }
 
 .band--contact {
@@ -1386,8 +1392,8 @@ h1 {
     padding: 5.25rem 0;
   }
 
-  .band.band--soon {
-    padding: 2.75rem 0;
+  .band.band--guides {
+    padding: 2.25rem 0 0.5rem;
   }
 
   .standard-grid,
@@ -1987,6 +1993,19 @@ h1 {
 
 .breed-signup .btn {
   margin-top: 0.85rem;
+}
+
+.breed-guide-link {
+  margin: 0.85rem 0 0;
+  max-width: 36rem;
+  font-size: 0.92rem;
+}
+
+.breed-guide-link a {
+  color: var(--navy);
+  font-weight: 800;
+  text-decoration-color: var(--amber);
+  text-underline-offset: 3px;
 }
 
 @media (min-width: 720px) {

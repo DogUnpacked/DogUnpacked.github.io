@@ -494,6 +494,18 @@ def signup_block(breed, invite):
       </section>"""
 
 
+def guide_waitlist(breed):
+    if breed.get("slug") != "german-shepherd":
+        return ""
+    return (
+        '<p class="breed-guide-link">'
+        '<a href="/?breed=german-shepherd#subscribe" '
+        'data-goatcounter-click="waitlist-gsd-breed" '
+        'data-goatcounter-title="German Shepherd guide waitlist from the breed page">'
+        "Get first notice when the German Shepherd guide is ready.</a></p>"
+    )
+
+
 def video_block(breed):
     vids = videos_for(breed)
     if not vids:
@@ -595,6 +607,7 @@ def breed_page(breed, breeds):
       {fact_html}
       {atts}
       {signup_block(breed, False) if video_html else ""}
+      {guide_waitlist(breed)}
       {credit_line(breed)}
       {related_block(breed, breeds)}
     </article>

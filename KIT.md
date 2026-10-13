@@ -12,6 +12,7 @@ included on Free. Keep it that way: no paid features.
 | Email field | `email_address` |
 | Breed field (optional) | `fields[breed]` → custom field **breed** (key `breed`, id `1388795`, HTML name `ck_field_1388795_breed`). Saved on the subscriber only; it does not change the signup. Omitted from the post when blank. |
 | Source tag | `source:landing` (id `24362096`); page also posts `tags[]=24362096` as a backup |
+| Waitlist tag | `waitlist-gsd`. **Not created yet.** `script.js` constant `WAITLIST_GSD_TAG_ID` stays `""` until the numeric id exists. A visit with `?breed=german-shepherd` (or `?breed=gsd`) then posts a second `tags[]` with that id. An empty or non-numeric constant leaves the field disabled, so it is omitted and the signup still posts. |
 | JS embed (not used) | `https://dog-unpacked.kit.com/ae44e15ea4/index.js` |
 | Double opt-in / incentive email | ON (keep on) |
 
@@ -51,6 +52,9 @@ same Sunday issue of The Sniff Test. `script.js` Title-Cases the breed (`german 
    confirm — we'll send the File when it's ready." That promises a File, which the newsletter signup doesn't.
    It shows when JS is off or the background submit falls back to a normal POST. Change it to match the page:
    **"Check your inbox — one click to confirm and you're in."** (Keep "after subscribe" = show message, no redirect.)
+8. **Waitlist tag**: create a tag named `waitlist-gsd`. Paste its numeric id into `WAITLIST_GSD_TAG_ID` at the
+   top of `script.js`. Leave that constant empty until the tag exists. Do not put a price, a date, or a
+   discount in the tag name.
 
 Do not invent form IDs. Do not commit `KIT_API_KEY` (it belongs only in GitHub Actions secrets for the
 newsletter send pipeline, and locally in the gitignored `.kit-api-key.local`).
