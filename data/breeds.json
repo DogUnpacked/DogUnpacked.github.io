@@ -690,6 +690,17 @@
         }
       ],
       "atts": null,
+      "videos": [
+        {
+          "id": "aNXG9GyKbkE",
+          "published": "2026-10-12",
+          "upload_datetime": "2026-10-12T17:51:10-04:00",
+          "title": "Why Your Australian Shepherd Herds the Kids (It's Not Play)",
+          "description": "Why Your Australian Shepherd Herds the Kids (It's Not Play). A Dog Unpacked YouTube Short about the Australian Shepherd.",
+          "type": "short",
+          "url": "https://www.youtube.com/shorts/aNXG9GyKbkE"
+        }
+      ],
       "photo": {
         "placeholder": false,
         "file": "images/breeds/directory/australian-shepherd.webp",
