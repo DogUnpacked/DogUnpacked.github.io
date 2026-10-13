@@ -21,8 +21,14 @@ LATEST-VIDEOS-JSONLD markers. uploadDate is upload_datetime. A video with no ver
 timestamp is left out of that block. The rest of index.html is not edited.
 
 How it works
-  1. Reads the public channel RSS feed (no API key):
+  1. Reads the public channel RSS feed first (no API key):
      https://www.youtube.com/feeds/videos.xml?channel_id=<CHANNEL_ID>  (newest ~15 uploads, Shorts included)
+     If that request fails, falls back to the channel videos page
+     https://www.youtube.com/@DogUnpacked/videos and parses ytInitialData for the newest
+     long-form video ids and titles. Each timestamp comes from that watch page's
+     uploadDate or datePublished meta. The title comes from oEmbed when that call
+     succeeds. The script prints which source it used. If every source fails, it
+     exits without writing data/latest.json.
   2. Skips Shorts: GET https://www.youtube.com/shorts/<id> with redirects disabled.
      200 = Short; 30x redirect to /watch = long-form. If YouTube answers with a rate-limit or consent
      redirect instead, the feed entry's own link (/shorts/ vs /watch) decides.
@@ -37,11 +43,13 @@ Prints "Latest: no change" when the result equals the current file.
 Exit codes: 0 = updated or no change; 1 = network/parse error (file untouched). Standard library only.
 """
 import argparse
+import html
 import json
 import pathlib
 import re
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime
@@ -57,6 +65,10 @@ DATA = ROOT / "data" / "latest.json"
 INDEX = ROOT / "index.html"
 KEEP = 3
 UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+VIDEOS_PAGE = "https://www.youtube.com/@DogUnpacked/videos"
+# A normal browser response often omits itemprop uploadDate. This client receives
+# the server-rendered video metadata that includes uploadDate and datePublished.
+META_UA = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
 NS = {
     "a": "http://www.w3.org/2005/Atom",
     "yt": "http://www.youtube.com/xml/schemas/2015",
@@ -75,8 +87,11 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         return None  # surface 30x as HTTPError instead of following it
 
 
-def fetch(url, timeout=20):
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"})
+def fetch(url, timeout=20, user_agent=None):
+    req = urllib.request.Request(
+        url,
+        headers={"User-Agent": user_agent or UA, "Accept-Language": "en-US,en;q=0.9"},
+    )
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.read().decode("utf-8", "replace")
 
@@ -123,6 +138,211 @@ def feed_entries(channel_id):
         })
     out.sort(key=lambda x: x["published"], reverse=True)
     return out
+
+
+def json_object_after(html_text, marker):
+    """The JSON object assigned after the first occurrence of marker."""
+    start = html_text.find(marker)
+    if start < 0:
+        raise ValueError(f"{marker} not found")
+    start = html_text.find("{", start)
+    if start < 0:
+        raise ValueError(f"{marker} has no JSON object")
+    depth = 0
+    in_string = False
+    escaped = False
+    for index in range(start, len(html_text)):
+        char = html_text[index]
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            continue
+        if char == '"':
+            in_string = True
+        elif char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return json.loads(html_text[start:index + 1])
+    raise ValueError(f"{marker} JSON object did not end")
+
+
+def meta_itemprop(html_text, name):
+    """content of <meta itemprop=name>, attribute order either way."""
+    patterns = (
+        rf'<meta[^>]*\bitemprop=["\']{name}["\'][^>]*\bcontent=["\']([^"\']+)["\']',
+        rf'<meta[^>]*\bcontent=["\']([^"\']+)["\'][^>]*\bitemprop=["\']{name}["\']',
+    )
+    for pattern in patterns:
+        match = re.search(pattern, html_text, flags=re.I)
+        if match:
+            return html.unescape(match.group(1)).strip()
+    return ""
+
+
+def watch_published(video_id):
+    """uploadDate, or datePublished, from the watch page. Empty when neither is present."""
+    url = f"https://www.youtube.com/watch?v={video_id}"
+    for agent in (UA, META_UA):
+        try:
+            page = fetch(url, user_agent=agent)
+        except Exception:
+            continue
+        found = meta_itemprop(page, "uploadDate") or meta_itemprop(page, "datePublished")
+        if found:
+            return found
+    return ""
+
+
+def oembed_title(video_id):
+    """Official title from oEmbed, or "" when that call fails."""
+    watch = f"https://www.youtube.com/watch?v={video_id}"
+    url = "https://www.youtube.com/oembed?" + urllib.parse.urlencode({"url": watch, "format": "json"})
+    try:
+        payload = json.loads(fetch(url))
+    except Exception:
+        return ""
+    if not isinstance(payload, dict):
+        return ""
+    return str(payload.get("title") or "").strip()
+
+
+def text_content(node):
+    if isinstance(node, str):
+        return node.strip()
+    if not isinstance(node, dict):
+        return ""
+    if isinstance(node.get("content"), str):
+        return node["content"].strip()
+    if isinstance(node.get("simpleText"), str):
+        return node["simpleText"].strip()
+    runs = node.get("runs")
+    if isinstance(runs, list):
+        return "".join(str(run.get("text") or "") for run in runs if isinstance(run, dict)).strip()
+    return ""
+
+
+def grid_video(item):
+    """(id, title) for one long-form tile, or None."""
+    if not isinstance(item, dict):
+        return None
+    rich = item.get("richItemRenderer")
+    content = rich.get("content") if isinstance(rich, dict) else None
+    content = content if isinstance(content, dict) else {}
+    lockup = content.get("lockupViewModel")
+    if isinstance(lockup, dict):
+        if lockup.get("contentType") != "LOCKUP_CONTENT_TYPE_VIDEO":
+            return None
+        vid = str(lockup.get("contentId") or "")
+        meta = lockup.get("metadata") if isinstance(lockup.get("metadata"), dict) else {}
+        view = meta.get("lockupMetadataViewModel") if isinstance(meta.get("lockupMetadataViewModel"), dict) else {}
+        title = text_content(view.get("title"))
+        if VIDEO_ID.fullmatch(vid):
+            return vid, title
+    renderer = content.get("videoRenderer") or item.get("gridVideoRenderer") or item.get("videoRenderer")
+    if isinstance(renderer, dict):
+        vid = str(renderer.get("videoId") or "")
+        title = text_content(renderer.get("title"))
+        if VIDEO_ID.fullmatch(vid):
+            return vid, title
+    return None
+
+
+def videos_tab_items(data):
+    tabs = (
+        data.get("contents", {})
+        .get("twoColumnBrowseResultsRenderer", {})
+        .get("tabs", [])
+    )
+    if not isinstance(tabs, list):
+        raise ValueError("channel videos page has no tabs")
+    selected = None
+    for tab in tabs:
+        renderer = tab.get("tabRenderer") if isinstance(tab, dict) else None
+        if not isinstance(renderer, dict):
+            continue
+        contents = ((renderer.get("content") or {}).get("richGridRenderer") or {}).get("contents")
+        if not isinstance(contents, list):
+            continue
+        title = str(renderer.get("title") or "")
+        if title.lower() == "videos":
+            return contents
+        if renderer.get("selected") and selected is None:
+            selected = contents
+    if selected is not None:
+        return selected
+    raise ValueError("channel videos page has no video grid")
+
+
+def videos_page_url(channel_id):
+    if channel_id == CHANNEL_ID:
+        return VIDEOS_PAGE
+    return f"https://www.youtube.com/channel/{channel_id}/videos"
+
+
+def videos_page_entries(channel_id):
+    """Newest long-form ids and titles from the channel Videos tab.
+
+    Timestamps come from each watch page. Titles prefer oEmbed.
+    """
+    url = videos_page_url(channel_id)
+    page = fetch(url)
+    items = videos_tab_items(json_object_after(page, "ytInitialData"))
+    out = []
+    seen = set()
+    for item in items:
+        found = grid_video(item)
+        if not found:
+            continue
+        vid, title = found
+        if vid in seen:
+            continue
+        seen.add(vid)
+        if len(seen) > 15:
+            break
+        official = oembed_title(vid)
+        if official:
+            title = official
+        published = watch_published(vid)
+        if not published or parse_moment(published) is None:
+            print(f"  ! no uploadDate for {vid}; skipping")
+            continue
+        out.append({
+            "id": vid,
+            "title": title,
+            "published": published,
+            "youtube_description": "",
+            "link": f"https://www.youtube.com/watch?v={vid}",
+        })
+    if not out:
+        raise ValueError("no dated long-form videos on the channel videos page")
+    out.sort(key=lambda entry: parse_moment(entry["published"]), reverse=True)
+    return out
+
+
+def load_entries(channel_id):
+    """RSS first. On failure, the channel videos page. Raises when both fail."""
+    rss_url = f"https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
+    try:
+        return feed_entries(channel_id), f"channel RSS feed {rss_url}"
+    except Exception as rss_error:
+        print(
+            f"Channel RSS feed failed ({rss_error}); trying the channel videos page",
+            file=sys.stderr,
+        )
+    page_url = videos_page_url(channel_id)
+    try:
+        return videos_page_entries(channel_id), f"channel videos page {page_url}"
+    except Exception as page_error:
+        print(f"Channel videos page failed ({page_error})", file=sys.stderr)
+        raise RuntimeError(
+            f"channel RSS feed failed ({rss_error}); channel videos page failed ({page_error})"
+        ) from page_error
 
 
 def parse_moment(published):
@@ -317,10 +537,11 @@ def main():
 
     current = read_current()
     try:
-        entries = feed_entries(args.channel_id)
+        entries, source = load_entries(args.channel_id)
     except Exception as e:
-        print(f"Could not read the channel feed: {e}", file=sys.stderr)
+        print(f"Could not read the channel feed or the channel videos page: {e}", file=sys.stderr)
         return 1
+    print(f"Latest source: {source}")
 
     known = {v["id"] for v in current}
     found = []
