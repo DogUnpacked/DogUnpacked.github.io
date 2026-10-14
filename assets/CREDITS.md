@@ -39,6 +39,16 @@ Provenance notes:
 
 Nunito and Fraunces Latin subsets in `fonts/` are self-hosted under the SIL Open Font License (`fonts/OFL-nunito.txt`, `fonts/OFL-fraunces.txt`). They are not photographs.
 
+## Article photos
+
+| File | Source | Author | License | Alt text |
+|---|---|---|---|---|
+| `images/articles/german-shepherd-beside-a-man.webp` | https://commons.wikimedia.org/wiki/File:Love_between_a_dog_and_a_man.jpg | Имако-тян | CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0) | German Shepherd beside a man — Dog Unpacked. |
+| `images/articles/german-shepherd-beside-a-man-800.webp` | https://commons.wikimedia.org/wiki/File:Love_between_a_dog_and_a_man.jpg | Имако-тян | CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0) | German Shepherd beside a man — Dog Unpacked. |
+| `images/articles/german-shepherd-beside-a-man-1200x630.webp` | https://commons.wikimedia.org/wiki/File:Love_between_a_dog_and_a_man.jpg | Имако-тян | CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0) | German Shepherd beside a man — Dog Unpacked. |
+
+The 1200×1600 file is a WebP resize of that Commons photograph. The 800×1067 file is the same photo for the article hero. The 1200×630 file is a crop for Open Graph and Twitter. The dog is sitting beside the man, so the alt text does not say the dog is following him.
+
 <!-- BREED-DIRECTORY-CREDITS:START -->
 
 ## Breed directory

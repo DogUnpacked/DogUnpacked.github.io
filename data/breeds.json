@@ -1272,6 +1272,12 @@
         }
       ],
       "atts": null,
+      "articles": [
+        {
+          "href": "/german-shepherd/follows-me-everywhere/",
+          "text": "Why does my German Shepherd follow me everywhere?"
+        }
+      ],
       "photo": {
         "placeholder": false,
         "file": "images/breeds/directory/belgian-malinois.webp",
@@ -4258,6 +4264,12 @@
         "source_name": "American Temperament Test Society",
         "source_url": "https://atts.org/breed-statistics/statistics-page4/"
       },
+      "articles": [
+        {
+          "href": "/german-shepherd/follows-me-everywhere/",
+          "text": "Why does my German Shepherd follow me everywhere?"
+        }
+      ],
       "videos": [
         {
           "id": "IZbkbYg9RYU",

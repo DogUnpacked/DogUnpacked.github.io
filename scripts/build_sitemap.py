@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Write sitemap.xml with one lastmod per page, from that file's last git commit.
 
-Python standard library only. No network. The 210 URLs stay the home page,
-/breeds/, and each breed page, in that order:
+Python standard library only. No network. The home page, /breeds/, and each
+breed page stay in that order. Article URLs in ARTICLES are appended after
+them:
 
     python3 scripts/build_sitemap.py
 
@@ -22,7 +23,13 @@ SITEMAP = ROOT / "sitemap.xml"
 SITE = "https://dogunpacked.com"
 LOC_RE = re.compile(r"<loc>(.*?)</loc>")
 ISO_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")
-URL_COUNT = 210
+URL_COUNT = 211
+ARTICLES = [
+    (
+        ROOT / "german-shepherd" / "follows-me-everywhere" / "index.html",
+        f"{SITE}/german-shepherd/follows-me-everywhere/",
+    ),
+]
 
 
 def git_lastmod(path):
@@ -49,6 +56,7 @@ def pages(breeds):
     for breed in breeds:
         slug = breed["slug"]
         rows.append((ROOT / "breeds" / slug / "index.html", f"{SITE}/breeds/{slug}/"))
+    rows.extend(ARTICLES)
     return rows
 
 
@@ -65,7 +73,10 @@ def render(breeds):
     if SITEMAP.exists():
         previous = LOC_RE.findall(SITEMAP.read_text(encoding="utf-8"))
         if previous and previous != locs:
-            raise SystemExit("sitemap URL list would change; refusing to write")
+            # Appending article URLs is intentional. Dropping or reordering is not.
+            appended = len(locs) > len(previous) and locs[: len(previous)] == previous
+            if not appended:
+                raise SystemExit("sitemap URL list would change; refusing to write")
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
