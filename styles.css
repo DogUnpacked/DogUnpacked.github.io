@@ -687,6 +687,24 @@ h1 {
   text-align: center;
 }
 
+.find-breed-article {
+  margin: -0.2rem 0 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.find-breed-article a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--navy);
+  text-decoration: underline;
+  text-decoration-color: var(--amber);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+
 .find-breed-all {
   margin: 0.85rem 0 0;
 }
@@ -1907,11 +1925,23 @@ h1 {
   list-style: none;
 }
 
-.breed-links a {
+.breed-links a,
+.breed-article-link a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
   font-weight: 800;
+}
+
+.breed-article-link {
+  margin: 1.15rem 0 0;
+}
+
+.breed-article-link a {
+  color: var(--navy);
+  text-decoration: underline;
+  text-decoration-color: var(--amber);
+  text-underline-offset: 0.18em;
 }
 
 .breed-signup {
@@ -2031,12 +2061,27 @@ h1 {
   border: 1px solid var(--border-strong);
 }
 
+.behavior-article .article-byline {
+  margin: 0.4rem 0 0;
+  color: var(--navy-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
 .behavior-article .article-hero figcaption,
 .behavior-article .tending-figure figcaption {
   margin: 0.45rem 0 0;
   color: var(--navy-muted);
   font-size: 0.82rem;
   font-weight: 700;
+  line-height: 1.45;
+}
+
+.behavior-article .article-hero figcaption a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
 }
 
 .behavior-article hr {

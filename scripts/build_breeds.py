@@ -558,6 +558,24 @@ def video_block(breed):
     return f'<section class="breed-video" aria-label="{label}">{"".join(links)}</section>'
 
 
+def article_links(breed):
+    raw = breed.get("articles") or []
+    if not raw:
+        return ""
+    if not isinstance(raw, list):
+        raise SystemExit(f"articles must be a list for {breed['slug']}")
+    parts = []
+    for item in raw:
+        if not isinstance(item, dict):
+            raise SystemExit(f"bad article link for {breed['slug']}")
+        href = item.get("href") or ""
+        text = (item.get("text") or "").strip()
+        if not href.startswith("/") or "://" in href or not text:
+            raise SystemExit(f"bad article link for {breed['slug']}")
+        parts.append(f'<a href="{esc(href)}">{esc(text)}</a>')
+    return '<p class="breed-article-link">' + "".join(parts) + "</p>\n      "
+
+
 def related_block(breed, breeds):
     picks = related_breeds(breed, breeds)
     items = "".join(
@@ -572,7 +590,7 @@ def related_block(breed, breeds):
           {items}
         </ul>
       </nav>"""
-    return nav + """
+    return article_links(breed) + nav + """
       <p class="breed-back"><a href="/breeds/">Breeds</a></p>"""
 
 
