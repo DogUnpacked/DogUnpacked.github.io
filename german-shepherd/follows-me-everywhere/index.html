@@ -9,9 +9,42 @@
   <meta name="color-scheme" content="light">
   <link rel="canonical" href="https://dogunpacked.com/german-shepherd/follows-me-everywhere/">
   <link rel="preload" as="image" href="/images/articles/german-shepherd-beside-a-man-800.webp" type="image/webp" fetchpriority="high" imagesrcset="/images/articles/german-shepherd-beside-a-man-800.webp 800w, /images/articles/german-shepherd-beside-a-man.webp 1200w" imagesizes="(min-width: 672px) 640px, calc(100vw - 2rem)">
-  <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles.css">
+  <style>
+    @font-face{font-family:"Nunito Fallback";src:local("Arial"),local("Helvetica"),local("Liberation Sans");size-adjust:100%;ascent-override:101%;descent-override:35%;line-gap-override:0%}
+    @font-face{font-family:"Fraunces Fallback";src:local("Georgia"),local("Times New Roman"),local("Liberation Serif");size-adjust:96%;ascent-override:102%;descent-override:27%;line-gap-override:0%}
+    :root{--navy:#1B2A4A;--navy-muted:#4F5D78;--cream:#F5EDDC;--cream-deep:#EFE6D4;--amber:#D89B3D;--border:#E0D4BC;--border-strong:#CDBE9E;--radius:14px;--header:3.5rem;--font:Nunito,"Nunito Fallback",system-ui,sans-serif;--font-display:"Fraunces Fallback",Georgia,serif}
+    *,*::before,*::after{box-sizing:border-box}
+    .skip-link{position:absolute;left:.75rem;top:-3.5rem}
+    body{margin:0;font-family:"Nunito Fallback",system-ui,sans-serif;font-size:1.0625rem;font-weight:400;line-height:1.55;color:var(--navy);background:linear-gradient(180deg,#F8F3E8 0%,var(--cream) 28%,var(--cream-deep) 100%)}
+    img,svg{max-width:100%;height:auto}
+    .site-header{position:sticky;top:0;z-index:30;min-height:var(--header);background:rgba(245,237,220,.96);border-bottom:1px solid var(--border)}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;gap:.75rem;min-height:var(--header);width:min(100% - 2rem,68rem);margin-inline:auto}
+    .brand{display:inline-flex;align-items:center;gap:.6rem;min-height:44px;color:var(--navy);text-decoration:none;font-weight:800}
+    .brand img{width:40px;height:40px;border-radius:50%}
+    .brand-word{font-size:1rem;line-height:1.1;white-space:nowrap}
+    .site-nav{display:flex;align-items:center;gap:.15rem}
+    .site-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.4rem .7rem;border-radius:999px;color:var(--navy);text-decoration:none;font-weight:800;font-size:.92rem}
+    .site-nav a.nav-cta{background:var(--navy);color:var(--cream);padding-inline:.9rem}
+    .nav-cta-short,.site-nav a.nav-desktop{display:none}
+    .wrap.behavior-article{width:min(100% - 2rem,40rem);margin-inline:auto;padding:1.25rem 0 3.5rem}
+    .behavior-article h1{margin:0;max-width:none;font-family:var(--font-display);font-size:clamp(1.9rem,4.8vw,2.7rem);font-weight:700;letter-spacing:-.03em;line-height:1.12;color:var(--navy)}
+    .behavior-article p{margin:.75rem 0 0}
+    .behavior-article strong{font-weight:800}
+    .behavior-article .article-byline{margin:.4rem 0 0;color:var(--navy-muted);font-size:.82rem;font-weight:700;line-height:1.4}
+    .behavior-article .article-hero{margin:1.15rem 0 0}
+    .behavior-article .article-hero img{display:block;width:100%;height:auto;aspect-ratio:800/1067;border-radius:var(--radius);border:1px solid var(--border-strong)}
+  </style>
+  <noscript><link rel="stylesheet" href="/styles.css"></noscript>
+  <script>
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = "/styles.css";
+        document.head.appendChild(link);
+      });
+    });
+  </script>
   <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -334,6 +367,18 @@
       });
     })();
   </script>
-  <script data-goatcounter="https://dogunpackedcom.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script>
+    (function () {
+      var s = document.createElement("script");
+      s.async = true;
+      s.setAttribute("data-goatcounter", "https://dogunpackedcom.goatcounter.com/count");
+      function start() {
+        s.src = "https://gc.zgo.at/count.js";
+      }
+      if (document.readyState === "complete") start();
+      else window.addEventListener("load", start);
+      document.body.appendChild(s);
+    })();
+  </script>
 </body>
 </html>
