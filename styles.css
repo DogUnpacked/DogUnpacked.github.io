@@ -1954,3 +1954,71 @@ h1 {
     padding-inline: 0.5rem;
   }
 }
+
+/* Behavior articles. Same column and type as a breed page; lite-yt is the hub player. */
+.behavior-article {
+  width: min(100% - 2rem, 40rem);
+  padding: 1.25rem 0 3.5rem;
+}
+
+.behavior-article h1 {
+  max-width: none;
+  font-size: clamp(1.9rem, 4.8vw, 2.7rem);
+  line-height: 1.12;
+}
+
+.behavior-article h2 {
+  margin: 1.8rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--navy);
+}
+
+.behavior-article p,
+.behavior-article li {
+  margin: 0.75rem 0 0;
+}
+
+.behavior-article h2 + p,
+.behavior-article h2 + ul,
+.behavior-article h2 + ol {
+  margin-top: 0.55rem;
+}
+
+.behavior-article ul,
+.behavior-article ol {
+  margin: 0.55rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.behavior-article li {
+  padding-left: 0.15rem;
+}
+
+.behavior-article strong {
+  font-weight: 800;
+}
+
+.behavior-article a {
+  color: var(--navy);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.behavior-article a:hover {
+  text-decoration-color: var(--amber);
+  text-underline-offset: 3px;
+}
+
+.behavior-article .lite-yt {
+  margin-top: 1.15rem;
+}
+
+.behavior-article hr {
+  margin: 1.8rem 0 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
