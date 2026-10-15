@@ -66,7 +66,7 @@ The home page newsletter block is unchanged. Dial names on the home page link to
 
 ## Videos hub
 
-`/videos/` lists every Dog Unpacked upload, newest first. Each long-form video also has a watch page at `/videos/<slug>/`. Shorts stay on the hub. Titles, descriptions, publish times, and durations come from YouTube. A video is tied to a breed slug only when that video is already on the breed page, or when the title names exactly one breed. A multi-breed ranking or comparison stays on the hub with `"breeds": []` and is not added to a breed page.
+`/videos/` lists every Dog Unpacked upload, newest first. Each long-form video also has a watch page at `/videos/<slug>/`. Shorts stay on the hub. The type and breed filters use a query string such as `/videos/?type=short&breed=beagle`. The canonical URL stays `/videos/`. Titles, descriptions, publish times, and durations come from YouTube. A video is tied to a breed slug only when that video is already on the breed page, or when the title names exactly one breed. A multi-breed ranking or comparison stays on the hub with `"breeds": []` and is not added to a breed page.
 
 `scripts/build_videos.py` (Python standard library only) writes the pages and the video sitemap. Commit the generated HTML. GitHub Pages does not build it.
 

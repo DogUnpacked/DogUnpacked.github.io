@@ -103,13 +103,21 @@ CRITICAL_CSS = """
     .crumbs a{color:var(--navy);font-weight:800;text-decoration:none}
     .video-dek,.video-status{margin:.7rem 0 0;color:var(--navy-muted);font-weight:700}
     .video-kicker{margin:0;color:var(--navy-muted);font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
-    .video-filters{display:flex;flex-wrap:wrap;gap:.35rem .5rem;align-items:center;margin:1rem 0 0}
-    .video-filter-label{flex-basis:100%;margin:.45rem 0 0;color:var(--navy-muted);font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
-    .video-filters a{display:inline-flex;align-items:center;min-height:44px;padding:.2rem .75rem;border:1px solid var(--border-strong);border-radius:999px;background:var(--card);color:var(--navy);font-size:.92rem;font-weight:800;text-decoration:none;white-space:nowrap}
-    .video-filter-breeds{display:flex;flex-wrap:nowrap;gap:.5rem;overflow-x:auto;width:100%;min-height:44px;margin:0}
-    @media (min-width:720px){.video-filter-breeds{flex-wrap:wrap;overflow:visible}}
+    .video-controls{display:grid;gap:.85rem;margin:1rem 0 0}
+    .video-type{margin:0;padding:0;border:0;min-width:0}
+    .video-type legend,.video-breed label{margin:0 0 .35rem;padding:0;color:var(--navy-muted);font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+    .video-type-options{display:flex;width:min(100%,28rem);border:1px solid var(--border-strong);border-radius:999px;overflow:hidden;background:var(--card)}
+    .video-type-option{position:relative;display:flex;flex:1 1 0}
+    .video-type-option input{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .video-type-option span{display:inline-flex;align-items:center;justify-content:center;width:100%;min-height:44px;padding:.2rem .7rem;font-size:.92rem;font-weight:800;white-space:nowrap}
+    .video-type-option input:checked+span{background:var(--navy);color:var(--cream)}
+    .video-type-option input:focus-visible+span{outline:3px solid var(--navy);outline-offset:-3px}
+    .video-breed{display:grid;gap:.35rem;max-width:22rem}
+    .video-breed select{min-height:44px;padding:0 .75rem;border:1px solid var(--border-strong);border-radius:999px;background:var(--card);color:var(--navy);font:inherit;font-size:.92rem;font-weight:800}
+    .video-empty{margin:1rem 0 0;font-weight:800}
     .video-list{display:grid;gap:.9rem;margin:1rem 0 0;padding:0;list-style:none}
     .video-card{display:grid;background:var(--navy);color:var(--cream);border-radius:14px;overflow:hidden}
+    .video-card[hidden]{display:none}
     .video-card-link{display:grid;color:inherit;text-decoration:none}
     .video-card-media{display:block;background:#111}
     .video-card-media img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;background:#111}
@@ -121,9 +129,7 @@ CRITICAL_CSS = """
     .lite-yt-btn{position:absolute;inset:0;display:block;width:100%;height:100%;padding:0;border:0;background:#0B1326;cursor:pointer}
     .lite-yt-btn img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
     .lite-yt-play{position:absolute;left:50%;top:50%;display:inline-flex;line-height:0;transform:translate(-50%,-50%)}
-    .video-anchor{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-    .status-long,.status-short,.status-breed{display:none}
-    @media (max-width:540px){.nav-cta-long{display:none}.nav-cta-short{display:inline}.site-nav a{padding:.35rem .45rem;font-size:.82rem}}
+    @media (max-width:540px){.nav-cta-long{display:none}.nav-cta-short{display:inline}.site-nav a{padding:.35rem .45rem;font-size:.82rem}.video-type-option span{padding-inline:.45rem;font-size:.82rem}}
     @media (min-width:720px){.video-list{grid-template-columns:1fr 1fr}}
     @media (min-width:840px){.site-nav a.nav-desktop{display:inline-flex}}
 """
@@ -375,7 +381,8 @@ def breed_patterns(breeds):
 
 
 def breeds_named_in_title(title, patterns):
-    text = HASHTAG_RE.sub(" ", title or "")
+    # Keep the word inside a hashtag so "#beagle" still names Beagle.
+    text = (title or "").replace("#", " ")
     spans = []
     for pattern, slug, phrase in patterns:
         for match in pattern.finditer(text):
@@ -396,10 +403,14 @@ def breeds_named_in_title(title, patterns):
 
 
 def assign_breeds(video_id, title, pages, patterns):
+    named = breeds_named_in_title(title, patterns)
+    # A title that names exactly one breed links only to that breed.
+    if len(named) == 1:
+        return named
     placed = pages.get(video_id) or []
     if placed:
         return list(placed)
-    return title_assignment(title, patterns)
+    return []
 
 
 def title_assignment(title, patterns):
@@ -423,7 +434,7 @@ def check_breed_matching(patterns):
         ("German Shepherd and Belgian Malinois", []),
         ("3 Things You DIDN'T Know About Golden Retrievers", ["golden-retriever"]),
         ("Your Labrador Isn't Greedy (Lab Explained)", ["labrador"]),
-        ("Why This Breed Is A Scent-Tracking Genius #dog #beagle #dogshorts", []),
+        ("Why This Breed Is A Scent-Tracking Genius #dog #beagle #dogshorts", ["beagle"]),
     ]
     for title, expect in cases:
         got = title_assignment(title, patterns)
@@ -1002,24 +1013,116 @@ def head(title, description, canonical, image, preload_image):
 """
 
 
-def filter_css(slugs):
-    lines = [
-        "#long:target ~ main .video-card:not([data-type=\"long\"]){display:none}",
-        "#short:target ~ main .video-card:not([data-type=\"short\"]){display:none}",
-        "#long:target ~ main .status-all,#short:target ~ main .status-all{display:none}",
-        "#long:target ~ main .status-long{display:inline}",
-        "#short:target ~ main .status-short{display:inline}",
+def filter_controls(breed_slugs, names):
+    options = ['<option value="">All breeds</option>']
+    fallback = [
+        '<a href="/videos/">All</a>',
+        '<a href="/videos/?type=long">Long-form</a>',
+        '<a href="/videos/?type=short">Shorts</a>',
     ]
-    hide_all = []
-    for slug in slugs:
-        lines.append(
-            f"#{slug}:target ~ main .video-card:not([data-breeds~=\"{slug}\"]){{display:none}}"
-        )
-        lines.append(f"#{slug}:target ~ main .status-{slug}{{display:inline}}")
-        hide_all.append(f"#{slug}:target ~ main .status-all")
-    if hide_all:
-        lines.append(",".join(hide_all) + "{display:none}")
-    return "\n".join(lines)
+    for slug in breed_slugs:
+        options.append(f'<option value="{esc(slug)}">{esc(names[slug])}</option>')
+        fallback.append(f'<a href="/videos/?breed={esc(slug)}">{esc(names[slug])}</a>')
+    return f"""    <form class="video-controls" id="video-controls" action="/videos/" method="get">
+      <fieldset class="video-type">
+        <legend>Type</legend>
+        <div class="video-type-options">
+          <label class="video-type-option"><input type="radio" name="type" value="" checked><span>All</span></label>
+          <label class="video-type-option"><input type="radio" name="type" value="long"><span>Long-form</span></label>
+          <label class="video-type-option"><input type="radio" name="type" value="short"><span>Shorts</span></label>
+        </div>
+      </fieldset>
+      <div class="video-breed">
+        <label for="video-breed">Breed</label>
+        <select id="video-breed" name="breed">
+          {''.join(options)}
+        </select>
+      </div>
+    </form>
+    <noscript>
+      <style>.video-controls{{display:none}}</style>
+      <nav class="video-fallback" aria-label="Filter videos">{''.join(fallback)}</nav>
+    </noscript>
+    <p class="video-empty" hidden>No videos match</p>"""
+
+
+FILTER_SCRIPT = """  <script>
+    (function () {
+      var form = document.getElementById("video-controls");
+      var breedSelect = document.getElementById("video-breed");
+      var empty = document.querySelector(".video-empty");
+      if (!form || !breedSelect) return;
+      var cards = Array.prototype.slice.call(document.querySelectorAll(".video-card"));
+      var radios = Array.prototype.slice.call(form.querySelectorAll('input[name="type"]'));
+      var known = {};
+      Array.prototype.forEach.call(breedSelect.options, function (option) {
+        known[option.value] = true;
+      });
+
+      function readUrl() {
+        var params = new URLSearchParams(location.search);
+        var type = params.get("type");
+        var slug = params.get("breed");
+        var hash = location.hash.replace(/^#/, "");
+        if (type !== "long" && type !== "short") {
+          type = !params.has("type") && (hash === "long" || hash === "short") ? hash : "";
+        }
+        if (slug === null) {
+          slug = hash && known[hash] ? hash : "";
+        } else if (!known[slug]) {
+          slug = "";
+        }
+        return {type: type, breed: slug};
+      }
+
+      function writeUrl(state) {
+        var params = new URLSearchParams();
+        if (state.type) params.set("type", state.type);
+        if (state.breed) params.set("breed", state.breed);
+        var query = params.toString();
+        var next = location.pathname + (query ? "?" + query : "");
+        var current = location.pathname + location.search + location.hash;
+        if (next !== current) history.replaceState(null, "", next);
+      }
+
+      function current() {
+        var type = "";
+        radios.forEach(function (radio) {
+          if (radio.checked) type = radio.value;
+        });
+        return {type: type, breed: breedSelect.value || ""};
+      }
+
+      function apply(state, updateUrl) {
+        radios.forEach(function (radio) {
+          radio.checked = radio.value === state.type;
+        });
+        breedSelect.value = state.breed;
+        var shown = 0;
+        cards.forEach(function (card) {
+          var typeOk = !state.type || card.getAttribute("data-type") === state.type;
+          var breeds = (card.getAttribute("data-breeds") || "").split(/\\s+/);
+          var breedOk = !state.breed || breeds.indexOf(state.breed) !== -1;
+          var match = typeOk && breedOk;
+          card.hidden = !match;
+          if (match) shown += 1;
+        });
+        if (empty) empty.hidden = shown !== 0;
+        if (updateUrl) writeUrl(state);
+      }
+
+      apply(readUrl(), true);
+      radios.forEach(function (radio) {
+        radio.addEventListener("change", function () { apply(current(), true); });
+      });
+      breedSelect.addEventListener("change", function () { apply(current(), true); });
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        apply(current(), true);
+      });
+    })();
+  </script>
+"""
 
 
 def hub_page(videos, names):
@@ -1029,25 +1132,7 @@ def hub_page(videos, names):
             if slug not in breed_slugs:
                 breed_slugs.append(slug)
     breed_slugs.sort(key=lambda slug: names[slug].lower())
-    anchors = ['<div id="long" class="video-anchor"></div>', '<div id="short" class="video-anchor"></div>']
-    anchors.extend(f'<div id="{esc(slug)}" class="video-anchor"></div>' for slug in breed_slugs)
-    filter_links = [
-        '<a href="/videos/">All</a>',
-        '<a href="#long">Long-form</a>',
-        '<a href="#short">Shorts</a>',
-    ]
-    breed_links = "".join(
-        f'<a href="#{esc(slug)}">{esc(names[slug])}</a>' for slug in breed_slugs
-    )
-    statuses = [
-        '<span class="status-all">All videos, newest first.</span>',
-        '<span class="status-long">Long-form videos.</span>',
-        '<span class="status-short">Shorts.</span>',
-    ]
-    for slug in breed_slugs:
-        statuses.append(
-            f'<span class="status-breed status-{esc(slug)}">{esc(names[slug])} videos.</span>'
-        )
+    controls = filter_controls(breed_slugs, names)
     cards = []
     for index, video in enumerate(videos):
         eager = index == 0
@@ -1113,7 +1198,6 @@ def hub_page(videos, names):
     preload = (local_thumb(videos[0]["id"]) if videos else "") or image
     page = f"""{head(HUB_TITLE, HUB_DESC, f"{SITE}/videos/", image, preload)}
 <body>
-{chr(10).join(anchors)}
 {header()}
   <main id="main">
     <div class="video-hub">
@@ -1125,36 +1209,14 @@ def hub_page(videos, names):
       <h1>Dog breed videos</h1>
       <p class="video-dek">Long-form videos and Shorts from Dog Unpacked, newest first.</p>
       <p class="video-subscribe"><a href="{SUBSCRIBE}" rel="noopener noreferrer" target="_blank">Subscribe on YouTube<span class="visually-hidden"> (opens in a new tab)</span></a></p>
-      <nav class="video-filters" aria-label="Filter videos">
-        <span class="video-filter-label">Type</span>
-        {''.join(filter_links)}
-        <span class="video-filter-label">Breed</span>
-        <div class="video-filter-breeds">{breed_links}</div>
-      </nav>
-      <p class="video-status">{''.join(statuses)}</p>
+      {controls}
       <ul class="video-list">
         {''.join(cards)}
       </ul>
     </div>
   </main>
 {footer()}
-  <style>{filter_css(breed_slugs)}</style>
-  <script>
-    (function () {{
-      function mark() {{
-        var hash = location.hash.replace(/^#/, "");
-        var links = document.querySelectorAll(".video-filters a");
-        for (var i = 0; i < links.length; i++) {{
-          var href = links[i].getAttribute("href") || "";
-          var on = hash ? href === "#" + hash : href === "/videos/";
-          if (on) links[i].setAttribute("aria-current", "true");
-          else links[i].removeAttribute("aria-current");
-        }}
-      }}
-      mark();
-      window.addEventListener("hashchange", mark);
-    }})();
-  </script>
+{FILTER_SCRIPT}
 {json_script(payload)}
 {goatcounter()}</body>
 </html>

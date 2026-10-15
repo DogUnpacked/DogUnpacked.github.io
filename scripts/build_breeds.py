@@ -619,7 +619,7 @@ def related_block(breed, breeds):
           {items}
         </ul>
       </nav>"""
-    href = "/videos/#" + breed["slug"] if breed["slug"] in video_breed_slugs() else "/videos/"
+    href = "/videos/?breed=" + breed["slug"] if breed["slug"] in video_breed_slugs() else "/videos/"
     more = f'<p class="breed-more-videos"><a href="{esc(href)}">More Dog Unpacked videos</a></p>\n      '
     return article_links(breed) + nav + more + """
       <p class="breed-back"><a href="/breeds/">Breeds</a></p>"""
