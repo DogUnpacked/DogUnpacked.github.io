@@ -9,13 +9,18 @@ them:
 
 lastmod is the committer date of the last commit that touched the page, in
 strict ISO 8601 (git %cI), for example 2026-10-12T23:34:28-04:00.
+When data/videos.json exists, /videos/ and each long-form watch page are
+appended after the article URLs. A page that has no commit yet is stamped
+with the current America/New_York time so the first build can finish.
 """
 
 import json
 import re
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data" / "breeds.json"
@@ -23,7 +28,7 @@ SITEMAP = ROOT / "sitemap.xml"
 SITE = "https://dogunpacked.com"
 LOC_RE = re.compile(r"<loc>(.*?)</loc>")
 ISO_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")
-URL_COUNT = 211
+BASE_URL_COUNT = 211
 ARTICLES = [
     (
         ROOT / "german-shepherd" / "follows-me-everywhere" / "index.html",
@@ -43,9 +48,38 @@ def git_lastmod(path):
         text=True,
     )
     stamp = result.stdout.strip()
-    if not stamp or not ISO_RE.fullmatch(stamp):
+    if not stamp:
+        # The page is new and not committed yet. Stamp the current Eastern
+        # time so the build can finish. The next run after commit replaces
+        # this with the committer date.
+        stamp = datetime.now(ZoneInfo("America/New_York")).replace(microsecond=0).isoformat()
+    if not ISO_RE.fullmatch(stamp):
         raise SystemExit(f"no ISO commit date for {rel}")
     return stamp
+
+
+def video_rows():
+    """Hub plus one URL per long-form watch page, oldest first so new videos append."""
+    path = ROOT / "data" / "videos.json"
+    if not path.is_file():
+        return []
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, list):
+        raise SystemExit("data/videos.json must be a list")
+    longs = []
+    for item in payload:
+        if not isinstance(item, dict) or item.get("type") != "long":
+            continue
+        slug = str(item.get("slug") or "")
+        vid = str(item.get("id") or "")
+        if not slug:
+            raise SystemExit(f"long-form video {vid} has no slug")
+        longs.append((str(item.get("published") or ""), vid, slug))
+    longs.sort()
+    rows = [(ROOT / "videos" / "index.html", f"{SITE}/videos/")]
+    for _published, _vid, slug in longs:
+        rows.append((ROOT / "videos" / slug / "index.html", f"{SITE}/videos/{slug}/"))
+    return rows
 
 
 def pages(breeds):
@@ -57,6 +91,9 @@ def pages(breeds):
         slug = breed["slug"]
         rows.append((ROOT / "breeds" / slug / "index.html", f"{SITE}/breeds/{slug}/"))
     rows.extend(ARTICLES)
+    if len(rows) != BASE_URL_COUNT:
+        raise SystemExit(f"expected {BASE_URL_COUNT} base sitemap URLs, got {len(rows)}")
+    rows.extend(video_rows())
     return rows
 
 
@@ -67,8 +104,6 @@ def load_breeds():
 
 def render(breeds):
     rows = pages(breeds)
-    if len(rows) != URL_COUNT:
-        raise SystemExit(f"expected {URL_COUNT} sitemap URLs, got {len(rows)}")
     locs = [loc for _path, loc in rows]
     if SITEMAP.exists():
         previous = LOC_RE.findall(SITEMAP.read_text(encoding="utf-8"))

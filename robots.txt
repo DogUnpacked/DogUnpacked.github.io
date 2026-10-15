@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://dogunpacked.com/sitemap.xml
+Sitemap: https://dogunpacked.com/sitemap-videos.xml

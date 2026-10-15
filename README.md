@@ -19,7 +19,9 @@ The newsletter is **The Sniff Test** (weekly, Sunday). See **`README-newsletter.
 | `data/breeds.json` | Breed directory: one entry per breed. Pages are generated from this file. |
 | `data/latest.json` | Latest section data: up to 3 newest long-form videos `{id, title, published, upload_datetime, description}`, newest first |
 | `scripts/build_breeds.py` | Writes `/breeds/` pages, `docs/breed-facts-review.csv`, and the breed table in `assets/CREDITS.md`, then refreshes `sitemap.xml` |
-| `scripts/build_sitemap.py` | Rewrites `sitemap.xml` for the same 210 URLs. `lastmod` is that page file's last git commit date, in ISO 8601 |
+| `data/videos.json` | Every Dog Unpacked upload. The `/videos/` hub and long-form watch pages are generated from this file. |
+| `scripts/build_videos.py` | Writes `/videos/`, long-form watch pages, and `sitemap-videos.xml`, then refreshes `sitemap.xml` |
+| `scripts/build_sitemap.py` | Rewrites `sitemap.xml`. `lastmod` is that page file's last git commit date, in ISO 8601. Video URLs are appended when `data/videos.json` exists. |
 | `scripts/update_latest_video.py` | Refreshes `data/latest.json` from the channel feed (skips Shorts) and rewrites the home page VideoObject block from those same records; prints "Latest: no change" when current |
 | `README-page.md` | Page notes: placeholders, bio/breed URLs, events |
 | `KIT.md` | Kit form/field/tag IDs + remaining dashboard steps |
@@ -61,6 +63,32 @@ To add a video or Short to a breed:
 3. Run `python3 scripts/build_breeds.py` and commit `data/breeds.json` plus the regenerated page.
 
 The home page newsletter block is unchanged. Dial names on the home page link to these pages. `/?breed=<slug>` still prefills The Sniff Test for the 19 breeds in the signup list.
+
+## Videos hub
+
+`/videos/` lists every Dog Unpacked upload, newest first. Each long-form video also has a watch page at `/videos/<slug>/`. Shorts stay on the hub. Titles, descriptions, publish times, and durations come from YouTube. A video is tied to a breed slug only when that video is already on the breed page, or when the title names exactly one breed. A multi-breed ranking or comparison stays on the hub with `"breeds": []` and is not added to a breed page.
+
+`scripts/build_videos.py` (Python standard library only) writes the pages and the video sitemap. Commit the generated HTML. GitHub Pages does not build it.
+
+Nightly, to add new uploads and rebuild:
+
+```bash
+python3 scripts/build_videos.py --refresh
+```
+
+The command reads the channel RSS feed and the Videos and Shorts tabs, adds any id that is not already in `data/videos.json`, and rebuilds the pages. Ids already in the file are left unchanged. If the network fails, `data/videos.json` is left in place and the pages are still rebuilt from it.
+
+To add one video by id:
+
+```bash
+python3 scripts/build_videos.py --add VIDEO_ID
+```
+
+To rebuild the pages from the file on disk, with no network:
+
+```bash
+python3 scripts/build_videos.py
+```
 
 ## Placeholders you must fill in
 
