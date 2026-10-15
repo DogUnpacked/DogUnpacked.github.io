@@ -26,6 +26,7 @@
     .site-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.4rem .7rem;border-radius:999px;color:var(--navy);text-decoration:none;font-weight:800;font-size:.92rem}
     .site-nav a.nav-cta{background:var(--navy);color:var(--cream);padding-inline:.9rem}
     .nav-cta-short,.site-nav a.nav-desktop{display:none}
+    @media (max-width:540px){.nav-cta-long{display:none}.nav-cta-short{display:inline}}
     .wrap.behavior-article{width:min(100% - 2rem,40rem);margin-inline:auto;padding:1.25rem 0 3.5rem}
     .behavior-article h1{margin:0;max-width:none;font-family:var(--font-display);font-size:clamp(1.9rem,4.8vw,2.7rem);font-weight:700;letter-spacing:-.03em;line-height:1.12;color:var(--navy)}
     .behavior-article p{margin:.75rem 0 0}
@@ -150,6 +151,7 @@
           <span class="nav-cta-short">Subscribe</span>
         </a>
         <a class="nav-breeds" href="/breeds/">Breeds</a>
+        <a class="nav-videos" href="/videos/">Videos</a>
         <a class="nav-desktop" href="/#contact">Contact</a>
       </nav>
     </div>
@@ -311,6 +313,7 @@
         <nav class="footer-nav" aria-label="Footer">
           <a href="/#subscribe">The Sniff Test, the free newsletter</a>
           <a href="/breeds/">Breeds</a>
+          <a href="/videos/">Videos</a>
           <a href="/#contact">Contact</a>
           <a href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank">YouTube<span class="visually-hidden"> (opens in a new tab)</span></a>
           <a href="https://www.instagram.com/dogunpacked" rel="noopener noreferrer" target="_blank">Instagram<span class="visually-hidden"> (opens in a new tab)</span></a>

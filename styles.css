@@ -1298,7 +1298,7 @@ h1 {
   }
 }
 
-@media (max-width: 359px) {
+@media (max-width: 540px) {
   .nav-cta-long {
     display: none;
   }
@@ -1306,7 +1306,9 @@ h1 {
   .nav-cta-short {
     display: inline;
   }
+}
 
+@media (max-width: 359px) {
   .brand-word {
     font-size: 0.92rem;
   }
@@ -1502,7 +1504,8 @@ h1 {
 
 /* Breed directory ------------------------------------------------------- */
 
-.nav-breeds {
+.nav-breeds,
+.nav-videos {
   display: inline-flex;
 }
 
@@ -1671,21 +1674,37 @@ h1 {
 }
 
 .related-breeds a,
-.breed-back a {
+.breed-back a,
+.breed-more-videos a,
+.latest-all a {
   color: var(--navy);
   font-weight: 800;
   text-decoration: none;
 }
 
 .related-breeds a:hover,
-.breed-back a:hover {
+.breed-back a:hover,
+.breed-more-videos a:hover,
+.latest-all a:hover {
   text-decoration: underline;
   text-decoration-color: var(--amber);
   text-underline-offset: 3px;
 }
 
-.breed-back {
+.breed-back,
+.breed-more-videos,
+.latest-all {
   margin: 0.85rem 0 0;
+}
+
+.breed-more-videos a,
+.latest-all a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: underline;
+  text-decoration-color: var(--amber);
+  text-underline-offset: 0.18em;
 }
 
 .breed-credit a {
@@ -2088,4 +2107,322 @@ h1 {
   margin: 1.8rem 0 0;
   border: 0;
   border-top: 1px solid var(--border);
+}
+
+/* Videos hub and long-form watch pages ---------------------------------- */
+
+.video-hub,
+.video-watch {
+  width: min(100% - 2rem, 68rem);
+  margin-inline: auto;
+  padding: 1.25rem 0 3.5rem;
+}
+
+.video-watch {
+  width: min(100% - 2rem, 40rem);
+}
+
+.video-hub h1,
+.video-watch h1 {
+  margin: 0;
+  max-width: none;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4.8vw, 2.7rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+}
+
+.video-dek,
+.video-status,
+.video-watch .video-meta {
+  margin: 0.7rem 0 0;
+  color: var(--navy-muted);
+  font-weight: 700;
+}
+
+.video-subscribe {
+  margin: 0.35rem 0 0;
+}
+
+.video-subscribe a,
+.video-yt a,
+.video-breeds a,
+.video-more a,
+.video-description a {
+  color: var(--navy);
+  font-weight: 800;
+}
+
+.video-controls {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1rem 0 0;
+}
+
+.video-type {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.video-type legend,
+.video-breed label {
+  margin: 0 0 0.35rem;
+  padding: 0;
+  color: var(--navy-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.video-type-options {
+  display: flex;
+  width: min(100%, 28rem);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--card);
+}
+
+.video-type-option {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+}
+
+.video-type-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.video-type-option span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.92rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.video-type-option input:checked + span {
+  background: var(--navy);
+  color: var(--cream);
+}
+
+.video-type-option input:focus-visible + span,
+.video-breed select:focus-visible {
+  outline: 3px solid var(--navy);
+  outline-offset: 2px;
+}
+
+.video-type-option input:focus-visible + span {
+  outline-offset: -3px;
+}
+
+.video-breed {
+  display: grid;
+  gap: 0.35rem;
+  max-width: 22rem;
+}
+
+.video-breed select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--navy);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.video-empty {
+  margin: 1rem 0 0;
+  font-weight: 800;
+}
+
+.video-fallback {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  margin: 1rem 0 0;
+}
+
+.video-fallback a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.2rem 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--navy);
+  font-size: 0.92rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+@media (max-width: 540px) {
+  .video-type-option span {
+    padding-inline: 0.45rem;
+    font-size: 0.82rem;
+  }
+}
+
+.video-list {
+  display: grid;
+  gap: 0.9rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.video-card {
+  display: grid;
+  background: var(--navy);
+  color: var(--cream);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.video-card[hidden] {
+  display: none;
+}
+
+.video-card-link {
+  display: grid;
+  color: inherit;
+  text-decoration: none;
+}
+
+.video-card-media {
+  display: block;
+  background: #111;
+}
+
+.video-card-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: #111;
+}
+
+.video-card-body {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.75rem 0.95rem 0.9rem;
+}
+
+.video-card-kicker,
+.video-card time {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.video-card-kicker {
+  color: var(--amber);
+}
+
+.video-card time {
+  color: var(--cream);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.88rem;
+}
+
+.video-card h2 {
+  margin: 0;
+  max-width: none;
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.video-card-breeds {
+  margin: 0;
+  padding: 0 0.95rem 0.9rem;
+}
+
+.video-card-breeds a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--cream);
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-color: var(--amber);
+  text-underline-offset: 0.18em;
+}
+
+.video-kicker {
+  margin: 0;
+  color: var(--navy-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.video-watch .lite-yt {
+  margin-top: 1rem;
+}
+
+.video-watch .video-description p,
+.video-watch .video-transcript p {
+  margin: 0.75rem 0 0;
+}
+
+.video-watch h2 {
+  margin: 1.4rem 0 0;
+  font-size: 1.35rem;
+}
+
+.video-more {
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.video-more a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.video-yt {
+  margin: 0.8rem 0 0;
+}
+
+@media (min-width: 720px) {
+  .video-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1040px) {
+  .video-list {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }

@@ -432,6 +432,7 @@ def head(title, description, canonical, image, image_w, image_h, image_alt, crum
 
 def header(current):
     breeds_current = ' aria-current="page"' if current == "breeds" else ""
+    videos_current = ' aria-current="page"' if current == "videos" else ""
     return f"""<body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
@@ -446,6 +447,7 @@ def header(current):
           <span class="nav-cta-short">Subscribe</span>
         </a>
         <a class="nav-breeds" href="/breeds/"{breeds_current}>Breeds</a>
+        <a class="nav-videos" href="/videos/"{videos_current}>Videos</a>
         <a class="nav-desktop" href="/#contact">Contact</a>
       </nav>
     </div>
@@ -465,6 +467,7 @@ def footer():
         <nav class="footer-nav" aria-label="Footer">
           <a href="/#subscribe">The Sniff Test, the free newsletter</a>
           <a href="/breeds/">Breeds</a>
+          <a href="/videos/">Videos</a>
           <a href="/#contact">Contact</a>
           <a href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank">YouTube<span class="visually-hidden"> (opens in a new tab)</span></a>
           <a href="https://www.instagram.com/dogunpacked" rel="noopener noreferrer" target="_blank">Instagram<span class="visually-hidden"> (opens in a new tab)</span></a>
@@ -576,6 +579,32 @@ def article_links(breed):
     return '<p class="breed-article-link">' + "".join(parts) + "</p>\n      "
 
 
+_VIDEO_BREED_SLUGS = None
+
+
+def video_breed_slugs():
+    """Breed slugs that data/videos.json already attaches to a video."""
+    global _VIDEO_BREED_SLUGS
+    if _VIDEO_BREED_SLUGS is not None:
+        return _VIDEO_BREED_SLUGS
+    found = set()
+    path = ROOT / "data" / "videos.json"
+    if path.is_file():
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except ValueError:
+            payload = []
+        if isinstance(payload, list):
+            for item in payload:
+                if not isinstance(item, dict):
+                    continue
+                for slug in item.get("breeds") or []:
+                    if isinstance(slug, str) and slug:
+                        found.add(slug)
+    _VIDEO_BREED_SLUGS = found
+    return found
+
+
 def related_block(breed, breeds):
     picks = related_breeds(breed, breeds)
     items = "".join(
@@ -590,7 +619,9 @@ def related_block(breed, breeds):
           {items}
         </ul>
       </nav>"""
-    return article_links(breed) + nav + """
+    href = "/videos/?breed=" + breed["slug"] if breed["slug"] in video_breed_slugs() else "/videos/"
+    more = f'<p class="breed-more-videos"><a href="{esc(href)}">More Dog Unpacked videos</a></p>\n      '
+    return article_links(breed) + nav + more + """
       <p class="breed-back"><a href="/breeds/">Breeds</a></p>"""
 
 
