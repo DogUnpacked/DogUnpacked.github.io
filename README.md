@@ -21,6 +21,8 @@ The newsletter is **The Sniff Test** (weekly, Sunday). See **`README-newsletter.
 | `scripts/build_breeds.py` | Writes `/breeds/` pages, `docs/breed-facts-review.csv`, and the breed table in `assets/CREDITS.md`, then refreshes `sitemap.xml` |
 | `data/videos.json` | Every Dog Unpacked upload. The `/videos/` hub and long-form watch pages are generated from this file. |
 | `scripts/build_videos.py` | Writes `/videos/`, long-form watch pages, and `sitemap-videos.xml`, then refreshes `sitemap.xml` |
+| `data/articles.json` | Behavior articles. The `/articles/` hub is generated from this file. Each article keeps its own URL. |
+| `scripts/build_articles.py` | Writes `/articles/` and refreshes `sitemap.xml` |
 | `scripts/build_sitemap.py` | Rewrites `sitemap.xml`. `lastmod` is that page file's last git commit date, in ISO 8601. Video URLs are appended when `data/videos.json` exists. |
 | `scripts/update_latest_video.py` | Refreshes `data/latest.json` from the channel feed (skips Shorts) and rewrites the home page VideoObject block from those same records; prints "Latest: no change" when current |
 | `README-page.md` | Page notes: placeholders, bio/breed URLs, events |
@@ -89,6 +91,21 @@ To rebuild the pages from the file on disk, with no network:
 ```bash
 python3 scripts/build_videos.py
 ```
+
+## Articles hub
+
+`/articles/` lists behavior articles, newest first. An article keeps the URL it was published at. The German Shepherd article stays at `/german-shepherd/follows-me-everywhere/`.
+
+`scripts/build_articles.py` (Python standard library only) writes the hub from `data/articles.json` and refreshes `sitemap.xml`. Commit the generated HTML. GitHub Pages does not build it.
+
+The card dek is that article's meta description, copied into `description`. The script refuses to build if the two differ.
+
+To add an article:
+
+1. Publish the article HTML at its own URL. Its meta description is one or two sentences, under 155 characters, with no exclamation marks.
+2. Add one object to `data/articles.json`: `title` (the h1), `path`, `description` (the same meta description), `published` (`YYYY-MM-DD`), `breed` (a slug from `data/breeds.json`), and the hero image fields.
+3. On that article, use the breadcrumb Home / Articles / the article, and mark the Articles tab `aria-current="page"`.
+4. Run `python3 scripts/build_articles.py` and commit `data/articles.json` plus the generated hub.
 
 ## Placeholders you must fill in
 

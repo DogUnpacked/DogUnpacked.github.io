@@ -10,8 +10,10 @@ them:
 lastmod is the committer date of the last commit that touched the page, in
 strict ISO 8601 (git %cI), for example 2026-10-12T23:34:28-04:00.
 When data/videos.json exists, /videos/ and each long-form watch page are
-appended after the article URLs. A page that has no commit yet is stamped
-with the current America/New_York time so the first build can finish.
+appended after the article URLs. /articles/ is appended last when that hub
+page exists, so the URLs already in the sitemap stay in order. A page that
+has no commit yet is stamped with the current America/New_York time so the
+first build can finish.
 """
 
 import json
@@ -82,6 +84,14 @@ def video_rows():
     return rows
 
 
+def article_hub_rows():
+    """The articles index, appended last so existing sitemap URLs stay put."""
+    path = ROOT / "articles" / "index.html"
+    if not path.is_file():
+        return []
+    return [(path, f"{SITE}/articles/")]
+
+
 def pages(breeds):
     rows = [
         (ROOT / "index.html", f"{SITE}/"),
@@ -94,6 +104,7 @@ def pages(breeds):
     if len(rows) != BASE_URL_COUNT:
         raise SystemExit(f"expected {BASE_URL_COUNT} base sitemap URLs, got {len(rows)}")
     rows.extend(video_rows())
+    rows.extend(article_hub_rows())
     return rows
 
 

@@ -204,6 +204,7 @@ svg {
   text-decoration: none;
   font-weight: 800;
   font-size: 0.92rem;
+  white-space: nowrap;
 }
 
 .site-nav a:not(.nav-cta):hover {
@@ -1271,34 +1272,7 @@ h1 {
   }
 }
 
-@media (max-width: 440px) {
-  .header-inner {
-    gap: 0.35rem;
-  }
-
-  .brand {
-    gap: 0.35rem;
-  }
-
-  .brand-word {
-    font-size: 0.92rem;
-  }
-
-  .site-nav {
-    gap: 0;
-  }
-
-  .site-nav a {
-    padding: 0.35rem 0.45rem;
-    font-size: 0.82rem;
-  }
-
-  .site-nav a.nav-cta {
-    padding-inline: 0.6rem;
-  }
-}
-
-@media (max-width: 540px) {
+@media (max-width: 640px) {
   .nav-cta-long {
     display: none;
   }
@@ -1306,11 +1280,35 @@ h1 {
   .nav-cta-short {
     display: inline;
   }
-}
 
-@media (max-width: 359px) {
+  .header-inner {
+    gap: 0.25rem;
+  }
+
+  .brand {
+    gap: 0.3rem;
+  }
+
+  .brand img {
+    width: 32px;
+    height: 32px;
+  }
+
   .brand-word {
-    font-size: 0.92rem;
+    font-size: 0.75rem;
+  }
+
+  .site-nav {
+    gap: 0;
+  }
+
+  .site-nav a {
+    padding: 0.2rem 0.26rem;
+    font-size: 0.75rem;
+  }
+
+  .site-nav a.nav-cta {
+    padding-inline: 0.4rem;
   }
 }
 
@@ -1505,7 +1503,8 @@ h1 {
 /* Breed directory ------------------------------------------------------- */
 
 .nav-breeds,
-.nav-videos {
+.nav-videos,
+.nav-articles {
   display: inline-flex;
 }
 
@@ -1994,16 +1993,6 @@ h1 {
   }
 }
 
-@media (max-width: 420px) {
-  .brand-word {
-    font-size: 0.92rem;
-  }
-
-  .site-nav a {
-    padding-inline: 0.5rem;
-  }
-}
-
 /* Behavior articles. Same column and type as a breed page; lite-yt is the hub player. */
 .behavior-article {
   width: min(100% - 2rem, 40rem);
@@ -2423,6 +2412,128 @@ h1 {
 
 @media (min-width: 1040px) {
   .video-list {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+/* Articles hub. Same card language as the videos hub. */
+
+.article-hub {
+  width: min(100% - 2rem, 68rem);
+  margin-inline: auto;
+  padding: 1.25rem 0 3.5rem;
+}
+
+.article-hub h1 {
+  margin: 0;
+  max-width: none;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4.8vw, 2.7rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+}
+
+.article-dek {
+  margin: 0.7rem 0 0;
+  color: var(--navy-muted);
+  font-weight: 700;
+}
+
+.article-list {
+  display: grid;
+  gap: 0.9rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.article-card {
+  display: grid;
+  background: var(--navy);
+  color: var(--cream);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.article-card-link {
+  display: grid;
+  color: inherit;
+  text-decoration: none;
+}
+
+.article-card-link:hover h2 {
+  text-decoration: underline;
+  text-decoration-color: var(--amber);
+  text-underline-offset: 0.14em;
+}
+
+.article-card-media {
+  display: block;
+  background: #111;
+}
+
+.article-card-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #111;
+}
+
+.article-card-body {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.75rem 0.95rem 0.9rem;
+}
+
+.article-card h2 {
+  margin: 0;
+  max-width: none;
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.article-card-dek {
+  margin: 0;
+  color: var(--cream);
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.article-card time {
+  color: var(--cream);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.article-card-breed {
+  margin: 0;
+  padding: 0 0.95rem 0.9rem;
+}
+
+.article-card-breed a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--cream);
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-color: var(--amber);
+  text-underline-offset: 0.18em;
+}
+
+@media (min-width: 720px) {
+  .article-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1040px) {
+  .article-list {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }

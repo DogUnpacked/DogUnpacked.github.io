@@ -26,7 +26,9 @@
     .site-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.4rem .7rem;border-radius:999px;color:var(--navy);text-decoration:none;font-weight:800;font-size:.92rem}
     .site-nav a.nav-cta{background:var(--navy);color:var(--cream);padding-inline:.9rem}
     .nav-cta-short,.site-nav a.nav-desktop{display:none}
-    @media (max-width:540px){.nav-cta-long{display:none}.nav-cta-short{display:inline}}
+    .crumbs{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;margin:0 0 .9rem;color:var(--navy-muted);font-size:.88rem;font-weight:700}
+    .crumbs a{color:var(--navy);font-weight:800;text-decoration:none}
+    @media (max-width:640px){.nav-cta-long{display:none}.nav-cta-short{display:inline}.header-inner{gap:.25rem}.brand{gap:.3rem}.brand img{width:32px;height:32px}.brand-word{font-size:.75rem}.site-nav{gap:0}.site-nav a{padding:.2rem .26rem;font-size:.75rem}.site-nav a.nav-cta{padding-inline:.4rem}}
     .wrap.behavior-article{width:min(100% - 2rem,40rem);margin-inline:auto;padding:1.25rem 0 3.5rem}
     .behavior-article h1{margin:0;max-width:none;font-family:var(--font-display);font-size:clamp(1.9rem,4.8vw,2.7rem);font-weight:700;letter-spacing:-.03em;line-height:1.12;color:var(--navy)}
     .behavior-article p{margin:.75rem 0 0}
@@ -120,7 +122,7 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://dogunpacked.com/"},
-        {"@type": "ListItem", "position": 2, "name": "German Shepherd", "item": "https://dogunpacked.com/breeds/german-shepherd/"},
+        {"@type": "ListItem", "position": 2, "name": "Articles", "item": "https://dogunpacked.com/articles/"},
         {"@type": "ListItem", "position": 3, "name": "Why Does My German Shepherd Follow Me Everywhere? (It's Not Anxiety)", "item": "https://dogunpacked.com/german-shepherd/follows-me-everywhere/"}
       ]
     },
@@ -152,12 +154,20 @@
         </a>
         <a class="nav-breeds" href="/breeds/">Breeds</a>
         <a class="nav-videos" href="/videos/">Videos</a>
+        <a class="nav-articles" href="/articles/" aria-current="page">Articles</a>
         <a class="nav-desktop" href="/#contact">Contact</a>
       </nav>
     </div>
   </header>
   <main id="main">
     <article class="wrap behavior-article">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/articles/">Articles</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Why Does My German Shepherd Follow Me Everywhere? (It's Not Anxiety)</span>
+      </nav>
       <h1>Why Does My German Shepherd Follow Me Everywhere? (It's Not Anxiety)</h1>
       <p><strong>Short answer:</strong> a German Shepherd that follows you from room to room is usually doing something normal for the breed. German Shepherds were built from tending dogs that spent all day moving with a shepherd and a flock, and most of their later jobs were done beside one handler. Breed only explains part of any dog's behavior, but for this breed, shadowing you is closer to the default than the exception.</p>
       <p class="article-byline">By Dog Unpacked · Last updated October 14, 2026</p>
@@ -314,6 +324,7 @@
           <a href="/#subscribe">The Sniff Test, the free newsletter</a>
           <a href="/breeds/">Breeds</a>
           <a href="/videos/">Videos</a>
+          <a href="/articles/">Articles</a>
           <a href="/#contact">Contact</a>
           <a href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank">YouTube<span class="visually-hidden"> (opens in a new tab)</span></a>
           <a href="https://www.instagram.com/dogunpacked" rel="noopener noreferrer" target="_blank">Instagram<span class="visually-hidden"> (opens in a new tab)</span></a>
