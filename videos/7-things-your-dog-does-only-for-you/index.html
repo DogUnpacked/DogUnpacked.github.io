@@ -37,7 +37,9 @@
     .video-kicker{margin:0;color:var(--navy-muted);font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
     .video-filters{display:flex;flex-wrap:wrap;gap:.35rem .5rem;align-items:center;margin:1rem 0 0}
     .video-filter-label{flex-basis:100%;margin:.45rem 0 0;color:var(--navy-muted);font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
-    .video-filters a{display:inline-flex;align-items:center;min-height:44px;padding:.2rem .75rem;border:1px solid var(--border-strong);border-radius:999px;background:var(--card);color:var(--navy);font-size:.92rem;font-weight:800;text-decoration:none}
+    .video-filters a{display:inline-flex;align-items:center;min-height:44px;padding:.2rem .75rem;border:1px solid var(--border-strong);border-radius:999px;background:var(--card);color:var(--navy);font-size:.92rem;font-weight:800;text-decoration:none;white-space:nowrap}
+    .video-filter-breeds{display:flex;flex-wrap:nowrap;gap:.5rem;overflow-x:auto;width:100%;min-height:44px;margin:0}
+    @media (min-width:720px){.video-filter-breeds{flex-wrap:wrap;overflow:visible}}
     .video-list{display:grid;gap:.9rem;margin:1rem 0 0;padding:0;list-style:none}
     .video-card{display:grid;background:var(--navy);color:var(--cream);border-radius:14px;overflow:hidden}
     .video-card-link{display:grid;color:inherit;text-decoration:none}
@@ -87,47 +89,6 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://i.ytimg.com/vi/tyUgyQCYGGA/hqdefault.jpg">
   <meta name="twitter:image:alt" content="7 Things Your Dog Does ONLY for You (The Science Most Owners Never See)">
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Dog Unpacked",
-          "item": "https://dogunpacked.com/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Videos",
-          "item": "https://dogunpacked.com/videos/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "7 Things Your Dog Does ONLY for You (The Science Most Owners Never See)",
-          "item": "https://dogunpacked.com/videos/7-things-your-dog-does-only-for-you/"
-        }
-      ]
-    },
-    {
-      "@type": "VideoObject",
-      "@id": "https://dogunpacked.com/videos/#tyUgyQCYGGA",
-      "name": "7 Things Your Dog Does ONLY for You (The Science Most Owners Never See)",
-      "description": "Your dog does seven things for one person in your house and nobody else. Most owners never notice — and the science behind each one is stranger than the behavior.\nHe already decided\n1. He follows you into the bathroom\n2. He stares at you, and you stare back\n3. He knows your smell from every human on Earth\n4. He'd rather hear your voice than eat\n5. He cries when you come home\n6. He carries your stress for months\n7. He picked one of you\nStudies cited: Topál et al., 1998 (Journal of Comparative Psychology) · Horn, Huber & Range, 2013 (PLOS ONE) · Nagasawa et al., 2015 (Science) · Berns et al., 2015 (Behavioural Processes) · Cook et al., 2016 (Social Cognitive and Affective Neuroscience) · Andics et al., 2016 (Science) · Murata et al., 2022 (Current Biology) · Sundman et al., 2019 (Scientific Reports) · Gácsi et al., 2001 (Journal of Comparative Psychology)\nHe's not broken. He's bred that way.\nEducational content only — not veterinary or training advice.\nFOOTAGE CREDITS (Creative Commons)\nA Test of Canine Olfactory Capacity Comparing Various Dog Breeds and Wolves in a Natural Detection Task — Polgár Z, Kinnunen M, Újváry D, Miklósi Á, Gácsi M — CC BY —\nThe Importance of the Secure Base Effect for Domestic Dogs — Horn L, Huber L, Range F — CC BY —\nWord Generalization by a Dog (Canis familiaris): Is Shape Important? — van der Zee E, Zulch H, Mills D — CC BY —\nDog mirror test — John E. Lester — CC BY —\nHow to Train Your Dog — Katie Williams — CC BY —\nDog eye makro — Christian Pietzsch — CC BY-SA —\nDog Owner Relationship — Pdpics — CC BY-SA —\nPro dog walker – Tokyo – 2024 Nov 1 — Nesnad — CC BY-SA —\nAdditional footage licensed via Storyblocks.",
-      "thumbnailUrl": "https://i.ytimg.com/vi/tyUgyQCYGGA/hqdefault.jpg",
-      "uploadDate": "2026-09-22T16:20:05-04:00",
-      "contentUrl": "https://www.youtube.com/watch?v=tyUgyQCYGGA",
-      "embedUrl": "https://www.youtube-nocookie.com/embed/tyUgyQCYGGA",
-      "duration": "PT12M55S"
-    }
-  ]
-}
-  </script>
 </head>
 
 <body>
@@ -249,6 +210,47 @@ Additional footage licensed via Storyblocks.</p>
         root.appendChild(iframe);
       });
     })();
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Dog Unpacked",
+          "item": "https://dogunpacked.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Videos",
+          "item": "https://dogunpacked.com/videos/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "7 Things Your Dog Does ONLY for You (The Science Most Owners Never See)",
+          "item": "https://dogunpacked.com/videos/7-things-your-dog-does-only-for-you/"
+        }
+      ]
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://dogunpacked.com/videos/#tyUgyQCYGGA",
+      "name": "7 Things Your Dog Does ONLY for You (The Science Most Owners Never See)",
+      "description": "Your dog does seven things for one person in your house and nobody else. Most owners never notice — and the science behind each one is stranger than the behavior.\nHe already decided\n1. He follows you into the bathroom\n2. He stares at you, and you stare back\n3. He knows your smell from every human on Earth\n4. He'd rather hear your voice than eat\n5. He cries when you come home\n6. He carries your stress for months\n7. He picked one of you\nStudies cited: Topál et al., 1998 (Journal of Comparative Psychology) · Horn, Huber & Range, 2013 (PLOS ONE) · Nagasawa et al., 2015 (Science) · Berns et al., 2015 (Behavioural Processes) · Cook et al., 2016 (Social Cognitive and Affective Neuroscience) · Andics et al., 2016 (Science) · Murata et al., 2022 (Current Biology) · Sundman et al., 2019 (Scientific Reports) · Gácsi et al., 2001 (Journal of Comparative Psychology)\nHe's not broken. He's bred that way.\nEducational content only — not veterinary or training advice.\nFOOTAGE CREDITS (Creative Commons)\nA Test of Canine Olfactory Capacity Comparing Various Dog Breeds and Wolves in a Natural Detection Task — Polgár Z, Kinnunen M, Újváry D, Miklósi Á, Gácsi M — CC BY —\nThe Importance of the Secure Base Effect for Domestic Dogs — Horn L, Huber L, Range F — CC BY —\nWord Generalization by a Dog (Canis familiaris): Is Shape Important? — van der Zee E, Zulch H, Mills D — CC BY —\nDog mirror test — John E. Lester — CC BY —\nHow to Train Your Dog — Katie Williams — CC BY —\nDog eye makro — Christian Pietzsch — CC BY-SA —\nDog Owner Relationship — Pdpics — CC BY-SA —\nPro dog walker – Tokyo – 2024 Nov 1 — Nesnad — CC BY-SA —\nAdditional footage licensed via Storyblocks.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/tyUgyQCYGGA/hqdefault.jpg",
+      "uploadDate": "2026-09-22T16:20:05-04:00",
+      "contentUrl": "https://www.youtube.com/watch?v=tyUgyQCYGGA",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/tyUgyQCYGGA",
+      "duration": "PT12M55S"
+    }
+  ]
+}
   </script>
   <script>
     (function () {

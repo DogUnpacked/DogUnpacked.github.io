@@ -75,6 +75,7 @@ PLAY_SVG = (
     '<path d="M27 34V14l18 10z" fill="#fff"/></svg></span>'
 )
 THUMB = "https://i.ytimg.com/vi/{vid}/hqdefault.jpg"
+THUMB_DIR = ROOT / "images" / "video-thumbs"
 
 # Above-the-fold rules. styles.css repeats them so the deferred sheet does not move the layout.
 CRITICAL_CSS = """
@@ -104,7 +105,9 @@ CRITICAL_CSS = """
     .video-kicker{margin:0;color:var(--navy-muted);font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
     .video-filters{display:flex;flex-wrap:wrap;gap:.35rem .5rem;align-items:center;margin:1rem 0 0}
     .video-filter-label{flex-basis:100%;margin:.45rem 0 0;color:var(--navy-muted);font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
-    .video-filters a{display:inline-flex;align-items:center;min-height:44px;padding:.2rem .75rem;border:1px solid var(--border-strong);border-radius:999px;background:var(--card);color:var(--navy);font-size:.92rem;font-weight:800;text-decoration:none}
+    .video-filters a{display:inline-flex;align-items:center;min-height:44px;padding:.2rem .75rem;border:1px solid var(--border-strong);border-radius:999px;background:var(--card);color:var(--navy);font-size:.92rem;font-weight:800;text-decoration:none;white-space:nowrap}
+    .video-filter-breeds{display:flex;flex-wrap:nowrap;gap:.5rem;overflow-x:auto;width:100%;min-height:44px;margin:0}
+    @media (min-width:720px){.video-filter-breeds{flex-wrap:wrap;overflow:visible}}
     .video-list{display:grid;gap:.9rem;margin:1rem 0 0;padding:0;list-style:none}
     .video-card{display:grid;background:var(--navy);color:var(--cream);border-radius:14px;overflow:hidden}
     .video-card-link{display:grid;color:inherit;text-decoration:none}
@@ -798,6 +801,31 @@ def thumb(video_id):
     return THUMB.format(vid=video_id)
 
 
+def local_thumb(video_id):
+    """Same-origin copy of the YouTube hqdefault, used only for the hub's first card."""
+    path = THUMB_DIR / f"{video_id}.jpg"
+    if path.is_file() and path.stat().st_size > 1000:
+        return f"/images/video-thumbs/{video_id}.jpg"
+    return ""
+
+
+def ensure_local_thumb(video_id):
+    """Save the YouTube thumbnail for the newest video. A network miss keeps the build going."""
+    if local_thumb(video_id):
+        return
+    try:
+        req = urllib.request.Request(thumb(video_id), headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=20) as response:
+            data = response.read()
+        if len(data) < 1000 or not data.startswith(b"\xff\xd8"):
+            raise ValueError("response was not a JPEG")
+        THUMB_DIR.mkdir(parents=True, exist_ok=True)
+        (THUMB_DIR / f"{video_id}.jpg").write_bytes(data)
+        print(f"Videos: saved thumbnail for {video_id}")
+    except Exception as exc:
+        print(f"Videos: thumbnail for {video_id} left on YouTube ({exc})", file=sys.stderr)
+
+
 def description_html(cleaned):
     blocks = re.split(r"\n{2,}", cleaned)
     parts = []
@@ -916,7 +944,7 @@ def goatcounter():
 """
 
 
-def head(title, description, canonical, graph, image, preload_image):
+def head(title, description, canonical, image, preload_image):
     preload = ""
     if preload_image:
         preload = (
@@ -970,7 +998,6 @@ def head(title, description, canonical, graph, image, preload_image):
   <meta property="og:description" content="{esc(description)}">
   <meta name="twitter:title" content="{esc(title)}">
   <meta name="twitter:description" content="{esc(description)}">{image_meta}
-{json_script(graph)}
 </head>
 """
 
@@ -1023,10 +1050,9 @@ def hub_page(videos, names):
         )
     cards = []
     for index, video in enumerate(videos):
-        eager = index < 2
-        priority = "high" if index == 0 else "auto"
+        eager = index == 0
         loading = ' loading="eager"' if eager else ' loading="lazy"'
-        fetchpriority = f' fetchpriority="{priority}"' if eager else ""
+        fetchpriority = ' fetchpriority="high"' if eager else ""
         decoding = "sync" if index == 0 else "async"
         if video["type"] == "long":
             href = f"/videos/{video['slug']}/"
@@ -1048,10 +1074,13 @@ def hub_page(videos, names):
         length = duration_card(video.get("duration"))
         kicker = esc(kind if not length else f"{kind} · {length}")
         data_breeds = " ".join(video["breeds"])
+        src = local_thumb(video["id"]) if index == 0 else ""
+        src = src or thumb(video["id"])
+        referrer = "" if src.startswith("/") else ' referrerpolicy="no-referrer"'
         cards.append(
             f'<li class="video-card" data-type="{esc(video["type"])}" data-breeds="{esc(data_breeds)}">'
             f'<a class="video-card-link" href="{esc(href)}"{extra}>'
-            f'<span class="video-card-media"><img src="{esc(thumb(video["id"]))}" width="480" height="360" alt=""{loading}{fetchpriority} decoding="{decoding}" referrerpolicy="no-referrer"></span>'
+            f'<span class="video-card-media"><img src="{esc(src)}" width="480" height="360" alt=""{loading}{fetchpriority} decoding="{decoding}"{referrer}></span>'
             f'<span class="video-card-body"><p class="video-card-kicker">{kicker}</p>'
             f"<h2>{esc(video['title'])}</h2>"
             f'<time datetime="{esc(video["published"])}">{esc(format_day(video["published"]))}</time>'
@@ -1081,7 +1110,8 @@ def hub_page(videos, names):
     graph.extend(video_object(video) for video in videos)
     payload = {"@context": "https://schema.org", "@graph": graph}
     image = thumb(videos[0]["id"]) if videos else ""
-    page = f"""{head(HUB_TITLE, HUB_DESC, f"{SITE}/videos/", payload, image, image)}
+    preload = (local_thumb(videos[0]["id"]) if videos else "") or image
+    page = f"""{head(HUB_TITLE, HUB_DESC, f"{SITE}/videos/", image, preload)}
 <body>
 {chr(10).join(anchors)}
 {header()}
@@ -1099,7 +1129,7 @@ def hub_page(videos, names):
         <span class="video-filter-label">Type</span>
         {''.join(filter_links)}
         <span class="video-filter-label">Breed</span>
-        {breed_links}
+        <div class="video-filter-breeds">{breed_links}</div>
       </nav>
       <p class="video-status">{''.join(statuses)}</p>
       <ul class="video-list">
@@ -1125,6 +1155,7 @@ def hub_page(videos, names):
       window.addEventListener("hashchange", mark);
     }})();
   </script>
+{json_script(payload)}
 {goatcounter()}</body>
 </html>
 """
@@ -1193,7 +1224,7 @@ def watch_page(video, videos, names):
     body_html = description_html(cleaned)
     image = thumb(video["id"])
     watch_url = f"https://www.youtube.com/watch?v={video['id']}"
-    page = f"""{head(video["title"], description, canonical, graph, image, image)}
+    page = f"""{head(video["title"], description, canonical, image, image)}
 <body>
 {header()}
   <main id="main">
@@ -1247,6 +1278,7 @@ def watch_page(video, videos, names):
       }});
     }})();
   </script>
+{json_script(graph)}
 {goatcounter()}</body>
 </html>
 """
@@ -1254,6 +1286,8 @@ def watch_page(video, videos, names):
 
 
 def write_pages(videos, breeds):
+    if videos:
+        ensure_local_thumb(videos[0]["id"])
     names = breed_names(breeds)
     VIDEOS_DIR.mkdir(parents=True, exist_ok=True)
     (VIDEOS_DIR / "index.html").write_text(hub_page(videos, names), encoding="utf-8")

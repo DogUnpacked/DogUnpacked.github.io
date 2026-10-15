@@ -37,7 +37,9 @@
     .video-kicker{margin:0;color:var(--navy-muted);font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
     .video-filters{display:flex;flex-wrap:wrap;gap:.35rem .5rem;align-items:center;margin:1rem 0 0}
     .video-filter-label{flex-basis:100%;margin:.45rem 0 0;color:var(--navy-muted);font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
-    .video-filters a{display:inline-flex;align-items:center;min-height:44px;padding:.2rem .75rem;border:1px solid var(--border-strong);border-radius:999px;background:var(--card);color:var(--navy);font-size:.92rem;font-weight:800;text-decoration:none}
+    .video-filters a{display:inline-flex;align-items:center;min-height:44px;padding:.2rem .75rem;border:1px solid var(--border-strong);border-radius:999px;background:var(--card);color:var(--navy);font-size:.92rem;font-weight:800;text-decoration:none;white-space:nowrap}
+    .video-filter-breeds{display:flex;flex-wrap:nowrap;gap:.5rem;overflow-x:auto;width:100%;min-height:44px;margin:0}
+    @media (min-width:720px){.video-filter-breeds{flex-wrap:wrap;overflow:visible}}
     .video-list{display:grid;gap:.9rem;margin:1rem 0 0;padding:0;list-style:none}
     .video-card{display:grid;background:var(--navy);color:var(--cream);border-radius:14px;overflow:hidden}
     .video-card-link{display:grid;color:inherit;text-decoration:none}
@@ -87,47 +89,6 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://i.ytimg.com/vi/IZbkbYg9RYU/hqdefault.jpg">
   <meta name="twitter:image:alt" content="8 Things Your German Shepherd Does That Aren&#x27;t What You Think (His Job Explains Every One)">
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Dog Unpacked",
-          "item": "https://dogunpacked.com/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Videos",
-          "item": "https://dogunpacked.com/videos/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "8 Things Your German Shepherd Does That Aren't What You Think (His Job Explains Every One)",
-          "item": "https://dogunpacked.com/videos/8-things-your-german-shepherd-does-that-arent-what-you-think/"
-        }
-      ]
-    },
-    {
-      "@type": "VideoObject",
-      "@id": "https://dogunpacked.com/videos/#IZbkbYg9RYU",
-      "name": "8 Things Your German Shepherd Does That Aren't What You Think (His Job Explains Every One)",
-      "description": "Your German Shepherd isn't anxious, clingy, or stubborn — he's working. Eight everyday German Shepherd behaviors, each one traced back to the job the breed was built for: tending herder, \"living fence,\" one-handler working dog. Why he follows you from room to room (it's not separation anxiety), why he herds your kids, why he paces at 8 PM and the two-minute scent-work fix, why he's cold to strangers for exactly one minute, and the temperament-test number that starts arguments.\nSources on screen: AKC German Shepherd breed history and breed standard · von Stephanitz, The German Shepherd Dog in Word and Picture (1925) · Coren, The Intelligence of Dogs · Coppinger & Coppinger, Dogs (2001) · Duranton & Horowitz 2019, Applied Animal Behaviour Science · Nagasawa et al. 2015, Science · American Temperament Test Society breed statistics · Morrill et al. 2022, Science\nChapters\n1. Between you and the door\n2. He learns your mistakes faster than your commands\n3. Cold to strangers for one minute\n4. He herds your kids\n5. He paces at 8 PM (the two-minute fix)\n6. The stare\n7. The number\n8. He follows you everywhere\nEducational content only — not veterinary or training advice.",
-      "thumbnailUrl": "https://i.ytimg.com/vi/IZbkbYg9RYU/hqdefault.jpg",
-      "uploadDate": "2026-10-07T21:00:20-04:00",
-      "contentUrl": "https://www.youtube.com/watch?v=IZbkbYg9RYU",
-      "embedUrl": "https://www.youtube-nocookie.com/embed/IZbkbYg9RYU",
-      "duration": "PT8M46S"
-    }
-  ]
-}
-  </script>
 </head>
 
 <body>
@@ -239,6 +200,47 @@ Educational content only — not veterinary or training advice.</p>
         root.appendChild(iframe);
       });
     })();
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Dog Unpacked",
+          "item": "https://dogunpacked.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Videos",
+          "item": "https://dogunpacked.com/videos/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "8 Things Your German Shepherd Does That Aren't What You Think (His Job Explains Every One)",
+          "item": "https://dogunpacked.com/videos/8-things-your-german-shepherd-does-that-arent-what-you-think/"
+        }
+      ]
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://dogunpacked.com/videos/#IZbkbYg9RYU",
+      "name": "8 Things Your German Shepherd Does That Aren't What You Think (His Job Explains Every One)",
+      "description": "Your German Shepherd isn't anxious, clingy, or stubborn — he's working. Eight everyday German Shepherd behaviors, each one traced back to the job the breed was built for: tending herder, \"living fence,\" one-handler working dog. Why he follows you from room to room (it's not separation anxiety), why he herds your kids, why he paces at 8 PM and the two-minute scent-work fix, why he's cold to strangers for exactly one minute, and the temperament-test number that starts arguments.\nSources on screen: AKC German Shepherd breed history and breed standard · von Stephanitz, The German Shepherd Dog in Word and Picture (1925) · Coren, The Intelligence of Dogs · Coppinger & Coppinger, Dogs (2001) · Duranton & Horowitz 2019, Applied Animal Behaviour Science · Nagasawa et al. 2015, Science · American Temperament Test Society breed statistics · Morrill et al. 2022, Science\nChapters\n1. Between you and the door\n2. He learns your mistakes faster than your commands\n3. Cold to strangers for one minute\n4. He herds your kids\n5. He paces at 8 PM (the two-minute fix)\n6. The stare\n7. The number\n8. He follows you everywhere\nEducational content only — not veterinary or training advice.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/IZbkbYg9RYU/hqdefault.jpg",
+      "uploadDate": "2026-10-07T21:00:20-04:00",
+      "contentUrl": "https://www.youtube.com/watch?v=IZbkbYg9RYU",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/IZbkbYg9RYU",
+      "duration": "PT8M46S"
+    }
+  ]
+}
   </script>
   <script>
     (function () {

@@ -76,7 +76,7 @@ Nightly, to add new uploads and rebuild:
 python3 scripts/build_videos.py --refresh
 ```
 
-The command reads the channel RSS feed and the Videos and Shorts tabs, adds any id that is not already in `data/videos.json`, and rebuilds the pages. Ids already in the file are left unchanged. If the network fails, `data/videos.json` is left in place and the pages are still rebuilt from it.
+The command reads the channel RSS feed and the Videos and Shorts tabs, adds any id that is not already in `data/videos.json`, and rebuilds the pages. Ids already in the file are left unchanged. If the network fails, `data/videos.json` is left in place and the pages are still rebuilt from it. The newest card's thumbnail is a local copy of that video's YouTube image (`images/video-thumbs/<id>.jpg`) so the hub can paint it without waiting on another origin. If that download fails, the card uses the YouTube image URL.
 
 To add one video by id:
 

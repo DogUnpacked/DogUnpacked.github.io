@@ -9,7 +9,7 @@
   <meta name="color-scheme" content="light">
   <link rel="canonical" href="https://dogunpacked.com/videos/">
   <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
-  <link rel="preload" as="image" href="https://i.ytimg.com/vi/LRfoZUnSOj0/hqdefault.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="/images/video-thumbs/LRfoZUnSOj0.jpg" fetchpriority="high">
   <style>
     @font-face{font-family:"Nunito Fallback";src:local("Arial"),local("Helvetica"),local("Liberation Sans");size-adjust:100%;ascent-override:101%;descent-override:35%;line-gap-override:0%}
     @font-face{font-family:"Fraunces Fallback";src:local("Georgia"),local("Times New Roman"),local("Liberation Serif");size-adjust:96%;ascent-override:102%;descent-override:27%;line-gap-override:0%}
@@ -37,7 +37,9 @@
     .video-kicker{margin:0;color:var(--navy-muted);font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
     .video-filters{display:flex;flex-wrap:wrap;gap:.35rem .5rem;align-items:center;margin:1rem 0 0}
     .video-filter-label{flex-basis:100%;margin:.45rem 0 0;color:var(--navy-muted);font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
-    .video-filters a{display:inline-flex;align-items:center;min-height:44px;padding:.2rem .75rem;border:1px solid var(--border-strong);border-radius:999px;background:var(--card);color:var(--navy);font-size:.92rem;font-weight:800;text-decoration:none}
+    .video-filters a{display:inline-flex;align-items:center;min-height:44px;padding:.2rem .75rem;border:1px solid var(--border-strong);border-radius:999px;background:var(--card);color:var(--navy);font-size:.92rem;font-weight:800;text-decoration:none;white-space:nowrap}
+    .video-filter-breeds{display:flex;flex-wrap:nowrap;gap:.5rem;overflow-x:auto;width:100%;min-height:44px;margin:0}
+    @media (min-width:720px){.video-filter-breeds{flex-wrap:wrap;overflow:visible}}
     .video-list{display:grid;gap:.9rem;margin:1rem 0 0;padding:0;list-style:none}
     .video-card{display:grid;background:var(--navy);color:var(--cream);border-radius:14px;overflow:hidden}
     .video-card-link{display:grid;color:inherit;text-decoration:none}
@@ -87,6 +89,133 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://i.ytimg.com/vi/LRfoZUnSOj0/hqdefault.jpg">
   <meta name="twitter:image:alt" content="Dog Breed Videos: Behavior by Breed | Dog Unpacked">
+</head>
+
+<body>
+<div id="long" class="video-anchor"></div>
+<div id="short" class="video-anchor"></div>
+<div id="pit-bull" class="video-anchor"></div>
+<div id="australian-shepherd" class="video-anchor"></div>
+<div id="beagle" class="video-anchor"></div>
+<div id="doberman" class="video-anchor"></div>
+<div id="french-bulldog" class="video-anchor"></div>
+<div id="german-shepherd" class="video-anchor"></div>
+<div id="golden-retriever" class="video-anchor"></div>
+<div id="labrador" class="video-anchor"></div>
+<div id="corgi" class="video-anchor"></div>
+<div id="rottweiler" class="video-anchor"></div>
+<div id="husky" class="video-anchor"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/">
+        <img src="/images/logo-256.webp" width="40" height="40" alt="">
+        <span class="brand-word">Dog Unpacked</span>
+      </a>
+      <nav class="site-nav" aria-label="Site">
+        <a class="nav-cta" href="/#subscribe" aria-label="Free newsletter">
+          <span class="nav-cta-long">Free newsletter</span>
+          <span class="nav-cta-short">Subscribe</span>
+        </a>
+        <a class="nav-breeds" href="/breeds/">Breeds</a>
+        <a class="nav-videos" href="/videos/" aria-current="page">Videos</a>
+        <a class="nav-desktop" href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="video-hub">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Dog Unpacked</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Videos</span>
+      </nav>
+      <h1>Dog breed videos</h1>
+      <p class="video-dek">Long-form videos and Shorts from Dog Unpacked, newest first.</p>
+      <p class="video-subscribe"><a href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank">Subscribe on YouTube<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+      <nav class="video-filters" aria-label="Filter videos">
+        <span class="video-filter-label">Type</span>
+        <a href="/videos/">All</a><a href="#long">Long-form</a><a href="#short">Shorts</a>
+        <span class="video-filter-label">Breed</span>
+        <div class="video-filter-breeds"><a href="#pit-bull">American Pit Bull Terrier</a><a href="#australian-shepherd">Australian Shepherd</a><a href="#beagle">Beagle</a><a href="#doberman">Doberman Pinscher</a><a href="#french-bulldog">French Bulldog</a><a href="#german-shepherd">German Shepherd Dog</a><a href="#golden-retriever">Golden Retriever</a><a href="#labrador">Labrador Retriever</a><a href="#corgi">Pembroke Welsh Corgi</a><a href="#rottweiler">Rottweiler</a><a href="#husky">Siberian Husky</a></div>
+      </nav>
+      <p class="video-status"><span class="status-all">All videos, newest first.</span><span class="status-long">Long-form videos.</span><span class="status-short">Shorts.</span><span class="status-breed status-pit-bull">American Pit Bull Terrier videos.</span><span class="status-breed status-australian-shepherd">Australian Shepherd videos.</span><span class="status-breed status-beagle">Beagle videos.</span><span class="status-breed status-doberman">Doberman Pinscher videos.</span><span class="status-breed status-french-bulldog">French Bulldog videos.</span><span class="status-breed status-german-shepherd">German Shepherd Dog videos.</span><span class="status-breed status-golden-retriever">Golden Retriever videos.</span><span class="status-breed status-labrador">Labrador Retriever videos.</span><span class="status-breed status-corgi">Pembroke Welsh Corgi videos.</span><span class="status-breed status-rottweiler">Rottweiler videos.</span><span class="status-breed status-husky">Siberian Husky videos.</span></p>
+      <ul class="video-list">
+        <li class="video-card" data-type="short" data-breeds="french-bulldog"><a class="video-card-link" href="https://www.youtube.com/shorts/LRfoZUnSOj0" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="/images/video-thumbs/LRfoZUnSOj0.jpg" width="480" height="360" alt="" loading="eager" fetchpriority="high" decoding="sync"></span><span class="video-card-body"><p class="video-card-kicker">Short · 44 sec</p><h2>The French Bulldog Was Bred for One Job. You&#x27;re Sitting On It.</h2><time datetime="2026-10-14T20:00:02-04:00">October 14, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/french-bulldog/">French Bulldog</a></p></li><li class="video-card" data-type="short" data-breeds="australian-shepherd"><a class="video-card-link" href="https://www.youtube.com/shorts/aNXG9GyKbkE" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/aNXG9GyKbkE/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 43 sec</p><h2>Why Your Australian Shepherd Herds the Kids (It&#x27;s Not Play)</h2><time datetime="2026-10-12T17:51:10-04:00">October 12, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/australian-shepherd/">Australian Shepherd</a></p></li><li class="video-card" data-type="long" data-breeds=""><a class="video-card-link" href="/videos/ranking-8-guard-dog-breeds-worst-to-best/"><span class="video-card-media"><img src="https://i.ytimg.com/vi/Duet_LCuv0U/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Long-form · 10 min</p><h2>Ranking 8 Guard Dog Breeds Worst to Best — Most of Them Won&#x27;t Guard Anything</h2><time datetime="2026-10-12T14:13:26-04:00">October 12, 2026</time></span></a></li><li class="video-card" data-type="short" data-breeds="beagle"><a class="video-card-link" href="https://www.youtube.com/shorts/hGe-f5h7z5I" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/hGe-f5h7z5I/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 32 sec</p><h2>Why This Breed Is A Scent-Tracking Genius #dog #beagle #dogshorts</h2><time datetime="2026-10-09T17:18:15-04:00">October 9, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/beagle/">Beagle</a></p></li><li class="video-card" data-type="long" data-breeds="german-shepherd"><a class="video-card-link" href="/videos/8-things-your-german-shepherd-does-that-arent-what-you-think/"><span class="video-card-media"><img src="https://i.ytimg.com/vi/IZbkbYg9RYU/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Long-form · 8 min</p><h2>8 Things Your German Shepherd Does That Aren&#x27;t What You Think (His Job Explains Every One)</h2><time datetime="2026-10-07T21:00:20-04:00">October 7, 2026</time></span></a><p class="video-card-breeds"><a href="/breeds/german-shepherd/">German Shepherd Dog</a></p></li><li class="video-card" data-type="short" data-breeds="doberman"><a class="video-card-link" href="https://www.youtube.com/shorts/7oAMZ-w2g3M" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/7oAMZ-w2g3M/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 32 sec</p><h2>Why Your Doberman Won&#x27;t Leave Your Side (It&#x27;s Not Neediness)</h2><time datetime="2026-10-05T19:00:19-04:00">October 5, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/doberman/">Doberman Pinscher</a></p></li><li class="video-card" data-type="short" data-breeds="rottweiler"><a class="video-card-link" href="https://www.youtube.com/shorts/YYiONeb8snI" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/YYiONeb8snI/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 32 sec</p><h2>Why Your Rottweiler Leans On You (It&#x27;s Not Dominance)</h2><time datetime="2026-10-01T19:00:17-04:00">October 1, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/rottweiler/">Rottweiler</a></p></li><li class="video-card" data-type="short" data-breeds=""><a class="video-card-link" href="https://www.youtube.com/shorts/VGCQKsfLzzw" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/VGCQKsfLzzw/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 34 sec</p><h2>Why Your Dog Follows You Into the Bathroom (It&#x27;s Not Clingy)</h2><time datetime="2026-09-29T19:00:27-04:00">September 29, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a></li><li class="video-card" data-type="short" data-breeds=""><a class="video-card-link" href="https://www.youtube.com/shorts/k3pyRAQUThM" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/k3pyRAQUThM/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 32 sec</p><h2>Why Dogs Yawn When You Yawn (It&#x27;s Not a Coincidence)</h2><time datetime="2026-09-28T19:00:03-04:00">September 28, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a></li><li class="video-card" data-type="short" data-breeds="corgi"><a class="video-card-link" href="https://www.youtube.com/shorts/drWCvdqzurU" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/drWCvdqzurU/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>3 Things Only Corgi Owners UNDERSTAND</h2><time datetime="2026-09-24T19:15:01-04:00">September 24, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/corgi/">Pembroke Welsh Corgi</a></p></li><li class="video-card" data-type="short" data-breeds="golden-retriever"><a class="video-card-link" href="https://www.youtube.com/shorts/4J6760lWyK4" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/4J6760lWyK4/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>3 Things You DIDN&#x27;T Know About Golden Retrievers</h2><time datetime="2026-09-23T18:50:18-04:00">September 23, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/golden-retriever/">Golden Retriever</a></p></li><li class="video-card" data-type="long" data-breeds=""><a class="video-card-link" href="/videos/7-things-your-dog-does-only-for-you/"><span class="video-card-media"><img src="https://i.ytimg.com/vi/tyUgyQCYGGA/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Long-form · 12 min</p><h2>7 Things Your Dog Does ONLY for You (The Science Most Owners Never See)</h2><time datetime="2026-09-22T16:20:05-04:00">September 22, 2026</time></span></a></li><li class="video-card" data-type="short" data-breeds="husky"><a class="video-card-link" href="https://www.youtube.com/shorts/kXknP4pUeDU" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/kXknP4pUeDU/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>3 Things Only Husky Owners UNDERSTAND</h2><time datetime="2026-09-21T20:22:51-04:00">September 21, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/husky/">Siberian Husky</a></p></li><li class="video-card" data-type="short" data-breeds="pit-bull"><a class="video-card-link" href="https://www.youtube.com/shorts/qE66hpwfjmE" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/qE66hpwfjmE/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>3 Things You DIDN&#x27;T Know About Pit Bulls</h2><time datetime="2026-09-20T19:41:21-04:00">September 20, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/pit-bull/">American Pit Bull Terrier</a></p></li><li class="video-card" data-type="short" data-breeds="beagle"><a class="video-card-link" href="https://www.youtube.com/shorts/rbT0GwQzwkw" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/rbT0GwQzwkw/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your Beagle Isn&#x27;t Ignoring You — He Literally Can&#x27;t Process You (Beagle Explained)</h2><time datetime="2026-09-04T19:00:40-04:00">September 4, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/beagle/">Beagle</a></p></li><li class="video-card" data-type="short" data-breeds="labrador"><a class="video-card-link" href="https://www.youtube.com/shorts/KUzVZk1MKfI" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/KUzVZk1MKfI/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your Labrador Isn&#x27;t Greedy — 1 in 4 Has This Mutation (Lab Explained)</h2><time datetime="2026-09-02T20:04:49-04:00">September 2, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/labrador/">Labrador Retriever</a></p></li><li class="video-card" data-type="short" data-breeds="german-shepherd"><a class="video-card-link" href="https://www.youtube.com/shorts/Y5pz6fKx0ro" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/Y5pz6fKx0ro/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your German Shepherd Isn&#x27;t Guarding You — It&#x27;s Weirder Than That (GSD Explained)</h2><time datetime="2026-09-01T19:43:12-04:00">September 1, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/german-shepherd/">German Shepherd Dog</a></p></li><li class="video-card" data-type="short" data-breeds="golden-retriever"><a class="video-card-link" href="https://www.youtube.com/shorts/EyXhOtD2kHo" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/EyXhOtD2kHo/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your Golden Bringing You a Shoe Isn&#x27;t About the Shoe (Golden Retriever Explained)</h2><time datetime="2026-08-31T16:09:25-04:00">August 31, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/golden-retriever/">Golden Retriever</a></p></li><li class="video-card" data-type="short" data-breeds=""><a class="video-card-link" href="https://www.youtube.com/shorts/KA8RP8fwUJs" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/KA8RP8fwUJs/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your Dog&#x27;s Zoomies Are Real Science — And You Can Predict Them</h2><time datetime="2026-08-30T12:34:44-04:00">August 30, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a></li><li class="video-card" data-type="short" data-breeds=""><a class="video-card-link" href="https://www.youtube.com/shorts/R9BXASzMDLw" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/R9BXASzMDLw/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your Dog&#x27;s Guilty Look Isn&#x27;t Guilt — Science Checked (Dog Behavior Explained)</h2><time datetime="2026-08-29T08:30:36-04:00">August 29, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a></li><li class="video-card" data-type="short" data-breeds="husky"><a class="video-card-link" href="https://www.youtube.com/shorts/f5UK6e1PfIM" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/f5UK6e1PfIM/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your Husky Isn&#x27;t Being Dramatic — He&#x27;s Talking (Siberian Husky Explained)</h2><time datetime="2026-08-28T21:53:45-04:00">August 28, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/husky/">Siberian Husky</a></p></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="footer" id="footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand-block">
+          <p class="footer-brand">Dog Unpacked</p>
+          <p class="footer-tag">He's not broken. He's bred that way.</p>
+          <p class="footer-scope">Every breed, one at a time.</p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="/#subscribe">The Sniff Test, the free newsletter</a>
+          <a href="/breeds/">Breeds</a>
+          <a href="/videos/">Videos</a>
+          <a href="/#contact">Contact</a>
+          <a href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank">YouTube<span class="visually-hidden"> (opens in a new tab)</span></a>
+          <a href="https://www.instagram.com/dogunpacked" rel="noopener noreferrer" target="_blank">Instagram<span class="visually-hidden"> (opens in a new tab)</span></a>
+          <a href="https://www.tiktok.com/@dogsunpacked" rel="noopener noreferrer" target="_blank">TikTok<span class="visually-hidden"> (opens in a new tab)</span></a>
+        </nav>
+      </div>
+      <div class="footer-legal">
+        <p>&copy; Dog Unpacked 2026</p>
+        <p class="footer-disclaimer">Educational content only — not veterinary or training advice.</p>
+        <p class="footer-privacy">Privacy: we store your email with Kit to send the newsletter, and contact messages are delivered by Formspree. Unsubscribe anytime. Page views are counted with GoatCounter, which uses no cookies.</p>
+      </div>
+    </div>
+  </footer>
+
+  <style>#long:target ~ main .video-card:not([data-type="long"]){display:none}
+#short:target ~ main .video-card:not([data-type="short"]){display:none}
+#long:target ~ main .status-all,#short:target ~ main .status-all{display:none}
+#long:target ~ main .status-long{display:inline}
+#short:target ~ main .status-short{display:inline}
+#pit-bull:target ~ main .video-card:not([data-breeds~="pit-bull"]){display:none}
+#pit-bull:target ~ main .status-pit-bull{display:inline}
+#australian-shepherd:target ~ main .video-card:not([data-breeds~="australian-shepherd"]){display:none}
+#australian-shepherd:target ~ main .status-australian-shepherd{display:inline}
+#beagle:target ~ main .video-card:not([data-breeds~="beagle"]){display:none}
+#beagle:target ~ main .status-beagle{display:inline}
+#doberman:target ~ main .video-card:not([data-breeds~="doberman"]){display:none}
+#doberman:target ~ main .status-doberman{display:inline}
+#french-bulldog:target ~ main .video-card:not([data-breeds~="french-bulldog"]){display:none}
+#french-bulldog:target ~ main .status-french-bulldog{display:inline}
+#german-shepherd:target ~ main .video-card:not([data-breeds~="german-shepherd"]){display:none}
+#german-shepherd:target ~ main .status-german-shepherd{display:inline}
+#golden-retriever:target ~ main .video-card:not([data-breeds~="golden-retriever"]){display:none}
+#golden-retriever:target ~ main .status-golden-retriever{display:inline}
+#labrador:target ~ main .video-card:not([data-breeds~="labrador"]){display:none}
+#labrador:target ~ main .status-labrador{display:inline}
+#corgi:target ~ main .video-card:not([data-breeds~="corgi"]){display:none}
+#corgi:target ~ main .status-corgi{display:inline}
+#rottweiler:target ~ main .video-card:not([data-breeds~="rottweiler"]){display:none}
+#rottweiler:target ~ main .status-rottweiler{display:inline}
+#husky:target ~ main .video-card:not([data-breeds~="husky"]){display:none}
+#husky:target ~ main .status-husky{display:inline}
+#pit-bull:target ~ main .status-all,#australian-shepherd:target ~ main .status-all,#beagle:target ~ main .status-all,#doberman:target ~ main .status-all,#french-bulldog:target ~ main .status-all,#german-shepherd:target ~ main .status-all,#golden-retriever:target ~ main .status-all,#labrador:target ~ main .status-all,#corgi:target ~ main .status-all,#rottweiler:target ~ main .status-all,#husky:target ~ main .status-all{display:none}</style>
+  <script>
+    (function () {
+      function mark() {
+        var hash = location.hash.replace(/^#/, "");
+        var links = document.querySelectorAll(".video-filters a");
+        for (var i = 0; i < links.length; i++) {
+          var href = links[i].getAttribute("href") || "";
+          var on = hash ? href === "#" + hash : href === "/videos/";
+          if (on) links[i].setAttribute("aria-current", "true");
+          else links[i].removeAttribute("aria-current");
+        }
+      }
+      mark();
+      window.addEventListener("hashchange", mark);
+    })();
+  </script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -474,133 +603,6 @@
     }
   ]
 }
-  </script>
-</head>
-
-<body>
-<div id="long" class="video-anchor"></div>
-<div id="short" class="video-anchor"></div>
-<div id="pit-bull" class="video-anchor"></div>
-<div id="australian-shepherd" class="video-anchor"></div>
-<div id="beagle" class="video-anchor"></div>
-<div id="doberman" class="video-anchor"></div>
-<div id="french-bulldog" class="video-anchor"></div>
-<div id="german-shepherd" class="video-anchor"></div>
-<div id="golden-retriever" class="video-anchor"></div>
-<div id="labrador" class="video-anchor"></div>
-<div id="corgi" class="video-anchor"></div>
-<div id="rottweiler" class="video-anchor"></div>
-<div id="husky" class="video-anchor"></div>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="/">
-        <img src="/images/logo-256.webp" width="40" height="40" alt="">
-        <span class="brand-word">Dog Unpacked</span>
-      </a>
-      <nav class="site-nav" aria-label="Site">
-        <a class="nav-cta" href="/#subscribe" aria-label="Free newsletter">
-          <span class="nav-cta-long">Free newsletter</span>
-          <span class="nav-cta-short">Subscribe</span>
-        </a>
-        <a class="nav-breeds" href="/breeds/">Breeds</a>
-        <a class="nav-videos" href="/videos/" aria-current="page">Videos</a>
-        <a class="nav-desktop" href="/#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-    <div class="video-hub">
-      <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="/">Dog Unpacked</a>
-        <span aria-hidden="true">/</span>
-        <span aria-current="page">Videos</span>
-      </nav>
-      <h1>Dog breed videos</h1>
-      <p class="video-dek">Long-form videos and Shorts from Dog Unpacked, newest first.</p>
-      <p class="video-subscribe"><a href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank">Subscribe on YouTube<span class="visually-hidden"> (opens in a new tab)</span></a></p>
-      <nav class="video-filters" aria-label="Filter videos">
-        <span class="video-filter-label">Type</span>
-        <a href="/videos/">All</a><a href="#long">Long-form</a><a href="#short">Shorts</a>
-        <span class="video-filter-label">Breed</span>
-        <a href="#pit-bull">American Pit Bull Terrier</a><a href="#australian-shepherd">Australian Shepherd</a><a href="#beagle">Beagle</a><a href="#doberman">Doberman Pinscher</a><a href="#french-bulldog">French Bulldog</a><a href="#german-shepherd">German Shepherd Dog</a><a href="#golden-retriever">Golden Retriever</a><a href="#labrador">Labrador Retriever</a><a href="#corgi">Pembroke Welsh Corgi</a><a href="#rottweiler">Rottweiler</a><a href="#husky">Siberian Husky</a>
-      </nav>
-      <p class="video-status"><span class="status-all">All videos, newest first.</span><span class="status-long">Long-form videos.</span><span class="status-short">Shorts.</span><span class="status-breed status-pit-bull">American Pit Bull Terrier videos.</span><span class="status-breed status-australian-shepherd">Australian Shepherd videos.</span><span class="status-breed status-beagle">Beagle videos.</span><span class="status-breed status-doberman">Doberman Pinscher videos.</span><span class="status-breed status-french-bulldog">French Bulldog videos.</span><span class="status-breed status-german-shepherd">German Shepherd Dog videos.</span><span class="status-breed status-golden-retriever">Golden Retriever videos.</span><span class="status-breed status-labrador">Labrador Retriever videos.</span><span class="status-breed status-corgi">Pembroke Welsh Corgi videos.</span><span class="status-breed status-rottweiler">Rottweiler videos.</span><span class="status-breed status-husky">Siberian Husky videos.</span></p>
-      <ul class="video-list">
-        <li class="video-card" data-type="short" data-breeds="french-bulldog"><a class="video-card-link" href="https://www.youtube.com/shorts/LRfoZUnSOj0" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/LRfoZUnSOj0/hqdefault.jpg" width="480" height="360" alt="" loading="eager" fetchpriority="high" decoding="sync" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 44 sec</p><h2>The French Bulldog Was Bred for One Job. You&#x27;re Sitting On It.</h2><time datetime="2026-10-14T20:00:02-04:00">October 14, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/french-bulldog/">French Bulldog</a></p></li><li class="video-card" data-type="short" data-breeds="australian-shepherd"><a class="video-card-link" href="https://www.youtube.com/shorts/aNXG9GyKbkE" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/aNXG9GyKbkE/hqdefault.jpg" width="480" height="360" alt="" loading="eager" fetchpriority="auto" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 43 sec</p><h2>Why Your Australian Shepherd Herds the Kids (It&#x27;s Not Play)</h2><time datetime="2026-10-12T17:51:10-04:00">October 12, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/australian-shepherd/">Australian Shepherd</a></p></li><li class="video-card" data-type="long" data-breeds=""><a class="video-card-link" href="/videos/ranking-8-guard-dog-breeds-worst-to-best/"><span class="video-card-media"><img src="https://i.ytimg.com/vi/Duet_LCuv0U/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Long-form · 10 min</p><h2>Ranking 8 Guard Dog Breeds Worst to Best — Most of Them Won&#x27;t Guard Anything</h2><time datetime="2026-10-12T14:13:26-04:00">October 12, 2026</time></span></a></li><li class="video-card" data-type="short" data-breeds="beagle"><a class="video-card-link" href="https://www.youtube.com/shorts/hGe-f5h7z5I" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/hGe-f5h7z5I/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 32 sec</p><h2>Why This Breed Is A Scent-Tracking Genius #dog #beagle #dogshorts</h2><time datetime="2026-10-09T17:18:15-04:00">October 9, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/beagle/">Beagle</a></p></li><li class="video-card" data-type="long" data-breeds="german-shepherd"><a class="video-card-link" href="/videos/8-things-your-german-shepherd-does-that-arent-what-you-think/"><span class="video-card-media"><img src="https://i.ytimg.com/vi/IZbkbYg9RYU/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Long-form · 8 min</p><h2>8 Things Your German Shepherd Does That Aren&#x27;t What You Think (His Job Explains Every One)</h2><time datetime="2026-10-07T21:00:20-04:00">October 7, 2026</time></span></a><p class="video-card-breeds"><a href="/breeds/german-shepherd/">German Shepherd Dog</a></p></li><li class="video-card" data-type="short" data-breeds="doberman"><a class="video-card-link" href="https://www.youtube.com/shorts/7oAMZ-w2g3M" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/7oAMZ-w2g3M/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 32 sec</p><h2>Why Your Doberman Won&#x27;t Leave Your Side (It&#x27;s Not Neediness)</h2><time datetime="2026-10-05T19:00:19-04:00">October 5, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/doberman/">Doberman Pinscher</a></p></li><li class="video-card" data-type="short" data-breeds="rottweiler"><a class="video-card-link" href="https://www.youtube.com/shorts/YYiONeb8snI" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/YYiONeb8snI/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 32 sec</p><h2>Why Your Rottweiler Leans On You (It&#x27;s Not Dominance)</h2><time datetime="2026-10-01T19:00:17-04:00">October 1, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/rottweiler/">Rottweiler</a></p></li><li class="video-card" data-type="short" data-breeds=""><a class="video-card-link" href="https://www.youtube.com/shorts/VGCQKsfLzzw" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/VGCQKsfLzzw/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 34 sec</p><h2>Why Your Dog Follows You Into the Bathroom (It&#x27;s Not Clingy)</h2><time datetime="2026-09-29T19:00:27-04:00">September 29, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a></li><li class="video-card" data-type="short" data-breeds=""><a class="video-card-link" href="https://www.youtube.com/shorts/k3pyRAQUThM" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/k3pyRAQUThM/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 32 sec</p><h2>Why Dogs Yawn When You Yawn (It&#x27;s Not a Coincidence)</h2><time datetime="2026-09-28T19:00:03-04:00">September 28, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a></li><li class="video-card" data-type="short" data-breeds="corgi"><a class="video-card-link" href="https://www.youtube.com/shorts/drWCvdqzurU" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/drWCvdqzurU/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>3 Things Only Corgi Owners UNDERSTAND</h2><time datetime="2026-09-24T19:15:01-04:00">September 24, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/corgi/">Pembroke Welsh Corgi</a></p></li><li class="video-card" data-type="short" data-breeds="golden-retriever"><a class="video-card-link" href="https://www.youtube.com/shorts/4J6760lWyK4" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/4J6760lWyK4/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>3 Things You DIDN&#x27;T Know About Golden Retrievers</h2><time datetime="2026-09-23T18:50:18-04:00">September 23, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/golden-retriever/">Golden Retriever</a></p></li><li class="video-card" data-type="long" data-breeds=""><a class="video-card-link" href="/videos/7-things-your-dog-does-only-for-you/"><span class="video-card-media"><img src="https://i.ytimg.com/vi/tyUgyQCYGGA/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Long-form · 12 min</p><h2>7 Things Your Dog Does ONLY for You (The Science Most Owners Never See)</h2><time datetime="2026-09-22T16:20:05-04:00">September 22, 2026</time></span></a></li><li class="video-card" data-type="short" data-breeds="husky"><a class="video-card-link" href="https://www.youtube.com/shorts/kXknP4pUeDU" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/kXknP4pUeDU/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>3 Things Only Husky Owners UNDERSTAND</h2><time datetime="2026-09-21T20:22:51-04:00">September 21, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/husky/">Siberian Husky</a></p></li><li class="video-card" data-type="short" data-breeds="pit-bull"><a class="video-card-link" href="https://www.youtube.com/shorts/qE66hpwfjmE" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/qE66hpwfjmE/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>3 Things You DIDN&#x27;T Know About Pit Bulls</h2><time datetime="2026-09-20T19:41:21-04:00">September 20, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/pit-bull/">American Pit Bull Terrier</a></p></li><li class="video-card" data-type="short" data-breeds="beagle"><a class="video-card-link" href="https://www.youtube.com/shorts/rbT0GwQzwkw" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/rbT0GwQzwkw/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your Beagle Isn&#x27;t Ignoring You — He Literally Can&#x27;t Process You (Beagle Explained)</h2><time datetime="2026-09-04T19:00:40-04:00">September 4, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/beagle/">Beagle</a></p></li><li class="video-card" data-type="short" data-breeds="labrador"><a class="video-card-link" href="https://www.youtube.com/shorts/KUzVZk1MKfI" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/KUzVZk1MKfI/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your Labrador Isn&#x27;t Greedy — 1 in 4 Has This Mutation (Lab Explained)</h2><time datetime="2026-09-02T20:04:49-04:00">September 2, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/labrador/">Labrador Retriever</a></p></li><li class="video-card" data-type="short" data-breeds="german-shepherd"><a class="video-card-link" href="https://www.youtube.com/shorts/Y5pz6fKx0ro" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/Y5pz6fKx0ro/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your German Shepherd Isn&#x27;t Guarding You — It&#x27;s Weirder Than That (GSD Explained)</h2><time datetime="2026-09-01T19:43:12-04:00">September 1, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/german-shepherd/">German Shepherd Dog</a></p></li><li class="video-card" data-type="short" data-breeds="golden-retriever"><a class="video-card-link" href="https://www.youtube.com/shorts/EyXhOtD2kHo" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/EyXhOtD2kHo/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your Golden Bringing You a Shoe Isn&#x27;t About the Shoe (Golden Retriever Explained)</h2><time datetime="2026-08-31T16:09:25-04:00">August 31, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/golden-retriever/">Golden Retriever</a></p></li><li class="video-card" data-type="short" data-breeds=""><a class="video-card-link" href="https://www.youtube.com/shorts/KA8RP8fwUJs" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/KA8RP8fwUJs/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your Dog&#x27;s Zoomies Are Real Science — And You Can Predict Them</h2><time datetime="2026-08-30T12:34:44-04:00">August 30, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a></li><li class="video-card" data-type="short" data-breeds=""><a class="video-card-link" href="https://www.youtube.com/shorts/R9BXASzMDLw" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/R9BXASzMDLw/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your Dog&#x27;s Guilty Look Isn&#x27;t Guilt — Science Checked (Dog Behavior Explained)</h2><time datetime="2026-08-29T08:30:36-04:00">August 29, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a></li><li class="video-card" data-type="short" data-breeds="husky"><a class="video-card-link" href="https://www.youtube.com/shorts/f5UK6e1PfIM" rel="noopener noreferrer" target="_blank"><span class="video-card-media"><img src="https://i.ytimg.com/vi/f5UK6e1PfIM/hqdefault.jpg" width="480" height="360" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="video-card-body"><p class="video-card-kicker">Short · 1 min</p><h2>Your Husky Isn&#x27;t Being Dramatic — He&#x27;s Talking (Siberian Husky Explained)</h2><time datetime="2026-08-28T21:53:45-04:00">August 28, 2026</time><span class="visually-hidden"> (opens in a new tab)</span></span></a><p class="video-card-breeds"><a href="/breeds/husky/">Siberian Husky</a></p></li>
-      </ul>
-    </div>
-  </main>
-  <footer class="footer" id="footer">
-    <div class="wrap">
-      <div class="footer-top">
-        <div class="footer-brand-block">
-          <p class="footer-brand">Dog Unpacked</p>
-          <p class="footer-tag">He's not broken. He's bred that way.</p>
-          <p class="footer-scope">Every breed, one at a time.</p>
-        </div>
-        <nav class="footer-nav" aria-label="Footer">
-          <a href="/#subscribe">The Sniff Test, the free newsletter</a>
-          <a href="/breeds/">Breeds</a>
-          <a href="/videos/">Videos</a>
-          <a href="/#contact">Contact</a>
-          <a href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank">YouTube<span class="visually-hidden"> (opens in a new tab)</span></a>
-          <a href="https://www.instagram.com/dogunpacked" rel="noopener noreferrer" target="_blank">Instagram<span class="visually-hidden"> (opens in a new tab)</span></a>
-          <a href="https://www.tiktok.com/@dogsunpacked" rel="noopener noreferrer" target="_blank">TikTok<span class="visually-hidden"> (opens in a new tab)</span></a>
-        </nav>
-      </div>
-      <div class="footer-legal">
-        <p>&copy; Dog Unpacked 2026</p>
-        <p class="footer-disclaimer">Educational content only — not veterinary or training advice.</p>
-        <p class="footer-privacy">Privacy: we store your email with Kit to send the newsletter, and contact messages are delivered by Formspree. Unsubscribe anytime. Page views are counted with GoatCounter, which uses no cookies.</p>
-      </div>
-    </div>
-  </footer>
-
-  <style>#long:target ~ main .video-card:not([data-type="long"]){display:none}
-#short:target ~ main .video-card:not([data-type="short"]){display:none}
-#long:target ~ main .status-all,#short:target ~ main .status-all{display:none}
-#long:target ~ main .status-long{display:inline}
-#short:target ~ main .status-short{display:inline}
-#pit-bull:target ~ main .video-card:not([data-breeds~="pit-bull"]){display:none}
-#pit-bull:target ~ main .status-pit-bull{display:inline}
-#australian-shepherd:target ~ main .video-card:not([data-breeds~="australian-shepherd"]){display:none}
-#australian-shepherd:target ~ main .status-australian-shepherd{display:inline}
-#beagle:target ~ main .video-card:not([data-breeds~="beagle"]){display:none}
-#beagle:target ~ main .status-beagle{display:inline}
-#doberman:target ~ main .video-card:not([data-breeds~="doberman"]){display:none}
-#doberman:target ~ main .status-doberman{display:inline}
-#french-bulldog:target ~ main .video-card:not([data-breeds~="french-bulldog"]){display:none}
-#french-bulldog:target ~ main .status-french-bulldog{display:inline}
-#german-shepherd:target ~ main .video-card:not([data-breeds~="german-shepherd"]){display:none}
-#german-shepherd:target ~ main .status-german-shepherd{display:inline}
-#golden-retriever:target ~ main .video-card:not([data-breeds~="golden-retriever"]){display:none}
-#golden-retriever:target ~ main .status-golden-retriever{display:inline}
-#labrador:target ~ main .video-card:not([data-breeds~="labrador"]){display:none}
-#labrador:target ~ main .status-labrador{display:inline}
-#corgi:target ~ main .video-card:not([data-breeds~="corgi"]){display:none}
-#corgi:target ~ main .status-corgi{display:inline}
-#rottweiler:target ~ main .video-card:not([data-breeds~="rottweiler"]){display:none}
-#rottweiler:target ~ main .status-rottweiler{display:inline}
-#husky:target ~ main .video-card:not([data-breeds~="husky"]){display:none}
-#husky:target ~ main .status-husky{display:inline}
-#pit-bull:target ~ main .status-all,#australian-shepherd:target ~ main .status-all,#beagle:target ~ main .status-all,#doberman:target ~ main .status-all,#french-bulldog:target ~ main .status-all,#german-shepherd:target ~ main .status-all,#golden-retriever:target ~ main .status-all,#labrador:target ~ main .status-all,#corgi:target ~ main .status-all,#rottweiler:target ~ main .status-all,#husky:target ~ main .status-all{display:none}</style>
-  <script>
-    (function () {
-      function mark() {
-        var hash = location.hash.replace(/^#/, "");
-        var links = document.querySelectorAll(".video-filters a");
-        for (var i = 0; i < links.length; i++) {
-          var href = links[i].getAttribute("href") || "";
-          var on = hash ? href === "#" + hash : href === "/videos/";
-          if (on) links[i].setAttribute("aria-current", "true");
-          else links[i].removeAttribute("aria-current");
-        }
-      }
-      mark();
-      window.addEventListener("hashchange", mark);
-    })();
   </script>
   <script>
     (function () {
