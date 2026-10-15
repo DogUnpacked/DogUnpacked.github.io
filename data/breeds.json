@@ -135,17 +135,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/airedale-terrier.webp",
         "thumb": "images/breeds/directory/airedale-terrier-thumb.webp",
-        "width": 1200,
-        "height": 928,
+        "width": 643,
+        "height": 960,
         "thumb_width": 360,
         "thumb_height": 360,
         "alt": "Adult Airedale Terrier standing on grass.",
-        "author": "Wikimedia Commons contributor",
-        "license": "CC BY-SA 3.0",
-        "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
-        "source_url": "https://commons.wikimedia.org/wiki/File:Airedale_terrier_(wystawa).jpg",
-        "focal_x": 0.494,
-        "focal_y": 0.5
+        "author": "Valeriia Harbuz",
+        "license": "Pexels License",
+        "license_url": "https://www.pexels.com/license/",
+        "source_url": "https://www.pexels.com/photo/airedale-terrier-on-leash-17656008/",
+        "focal_x": 0.5,
+        "focal_y": 0.26
       }
     },
     {
@@ -468,15 +468,15 @@
         "thumb": "images/breeds/pit-bull-240.webp",
         "width": 480,
         "height": 480,
-        "thumb_width": 360,
-        "thumb_height": 360,
-        "alt": "Adult American Pit Bull Terrier standing on a green bench.",
-        "author": "Yohan Cho",
-        "license": "Unsplash License",
-        "license_url": "https://unsplash.com/license",
-        "source_url": "https://unsplash.com/photos/adult-black-and-white-american-pit-bull-terrier-pWqToFDCrJ8",
+        "thumb_width": 240,
+        "thumb_height": 240,
+        "alt": "Adult American Pit Bull Terrier sitting on grass.",
+        "author": "Leonardo Merlo",
+        "license": "Pexels License",
+        "license_url": "https://www.pexels.com/license/",
+        "source_url": "https://www.pexels.com/photo/a-portrait-of-an-american-pit-bull-terrier-6442325/",
         "focal_x": 0.5,
-        "focal_y": 0.5
+        "focal_y": 0.42
       }
     },
     {
@@ -705,17 +705,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/australian-shepherd.webp",
         "thumb": "images/breeds/directory/australian-shepherd-thumb.webp",
-        "width": 695,
+        "width": 640,
         "height": 960,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Adult Australian Shepherd standing in grass.",
-        "author": "PanzerChan69",
-        "license": "CC BY-SA 4.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
-        "source_url": "https://commons.wikimedia.org/wiki/File%3AAustralian_Shepherd_Blue_Merle_Tricolor.jpg",
+        "alt": "Adult Australian Shepherd standing in a field.",
+        "author": "Dave Garcia",
+        "license": "Pexels License",
+        "license_url": "https://www.pexels.com/license/",
+        "source_url": "https://www.pexels.com/photo/beautiful-australian-shepherd-in-nature-setting-32854634/",
         "focal_x": 0.5,
-        "focal_y": 0.364
+        "focal_y": 0.24
       }
     },
     {
@@ -2621,17 +2621,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/cane-corso.webp",
         "thumb": "images/breeds/directory/cane-corso-thumb.webp",
-        "width": 960,
-        "height": 720,
+        "width": 640,
+        "height": 960,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Adult Cane Corso standing in profile on a light floor.",
-        "author": "Supreme Chungus",
-        "license": "CC BY-SA 4.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
-        "source_url": "https://commons.wikimedia.org/wiki/File%3AA_greyhound_and_cane_corso_examining_each_other.jpg",
-        "focal_x": 0.375,
-        "focal_y": 0.5
+        "alt": "Adult Cane Corso sitting on a forest path.",
+        "author": "Elina Volkova",
+        "license": "Pexels License",
+        "license_url": "https://www.pexels.com/license/",
+        "source_url": "https://www.pexels.com/photo/cane-corso-dog-in-sunny-forest-trail-portrait-29063076/",
+        "focal_x": 0.5,
+        "focal_y": 0.32
       }
     },
     {
@@ -2711,17 +2711,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/cavalier-king-charles-spaniel.webp",
         "thumb": "images/breeds/directory/cavalier-king-charles-spaniel-thumb.webp",
-        "width": 960,
-        "height": 785,
+        "width": 768,
+        "height": 960,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Two Cavalier King Charles Spaniels sitting on a red surface.",
-        "author": "Mapovfille",
-        "license": "CC BY 3.0",
-        "license_url": "https://creativecommons.org/licenses/by/3.0",
-        "source_url": "https://commons.wikimedia.org/wiki/File%3ABetty_Verdure.Photo_Ph.BRIZARD.JPG",
-        "focal_x": 0.406,
-        "focal_y": 0.5
+        "alt": "Adult Cavalier King Charles Spaniel standing on a light floor.",
+        "author": "Peps Silvestro",
+        "license": "Pexels License",
+        "license_url": "https://www.pexels.com/license/",
+        "source_url": "https://www.pexels.com/photo/a-brown-spaniel-on-a-white-floor-14102896/",
+        "focal_x": 0.5,
+        "focal_y": 0.28
       }
     },
     {
@@ -2848,17 +2848,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/chihuahua.webp",
         "thumb": "images/breeds/directory/chihuahua-thumb.webp",
-        "width": 960,
-        "height": 743,
+        "width": 720,
+        "height": 960,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Adult Chihuahua with a long coat standing on a white surface.",
-        "author": "Caterinarufo",
-        "license": "Public domain",
-        "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
-        "source_url": "https://commons.wikimedia.org/wiki/File%3AChihuahuas-_Holly%2C_Nina%2C_Doralice.jpg",
-        "focal_x": 0.556,
-        "focal_y": 0.5
+        "alt": "Adult Chihuahua in a close-up against a light background.",
+        "author": "Ros NL",
+        "license": "Pexels License",
+        "license_url": "https://www.pexels.com/license/",
+        "source_url": "https://www.pexels.com/photo/adorable-long-haired-chihuahua-portrait-34490257/",
+        "focal_x": 0.5,
+        "focal_y": 0.45
       }
     },
     {
@@ -2896,16 +2896,16 @@
         "file": "images/breeds/directory/chinese-crested.webp",
         "thumb": "images/breeds/directory/chinese-crested-thumb.webp",
         "width": 960,
-        "height": 640,
+        "height": 960,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Adult Chinese Crested sitting in a person's arms.",
-        "author": "Pets Adviser from Brooklyn, USA",
-        "license": "CC BY 2.0",
-        "license_url": "https://creativecommons.org/licenses/by/2.0",
-        "source_url": "https://commons.wikimedia.org/wiki/File%3AChinese_Crested_Dog_%2812482544324%29.jpg",
-        "focal_x": 0.481,
-        "focal_y": 0.5
+        "alt": "Adult Chinese Crested standing on pavement.",
+        "author": "Erwin Bosman",
+        "license": "Pexels License",
+        "license_url": "https://www.pexels.com/license/",
+        "source_url": "https://www.pexels.com/photo/hairless-chinese-crested-dog-walking-outdoors-34624184/",
+        "focal_x": 0.5,
+        "focal_y": 0.38
       }
     },
     {
@@ -3357,17 +3357,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/dachshund.webp",
         "thumb": "images/breeds/directory/dachshund-thumb.webp",
-        "width": 720,
-        "height": 960,
+        "width": 480,
+        "height": 720,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Adult Dachshund standing in profile on a light floor.",
-        "author": "Slyronit",
-        "license": "CC BY-SA 4.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
-        "source_url": "https://commons.wikimedia.org/wiki/File%3AA_dachshund_sniffing_a_beagle_at_the_park.jpg",
+        "alt": "Adult Dachshund standing on a patio.",
+        "author": "Vinícius Cezário",
+        "license": "Pexels License",
+        "license_url": "https://www.pexels.com/license/",
+        "source_url": "https://www.pexels.com/photo/portrait-of-a-dachshund-11118046/",
         "focal_x": 0.5,
-        "focal_y": 0.377
+        "focal_y": 0.22
       }
     },
     {
@@ -6300,7 +6300,20 @@
       "facts": [],
       "atts": null,
       "photo": {
-        "placeholder": true
+        "placeholder": false,
+        "file": "images/breeds/directory/mixed-breed.webp",
+        "thumb": "images/breeds/directory/mixed-breed-thumb.webp",
+        "width": 960,
+        "height": 640,
+        "thumb_width": 360,
+        "thumb_height": 360,
+        "alt": "Adult mixed-breed dog in a close-up outdoors.",
+        "author": "Alexas Fotos",
+        "license": "Pexels License",
+        "license_url": "https://www.pexels.com/license/",
+        "source_url": "https://www.pexels.com/photo/charming-portrait-of-a-mixed-breed-dog-31936010/",
+        "focal_x": 0.52,
+        "focal_y": 0.46
       }
     },
     {
@@ -7873,17 +7886,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/rottweiler.webp",
         "thumb": "images/breeds/directory/rottweiler-thumb.webp",
-        "width": 512,
-        "height": 768,
+        "width": 768,
+        "height": 960,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Adult Rottweiler standing on green turf, with part of another dog behind.",
-        "author": "azuaje",
-        "license": "CC BY-SA 2.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
-        "source_url": "https://commons.wikimedia.org/wiki/File%3A%2801%29_Rottweiler_5830118718_ce2570e348_o.jpg",
-        "focal_x": 0.5,
-        "focal_y": 0.333
+        "alt": "Adult Rottweiler in a close-up outdoors.",
+        "author": "Pramod Tiwari",
+        "license": "Pexels License",
+        "license_url": "https://www.pexels.com/license/",
+        "source_url": "https://www.pexels.com/photo/black-rottweiler-dog-in-close-up-photography-13569296/",
+        "focal_x": 0.52,
+        "focal_y": 0.4
       }
     },
     {
@@ -8513,17 +8526,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/husky.webp",
         "thumb": "images/breeds/directory/husky-thumb.webp",
-        "width": 960,
-        "height": 647,
+        "width": 520,
+        "height": 693,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Two adult Siberian Husky dogs sitting in snow.",
-        "author": "localpups",
-        "license": "CC BY 2.0",
-        "license_url": "https://creativecommons.org/licenses/by/2.0",
-        "source_url": "https://commons.wikimedia.org/wiki/File%3A3217-siberian-husky-dog_%2820314366700%29.jpg",
-        "focal_x": 0.506,
-        "focal_y": 0.5
+        "alt": "Adult Siberian Husky standing in snow.",
+        "author": "Riley Sullivan",
+        "license": "Unsplash License",
+        "license_url": "https://unsplash.com/license",
+        "source_url": "https://unsplash.com/photos/siberian-husky-khNqqoG6GqE",
+        "focal_x": 0.5,
+        "focal_y": 0.3
       }
     },
     {
