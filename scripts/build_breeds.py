@@ -433,6 +433,7 @@ def head(title, description, canonical, image, image_w, image_h, image_alt, crum
 def header(current):
     breeds_current = ' aria-current="page"' if current == "breeds" else ""
     videos_current = ' aria-current="page"' if current == "videos" else ""
+    articles_current = ' aria-current="page"' if current == "articles" else ""
     return f"""<body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
@@ -448,6 +449,7 @@ def header(current):
         </a>
         <a class="nav-breeds" href="/breeds/"{breeds_current}>Breeds</a>
         <a class="nav-videos" href="/videos/"{videos_current}>Videos</a>
+        <a class="nav-articles" href="/articles/"{articles_current}>Articles</a>
         <a class="nav-desktop" href="/#contact">Contact</a>
       </nav>
     </div>
@@ -468,6 +470,7 @@ def footer():
           <a href="/#subscribe">The Sniff Test, the free newsletter</a>
           <a href="/breeds/">Breeds</a>
           <a href="/videos/">Videos</a>
+          <a href="/articles/">Articles</a>
           <a href="/#contact">Contact</a>
           <a href="https://www.youtube.com/@DogUnpacked?sub_confirmation=1" rel="noopener noreferrer" target="_blank">YouTube<span class="visually-hidden"> (opens in a new tab)</span></a>
           <a href="https://www.instagram.com/dogunpacked" rel="noopener noreferrer" target="_blank">Instagram<span class="visually-hidden"> (opens in a new tab)</span></a>

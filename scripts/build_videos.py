@@ -129,7 +129,8 @@ CRITICAL_CSS = """
     .lite-yt-btn{position:absolute;inset:0;display:block;width:100%;height:100%;padding:0;border:0;background:#0B1326;cursor:pointer}
     .lite-yt-btn img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
     .lite-yt-play{position:absolute;left:50%;top:50%;display:inline-flex;line-height:0;transform:translate(-50%,-50%)}
-    @media (max-width:540px){.nav-cta-long{display:none}.nav-cta-short{display:inline}.site-nav a{padding:.35rem .45rem;font-size:.82rem}.video-type-option span{padding-inline:.45rem;font-size:.82rem}}
+    @media (max-width:540px){.video-type-option span{padding-inline:.45rem;font-size:.82rem}}
+    @media (max-width:640px){.nav-cta-long{display:none}.nav-cta-short{display:inline}.header-inner{gap:.25rem}.brand{gap:.3rem}.brand img{width:32px;height:32px}.brand-word{font-size:.75rem}.site-nav{gap:0}.site-nav a{padding:.2rem .26rem;font-size:.75rem}.site-nav a.nav-cta{padding-inline:.4rem}}
     @media (min-width:720px){.video-list{grid-template-columns:1fr 1fr}}
     @media (min-width:840px){.site-nav a.nav-desktop{display:inline-flex}}
 """
@@ -904,6 +905,7 @@ def header():
         </a>
         <a class="nav-breeds" href="/breeds/">Breeds</a>
         <a class="nav-videos" href="/videos/" aria-current="page">Videos</a>
+        <a class="nav-articles" href="/articles/">Articles</a>
         <a class="nav-desktop" href="/#contact">Contact</a>
       </nav>
     </div>
@@ -924,6 +926,7 @@ def footer():
           <a href="/#subscribe">The Sniff Test, the free newsletter</a>
           <a href="/breeds/">Breeds</a>
           <a href="/videos/">Videos</a>
+          <a href="/articles/">Articles</a>
           <a href="/#contact">Contact</a>
           <a href="{SUBSCRIBE}" rel="noopener noreferrer" target="_blank">YouTube<span class="visually-hidden"> (opens in a new tab)</span></a>
           <a href="https://www.instagram.com/dogunpacked" rel="noopener noreferrer" target="_blank">Instagram<span class="visually-hidden"> (opens in a new tab)</span></a>
