@@ -135,17 +135,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/airedale-terrier.webp",
         "thumb": "images/breeds/directory/airedale-terrier-thumb.webp",
-        "width": 643,
-        "height": 960,
+        "width": 1200,
+        "height": 928,
         "thumb_width": 360,
         "thumb_height": 360,
         "alt": "Adult Airedale Terrier standing on grass.",
-        "author": "Valeriia Harbuz",
-        "license": "Pexels License",
-        "license_url": "https://www.pexels.com/license/",
-        "source_url": "https://www.pexels.com/photo/airedale-terrier-on-leash-17656008/",
-        "focal_x": 0.5,
-        "focal_y": 0.26
+        "author": "Wikimedia Commons contributor",
+        "license": "CC BY-SA 3.0",
+        "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Airedale_terrier_(wystawa).jpg",
+        "focal_x": 0.494,
+        "focal_y": 0.5
       }
     },
     {
@@ -2621,17 +2621,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/cane-corso.webp",
         "thumb": "images/breeds/directory/cane-corso-thumb.webp",
-        "width": 640,
-        "height": 960,
+        "width": 876,
+        "height": 876,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Adult Cane Corso sitting on a forest path.",
-        "author": "Elina Volkova",
+        "alt": "Adult Cane Corso in a close-up.",
+        "author": "Bil Hinton",
         "license": "Pexels License",
         "license_url": "https://www.pexels.com/license/",
-        "source_url": "https://www.pexels.com/photo/cane-corso-dog-in-sunny-forest-trail-portrait-29063076/",
-        "focal_x": 0.5,
-        "focal_y": 0.32
+        "source_url": "https://www.pexels.com/photo/close-up-portrait-of-a-cane-corso-dog-in-black-and-white-39740951/",
+        "focal_x": 0.55,
+        "focal_y": 0.4
       }
     },
     {
@@ -2711,17 +2711,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/cavalier-king-charles-spaniel.webp",
         "thumb": "images/breeds/directory/cavalier-king-charles-spaniel-thumb.webp",
-        "width": 768,
-        "height": 960,
+        "width": 960,
+        "height": 785,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Adult Cavalier King Charles Spaniel standing on a light floor.",
-        "author": "Peps Silvestro",
-        "license": "Pexels License",
-        "license_url": "https://www.pexels.com/license/",
-        "source_url": "https://www.pexels.com/photo/a-brown-spaniel-on-a-white-floor-14102896/",
-        "focal_x": 0.5,
-        "focal_y": 0.28
+        "alt": "Two Cavalier King Charles Spaniels sitting on a red surface.",
+        "author": "Mapovfille",
+        "license": "CC BY 3.0",
+        "license_url": "https://creativecommons.org/licenses/by/3.0",
+        "source_url": "https://commons.wikimedia.org/wiki/File%3ABetty_Verdure.Photo_Ph.BRIZARD.JPG",
+        "focal_x": 0.406,
+        "focal_y": 0.5
       }
     },
     {
@@ -2895,17 +2895,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/chinese-crested.webp",
         "thumb": "images/breeds/directory/chinese-crested-thumb.webp",
-        "width": 960,
-        "height": 960,
+        "width": 770,
+        "height": 770,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Adult Chinese Crested standing on pavement.",
+        "alt": "Adult Chinese Crested standing outdoors.",
         "author": "Erwin Bosman",
         "license": "Pexels License",
         "license_url": "https://www.pexels.com/license/",
         "source_url": "https://www.pexels.com/photo/hairless-chinese-crested-dog-walking-outdoors-34624184/",
         "focal_x": 0.5,
-        "focal_y": 0.38
+        "focal_y": 0.35
       }
     },
     {
@@ -3215,17 +3215,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/collie.webp",
         "thumb": "images/breeds/directory/collie-thumb.webp",
-        "width": 900,
-        "height": 600,
+        "width": 852,
+        "height": 852,
         "thumb_width": 360,
         "thumb_height": 360,
         "alt": "Adult Collie in a close-up outdoors.",
-        "author": "Ben Clarke",
-        "license": "CC BY 3.0",
-        "license_url": "https://creativecommons.org/licenses/by/3.0",
-        "source_url": "https://commons.wikimedia.org/wiki/File%3ACollie_%2862599493%29.jpeg",
-        "focal_x": 0.631,
-        "focal_y": 0.5
+        "author": "Tomasz Lemańczyk",
+        "license": "Pexels License",
+        "license_url": "https://www.pexels.com/license/",
+        "source_url": "https://www.pexels.com/photo/beautiful-fluffy-collie-26588116/",
+        "focal_x": 0.48,
+        "focal_y": 0.4
       }
     },
     {
@@ -3357,17 +3357,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/dachshund.webp",
         "thumb": "images/breeds/directory/dachshund-thumb.webp",
-        "width": 480,
-        "height": 720,
+        "width": 588,
+        "height": 588,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Adult Dachshund standing on a patio.",
+        "alt": "Adult Dachshund in a close-up outdoors.",
         "author": "Vinícius Cezário",
         "license": "Pexels License",
         "license_url": "https://www.pexels.com/license/",
         "source_url": "https://www.pexels.com/photo/portrait-of-a-dachshund-11118046/",
         "focal_x": 0.5,
-        "focal_y": 0.22
+        "focal_y": 0.38
       }
     },
     {
@@ -4712,17 +4712,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/great-dane.webp",
         "thumb": "images/breeds/directory/great-dane-thumb.webp",
-        "width": 500,
-        "height": 487,
+        "width": 768,
+        "height": 768,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Adult Great Dane standing in profile on a light floor.",
-        "author": "Markovade.pero",
-        "license": "CC BY-SA 3.0 rs",
-        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/rs/deed.en",
-        "source_url": "https://commons.wikimedia.org/wiki/File%3A8675eds_win.jpg",
-        "focal_x": 0.519,
-        "focal_y": 0.5
+        "alt": "Adult Great Dane in a close-up outdoors.",
+        "author": "Christian Álvarez",
+        "license": "Pexels License",
+        "license_url": "https://www.pexels.com/license/",
+        "source_url": "https://www.pexels.com/photo/close-up-photo-of-great-dane-12787279/",
+        "focal_x": 0.5,
+        "focal_y": 0.38
       }
     },
     {
@@ -8526,17 +8526,17 @@
         "placeholder": false,
         "file": "images/breeds/directory/husky.webp",
         "thumb": "images/breeds/directory/husky-thumb.webp",
-        "width": 520,
-        "height": 693,
+        "width": 832,
+        "height": 832,
         "thumb_width": 360,
         "thumb_height": 360,
-        "alt": "Adult Siberian Husky standing in snow.",
-        "author": "Riley Sullivan",
-        "license": "Unsplash License",
-        "license_url": "https://unsplash.com/license",
-        "source_url": "https://unsplash.com/photos/siberian-husky-khNqqoG6GqE",
+        "alt": "Adult Siberian Husky in a close-up on grass.",
+        "author": "freestocks.org",
+        "license": "Pexels License",
+        "license_url": "https://www.pexels.com/license/",
+        "source_url": "https://www.pexels.com/photo/selective-focus-photo-of-adult-white-and-black-siberian-husky-412465/",
         "focal_x": 0.5,
-        "focal_y": 0.3
+        "focal_y": 0.4
       }
     },
     {

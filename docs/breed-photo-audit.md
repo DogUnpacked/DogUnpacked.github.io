@@ -2,11 +2,13 @@
 
 Reviewed every breed hero and the square thumbnail used on the home row, `/breeds/`, and each breed page.
 
+Second pass: the Siberian Husky, Cane Corso, and Dachshund squares were recropped so the dog fills the frame and the head sits in the upper middle. The Cavalier King Charles Spaniel and Airedale Terrier replacements were reverted. Great Dane and Collie were replaced with sharper close-ups. Counts: reviewed 208, kept 181, replaced 11, still weak 16, still placeholder 0.
+
 | Slug | Current file | Grade | Action | Reasons |
 |---|---|---|---|---|
 | `affenpinscher` | `images/breeds/directory/affenpinscher.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `afghan-hound` | `images/breeds/directory/afghan-hound.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
-| `airedale-terrier` | `images/breeds/directory/airedale-terrier.webp` | weak | replaced | Soft focus. The terrier is correct but the coat looks blurred. |
+| `airedale-terrier` | `images/breeds/directory/airedale-terrier.webp` | weak | still weak | Soft focus. The terrier is correct but the coat looks blurred. A Pexels stand-in read as a young Welsh or Lakeland Terrier, so the original photo stays. |
 | `akita` | `images/breeds/directory/akita.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `alaskan-malamute` | `images/breeds/directory/alaskan-malamute.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `american-english-coonhound` | `images/breeds/directory/american-english-coonhound.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
@@ -59,23 +61,23 @@ Reviewed every breed hero and the square thumbnail used on the home row, `/breed
 | `bullmastiff` | `images/breeds/directory/bullmastiff.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `cairn-terrier` | `images/breeds/directory/cairn-terrier.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `canaan-dog` | `images/breeds/directory/canaan-dog.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
-| `cane-corso` | `images/breeds/directory/cane-corso.webp` | weak | replaced | A sighthound stands with the Cane Corso, so the breed example is not a single dog. |
+| `cane-corso` | `images/breeds/directory/cane-corso.webp` | weak | replaced | A sighthound stands with the Cane Corso, so the breed example is not a single dog. Replaced with a frame-filling close-up. |
 | `cardigan-welsh-corgi` | `images/breeds/directory/cardigan-welsh-corgi.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
-| `cavalier-king-charles-spaniel` | `images/breeds/directory/cavalier-king-charles-spaniel.webp` | weak | replaced | Two dogs. The second dog's head is cut off in the square crop. |
+| `cavalier-king-charles-spaniel` | `images/breeds/directory/cavalier-king-charles-spaniel.webp` | weak | still weak | Two dogs. The second dog's head is cut off in the square crop. The original Blenheim photo was restored after a ruby stand-in looked weaker and less certain. |
 | `cesky-terrier` | `images/breeds/directory/cesky-terrier.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `chesapeake-bay-retriever` | `images/breeds/directory/chesapeake-bay-retriever.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `chihuahua` | `images/breeds/directory/chihuahua.webp` | weak | replaced | Three dogs. One head is cut by the frame. |
-| `chinese-crested` | `images/breeds/directory/chinese-crested.webp` | weak | replaced | Dog is held in a person's hands. Person and clutter dominate the frame. |
+| `chinese-crested` | `images/breeds/directory/chinese-crested.webp` | weak | replaced | Dog is held in a person's hands. Person and clutter dominate the frame. Recropped so the dog fills the square. |
 | `chinese-shar-pei` | `images/breeds/directory/chinese-shar-pei.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `chinook` | `images/breeds/directory/chinook.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `chow-chow` | `images/breeds/directory/chow-chow.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `cirneco-delletna` | `images/breeds/directory/cirneco-delletna.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `clumber-spaniel` | `images/breeds/directory/clumber-spaniel.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `cocker-spaniel` | `images/breeds/directory/cocker-spaniel.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
-| `collie` | `images/breeds/directory/collie.webp` | weak | still weak | Harsh flash and an open mouth. The square crop is tight on the head. |
+| `collie` | `images/breeds/directory/collie.webp` | weak | replaced | Harsh flash and an open mouth. The square crop is tight on the head. Replaced with a sharper outdoor close-up. |
 | `coton-de-tulear` | `images/breeds/directory/coton-de-tulear.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `curly-coated-retriever` | `images/breeds/directory/curly-coated-retriever.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
-| `dachshund` | `images/breeds/directory/dachshund.webp` | weak | replaced | A beagle shares the frame and is cut off in the square crop. |
+| `dachshund` | `images/breeds/directory/dachshund.webp` | weak | replaced | A beagle shares the frame and is cut off in the square crop. Recropped tightly on the Dachshund so the pot and grate no longer dominate. |
 | `dalmatian` | `images/breeds/directory/dalmatian.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `dandie-dinmont-terrier` | `images/breeds/directory/dandie-dinmont-terrier.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `danish-swedish-farmdog` | `images/breeds/directory/danish-swedish-farmdog.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
@@ -102,7 +104,7 @@ Reviewed every breed hero and the square thumbnail used on the home row, `/breed
 | `golden-retriever` | `images/breeds/directory/golden-retriever.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `gordon-setter` | `images/breeds/directory/gordon-setter.webp` | weak | still weak | Wet coat, dark exposure, and an open mouth. Harsh light, not a clean portrait. |
 | `grand-basset-griffon-vendeen` | `images/breeds/directory/grand-basset-griffon-vendeen.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
-| `great-dane` | `images/breeds/directory/great-dane.webp` | weak | still weak | About 500 px and grainy. The dog is correct, the file is rough. |
+| `great-dane` | `images/breeds/directory/great-dane.webp` | weak | replaced | About 500 px and grainy. The dog is correct, the file is rough. Replaced with a sharper close-up. |
 | `great-pyrenees` | `images/breeds/directory/great-pyrenees.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `greater-swiss-mountain-dog` | `images/breeds/directory/greater-swiss-mountain-dog.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `greyhound` | `images/breeds/directory/greyhound.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
@@ -183,7 +185,7 @@ Reviewed every breed hero and the square thumbnail used on the home row, `/breed
 | `shetland-sheepdog` | `images/breeds/directory/shetland-sheepdog.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `shiba-inu` | `images/breeds/directory/shiba-inu.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `shih-tzu` | `images/breeds/directory/shih-tzu.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
-| `husky` | `images/breeds/directory/husky.webp` | weak | replaced | Two adult huskies share the frame, so the square crop is not one clear example. |
+| `husky` | `images/breeds/directory/husky.webp` | weak | replaced | Two adult huskies share the frame, so the square crop is not one clear example. Replaced with a frame-filling close-up. |
 | `silky-terrier` | `images/breeds/directory/silky-terrier.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `skye-terrier` | `images/breeds/directory/skye-terrier.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
 | `sloughi` | `images/breeds/directory/sloughi.webp` | good | kept | Correct adult example. Head is in the square crop. Sharp enough, with calm light and no clutter, text, or bared teeth. |
@@ -215,14 +217,33 @@ Reviewed every breed hero and the square thumbnail used on the home row, `/breed
 
 ## Replacements
 
-- `airedale-terrier`: Pexels License — https://www.pexels.com/photo/airedale-terrier-on-leash-17656008/
 - `pit-bull`: Pexels License — https://www.pexels.com/photo/a-portrait-of-an-american-pit-bull-terrier-6442325/
 - `australian-shepherd`: Pexels License — https://www.pexels.com/photo/beautiful-australian-shepherd-in-nature-setting-32854634/
-- `cane-corso`: Pexels License — https://www.pexels.com/photo/cane-corso-dog-in-sunny-forest-trail-portrait-29063076/
-- `cavalier-king-charles-spaniel`: Pexels License — https://www.pexels.com/photo/a-brown-spaniel-on-a-white-floor-14102896/
+- `cane-corso`: Pexels License — https://www.pexels.com/photo/close-up-portrait-of-a-cane-corso-dog-in-black-and-white-39740951/
 - `chihuahua`: Pexels License — https://www.pexels.com/photo/adorable-long-haired-chihuahua-portrait-34490257/
 - `chinese-crested`: Pexels License — https://www.pexels.com/photo/hairless-chinese-crested-dog-walking-outdoors-34624184/
+- `collie`: Pexels License — https://www.pexels.com/photo/beautiful-fluffy-collie-26588116/
 - `dachshund`: Pexels License — https://www.pexels.com/photo/portrait-of-a-dachshund-11118046/
+- `great-dane`: Pexels License — https://www.pexels.com/photo/close-up-photo-of-great-dane-12787279/
 - `mixed-breed`: Pexels License — https://www.pexels.com/photo/charming-portrait-of-a-mixed-breed-dog-31936010/
 - `rottweiler`: Pexels License — https://www.pexels.com/photo/black-rottweiler-dog-in-close-up-photography-13569296/
-- `husky`: Unsplash License — https://unsplash.com/photos/siberian-husky-khNqqoG6GqE
+- `husky`: Pexels License — https://www.pexels.com/photo/selective-focus-photo-of-adult-white-and-black-siberian-husky-412465/
+
+## Still weak
+
+- `airedale-terrier`: Soft focus. The terrier is correct but the coat looks blurred. A Pexels stand-in read as a young Welsh or Lakeland Terrier, so the original photo stays.
+- `barbet`: Noticeably soft. The coat and edges look blurred.
+- `bedlington-terrier`: Busy patterned rug behind the dog. The breed is right, the setting is cluttered.
+- `border-terrier`: Agility jump, motion, and a collar. The head is small in the square crop.
+- `boykin-spaniel`: Soft, dark, and flat. The dog is small in the frame.
+- `brussels-griffon`: Harsh on-camera flash and an open mouth.
+- `cavalier-king-charles-spaniel`: Two dogs. The second dog's head is cut off in the square crop. The original Blenheim photo was restored after a ruby stand-in looked weaker and less certain.
+- `english-toy-spaniel`: Two dogs. One is tiny and cropped at the edge.
+- `gordon-setter`: Wet coat, dark exposure, and an open mouth. Harsh light, not a clean portrait.
+- `italian-greyhound`: An adult and a puppy together. Not one typical adult.
+- `lagotto-romagnolo`: Agility sequence with motion blur and a busy background.
+- `miniature-bull-terrier`: Flat light and low contrast. A side view with little detail.
+- `mudi`: Dark and flat. The dog is hard to read against the background.
+- `norwich-terrier`: This is a puppy, not a typical adult. Source file is titled as a puppy.
+- `plott-hound`: Soft and flat. The dog reads small in a gray field.
+- `polish-lowland-sheepdog`: Soft and dark. The coat merges into the background.
