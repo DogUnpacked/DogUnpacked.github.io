@@ -7410,7 +7410,18 @@
         "source_url": "https://commons.wikimedia.org/wiki/File:Standard_Poodle_portrait.jpg",
         "focal_x": 0.331,
         "focal_y": 0.5
-      }
+      },
+      "videos": [
+        {
+          "id": "pQLv9E3d4Zo",
+          "title": "Why Your Poodle Has That Haircut (It's Hunting Gear, Not Fashion)",
+          "type": "short",
+          "url": "https://www.youtube.com/shorts/pQLv9E3d4Zo",
+          "published": "2026-10-15",
+          "upload_datetime": "2026-10-15T20:30:02-04:00",
+          "description": "Why Your Poodle Has That Haircut (It's Hunting Gear, Not Fashion). A Dog Unpacked YouTube Short about the Poodle."
+        }
+      ]
     },
     {
       "slug": "portuguese-podengo-pequeno",
