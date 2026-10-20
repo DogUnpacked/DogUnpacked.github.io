@@ -7558,7 +7558,18 @@
         "source_url": "https://commons.wikimedia.org/wiki/File%3A2.5-year-old_fawn_male_pug.jpg",
         "focal_x": 0.431,
         "focal_y": 0.5
-      }
+      },
+      "videos": [
+        {
+          "id": "V5n6ZNcr5U4",
+          "title": "Your Pug Was Bred for an Emperor. That's Why He Follows You Everywhere.",
+          "type": "short",
+          "url": "https://www.youtube.com/shorts/V5n6ZNcr5U4",
+          "published": "2026-10-19",
+          "upload_datetime": "2026-10-19T19:00:15-04:00",
+          "description": "Your Pug Was Bred for an Emperor. That's Why He Follows You Everywhere. A Dog Unpacked YouTube Short about the Pug."
+        }
+      ]
     },
     {
       "slug": "puli",
